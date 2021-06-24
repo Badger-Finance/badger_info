@@ -248,11 +248,11 @@ export default function Header() {
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
+          <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
+            Boost Info
+          </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/users'}>
             User Info
-          </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/boost'}>
-            Boost
           </StyledNavLink>
 
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>

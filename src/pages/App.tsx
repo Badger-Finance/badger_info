@@ -17,6 +17,8 @@ import PoolPage from './Pool/PoolPage'
 import { ExternalLink, HideMedium, TYPE } from 'theme'
 import { useSubgraphStatus } from 'state/application/hooks'
 import { DarkGreyCard } from 'components/Card'
+import CycleAnalytics from 'pages/Cycle/CycleAnalytics'
+import BoostsInfo from 'pages/Boosts/BoostsInfo'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -104,6 +106,8 @@ export default function App() {
             <Popups />
             <Switch>
               <Route exact strict path="/" component={Home} />
+              <Route exact strict path="/cycle/:number" component={CycleAnalytics} />
+              <Route exact strict path="/boosts" component={BoostsInfo} />
             </Switch>
             <Marginer />
           </BodyWrapper>

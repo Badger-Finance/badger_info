@@ -24,7 +24,7 @@ interface CycleProps {
 const Cycle = (props: CycleProps) => {
   return (
     <AutoColumn gap="10px">
-      <LinkWrapper to={`/cycles/${props.cycleNumber}`}>
+      <LinkWrapper to={`/cycle/${props.cycleNumber}`}>
         <TYPE.largeHeader>Cycle {props.cycleNumber}</TYPE.largeHeader>
       </LinkWrapper>
       <DarkGreyCard>
