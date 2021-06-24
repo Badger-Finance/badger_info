@@ -1,27 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { AutoColumn } from 'components/Column'
-import { AutoRow } from 'components/Row'
-import { TYPE } from 'theme'
-import { ResponsiveRow, RowBetween, RowFixed } from 'components/Row'
-import LineChart from 'components/LineChart/alt'
 import useTheme from 'hooks/useTheme'
-import { useProtocolData, useProtocolChartData, useProtocolTransactions } from 'state/protocol/hooks'
-import { DarkGreyCard } from 'components/Card'
-import { formatDollarAmount } from 'utils/numbers'
-import Percent from 'components/Percent'
-import { HideMedium, HideSmall, StyledInternalLink } from '../../theme/components'
-import TokenTable from 'components/tokens/TokenTable'
-import PoolTable from 'components/pools/PoolTable'
 import { PageWrapper, ThemedBackgroundGlobal } from 'pages/styled'
-import { unixToDate } from 'utils/date'
-import BarChart from 'components/BarChart/alt'
-import { useAllPoolData } from 'state/pools/hooks'
-import { notEmpty } from 'utils'
-import TransactionsTable from '../../components/TransactionsTable'
-import { useAllTokenData } from 'state/tokens/hooks'
-import { MonoSpace } from 'components/shared'
-import dayjs from 'dayjs'
 
 import Cycle from 'pages/Cycle/CycleInfo'
 
@@ -43,7 +24,6 @@ export default function Home() {
     newElement.cycleNumber = cycleData.cycleNumber - el
     return newElement
   })
-  console.log(cycleArray)
   return (
     <PageWrapper>
       <ThemedBackgroundGlobal backgroundColor={'#808080'} />

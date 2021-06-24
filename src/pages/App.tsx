@@ -7,13 +7,8 @@ import URLWarning from '../components/Header/URLWarning'
 import Popups from '../components/Popups'
 import DarkModeQueryParamReader from '../theme/DarkModeQueryParamReader'
 import Home from './Home'
-import Protocol from './Protocol'
-import PoolsOverview from './Pool/PoolsOverview'
-import TokensOverview from './Token/TokensOverview'
 import TopBar from 'components/Header/TopBar'
-import { RedirectInvalidToken } from './Token/redirects'
 import { LocalLoader } from 'components/Loader'
-import PoolPage from './Pool/PoolPage'
 import { ExternalLink, HideMedium, TYPE } from 'theme'
 import { useSubgraphStatus } from 'state/application/hooks'
 import { DarkGreyCard } from 'components/Card'
@@ -106,7 +101,7 @@ export default function App() {
             <Popups />
             <Switch>
               <Route exact strict path="/" component={Home} />
-              <Route exact strict path="/cycle/:number" component={CycleAnalytics} />
+              <Route exact strict path="/cycle/:cycleNumber" component={CycleAnalytics} />
               <Route exact strict path="/boosts" component={BoostsInfo} />
             </Switch>
             <Marginer />
