@@ -22,23 +22,20 @@ const StyledLink = styled(ExternalLink)`
 `
 
 const TopBar = () => {
-  const ethPrices = useEthPrices()
   return (
     <Wrapper>
       <RowBetween>
-        <Polling />
         <AutoRow gap="6px">
           <RowFixed>
-            <Item>ETH Price:</Item>
+            <Item>BTC Price:</Item>
             <Item fontWeight="700" ml="4px">
-              {formatDollarAmount(ethPrices?.current)}
+              {'$30k'}
             </Item>
           </RowFixed>
         </AutoRow>
         <AutoRow gap="6px" style={{ justifyContent: 'flex-end' }}>
-          <StyledLink href="https://v2.info.uniswap.org/#/">V2 Analytics</StyledLink>
-          <StyledLink href="https://docs.uniswap.org/">Docs</StyledLink>
-          <StyledLink href="https://app.uniswap.org/#/swap">App</StyledLink>
+          <StyledLink href="https://badger.wiki">Docs</StyledLink>
+          <StyledLink href="https://app.badger.finance">App</StyledLink>
         </AutoRow>
       </RowBetween>
     </Wrapper>

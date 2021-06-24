@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const PageWrapper = styled.div`
-  width: 90%;
+  max-width: 65%;
 `
 
 export const ThemedBackground = styled.div<{ backgroundColor: string }>`

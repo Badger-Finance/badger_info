@@ -8,7 +8,7 @@ import { darken } from 'polished'
 import styled from 'styled-components'
 
 // import Logo from '../../assets/svg/logo.svg'
-import LogoDark from '../../assets/svg/logo_white.svg'
+import LogoDark from '../../assets/svg/badger.svg'
 // import { useActiveWeb3React } from '../../hooks'
 // import { useDarkModeManager } from '../../state/user/hooks'
 // import { useETHBalances } from '../../state/wallet/hooks'
@@ -151,11 +151,13 @@ const Title = styled(NavLink)`
   `};
 `
 
-const UniIcon = styled.div`
+const BadgerIcon = styled.div`
   transition: transform 0.3s ease;
   :hover {
     transform: rotate(-5deg);
   }
+  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+  filter: invert(100%);
 `
 
 const activeClassName = 'ACTIVE'
@@ -235,9 +237,9 @@ export default function Header() {
     <HeaderFrame>
       <HeaderRow>
         <Title to="/">
-          <UniIcon>
+          <BadgerIcon>
             <img width={'24px'} src={LogoDark} alt="logo" />
-          </UniIcon>
+          </BadgerIcon>
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`pool-nav-link`} to={'/'} isActive={(match, { pathname }) => pathname === '/'}>
@@ -246,19 +248,19 @@ export default function Header() {
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
-          <StyledNavLink id={`stake-nav-link`} to={'/pools'}>
-            Pools
+          <StyledNavLink id={`stake-nav-link`} to={'/users'}>
+            User Info
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/tokens'}>
-            Tokens
+          <StyledNavLink id={`stake-nav-link`} to={'/boost'}>
+            Boost
           </StyledNavLink>
+
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>
             Wallet
           </StyledNavLink> */}
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
-        <SearchSmall />
         {/* <HeaderElement>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (

@@ -104,11 +104,6 @@ export default function App() {
             <Popups />
             <Switch>
               <Route exact strict path="/" component={Home} />
-              <Route exact strict path="/protocol" component={Protocol} />
-              <Route exact strict path="/pools" component={PoolsOverview} />
-              <Route exact strict path="/tokens" component={TokensOverview} />
-              <Route exact strict path="/tokens/:address" component={RedirectInvalidToken} />
-              <Route exact strict path="/pools/:address" component={PoolPage} />
             </Switch>
             <Marginer />
           </BodyWrapper>

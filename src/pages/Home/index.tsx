@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import { AutoColumn } from 'components/Column'
+import { AutoRow } from 'components/Row'
 import { TYPE } from 'theme'
 import { ResponsiveRow, RowBetween, RowFixed } from 'components/Row'
 import LineChart from 'components/LineChart/alt'
@@ -22,13 +23,7 @@ import { useAllTokenData } from 'state/tokens/hooks'
 import { MonoSpace } from 'components/shared'
 import dayjs from 'dayjs'
 
-const ChartWrapper = styled.div`
-  width: 49%;
-
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 100%;
-  `};
-`
+import Cycle from 'pages/Cycle/CycleInfo'
 
 export default function Home() {
   useEffect(() => {
@@ -36,171 +31,26 @@ export default function Home() {
   }, [])
 
   const theme = useTheme()
-
-  const [protocolData] = useProtocolData()
-  const [chartData] = useProtocolChartData()
-  const [transactions] = useProtocolTransactions()
-
-  const [volumeHover, setVolumeHover] = useState<number | undefined>()
-  const [liquidityHover, setLiquidityHover] = useState<number | undefined>()
-  const [leftLabel, setLeftLabel] = useState<string | undefined>()
-  const [rightLabel, setRightLabel] = useState<string | undefined>()
-
-  // get all the pool datas that exist
-  const allPoolData = useAllPoolData()
-  const poolDatas = useMemo(() => {
-    return Object.values(allPoolData)
-      .map((p) => p.data)
-      .filter(notEmpty)
-  }, [allPoolData])
-
-  // if hover value undefined, reset to current day value
-  useEffect(() => {
-    if (!volumeHover && protocolData) {
-      setVolumeHover(protocolData.volumeUSD)
-    }
-  }, [protocolData, volumeHover])
-  useEffect(() => {
-    if (!liquidityHover && protocolData) {
-      setLiquidityHover(protocolData.tvlUSD)
-    }
-  }, [liquidityHover, protocolData])
-
-  const formattedTvlData = useMemo(() => {
-    if (chartData) {
-      return chartData.map((day) => {
-        return {
-          time: unixToDate(day.date),
-          value: day.tvlUSD,
-        }
-      })
-    } else {
-      return []
-    }
-  }, [chartData])
-
-  const formattedVolumeData = useMemo(() => {
-    if (chartData) {
-      return chartData.map((day) => {
-        return {
-          time: unixToDate(day.date),
-          value: day.volumeUSD,
-        }
-      })
-    } else {
-      return []
-    }
-  }, [chartData])
-
-  const allTokens = useAllTokenData()
-
-  const formattedTokens = useMemo(() => {
-    return Object.values(allTokens)
-      .map((t) => t.data)
-      .filter(notEmpty)
-  }, [allTokens])
-
+  const cycleData = {
+    root: '0xd71572326a87ea382b8e5153cc3deabf7accb9a4433e669d8ec7a63e2e05aff2',
+    contentHash: '0x717afaeeb884026d5149e4428ca27f09666767c26f59a64287846658adb6754e',
+    cycleNumber: 2176,
+    startBlock: 12697179,
+    endBlock: 12697653,
+  }
+  const cycleArray = Array.from(Array(10).keys()).map((el) => {
+    const newElement = { ...cycleData }
+    newElement.cycleNumber = cycleData.cycleNumber - el
+    return newElement
+  })
+  console.log(cycleArray)
   return (
     <PageWrapper>
-      <ThemedBackgroundGlobal backgroundColor={'#fc077d'} />
-      <AutoColumn gap="16px">
-        <TYPE.main>Uniswap Overview</TYPE.main>
-        <ResponsiveRow>
-          <ChartWrapper>
-            <LineChart
-              data={formattedTvlData}
-              height={220}
-              minHeight={332}
-              color={theme.pink1}
-              value={liquidityHover}
-              label={leftLabel}
-              setValue={setLiquidityHover}
-              setLabel={setLeftLabel}
-              topLeft={
-                <AutoColumn gap="4px">
-                  <TYPE.mediumHeader fontSize="16px">TVL</TYPE.mediumHeader>
-                  <TYPE.largeHeader fontSize="32px">
-                    <MonoSpace>{formatDollarAmount(liquidityHover, 2, true)} </MonoSpace>
-                  </TYPE.largeHeader>
-                  <TYPE.main fontSize="12px" height="14px">
-                    {leftLabel ? (
-                      <MonoSpace>{leftLabel}</MonoSpace>
-                    ) : (
-                      <MonoSpace>{dayjs.utc().format('MMM D, YYYY')}</MonoSpace>
-                    )}
-                  </TYPE.main>
-                </AutoColumn>
-              }
-            />
-          </ChartWrapper>
-          <ChartWrapper>
-            <BarChart
-              height={220}
-              minHeight={332}
-              data={formattedVolumeData}
-              color={theme.blue1}
-              setValue={setVolumeHover}
-              setLabel={setRightLabel}
-              value={volumeHover}
-              label={rightLabel}
-              topLeft={
-                <AutoColumn gap="4px">
-                  <TYPE.mediumHeader fontSize="16px">Volume 24H</TYPE.mediumHeader>
-                  <TYPE.largeHeader fontSize="32px">
-                    <MonoSpace> {formatDollarAmount(volumeHover, 2)}</MonoSpace>
-                  </TYPE.largeHeader>
-                  <TYPE.main fontSize="12px" height="14px">
-                    {rightLabel ? (
-                      <MonoSpace>{rightLabel}</MonoSpace>
-                    ) : (
-                      <MonoSpace>{dayjs.utc().format('MMM D, YYYY')}</MonoSpace>
-                    )}
-                  </TYPE.main>
-                </AutoColumn>
-              }
-            />
-          </ChartWrapper>
-        </ResponsiveRow>
-        <HideSmall>
-          <DarkGreyCard>
-            <RowBetween>
-              <RowFixed>
-                <RowFixed mr="20px">
-                  <TYPE.main mr="4px">Volume 24H: </TYPE.main>
-                  <TYPE.label mr="4px">{formatDollarAmount(protocolData?.volumeUSD)}</TYPE.label>
-                  <Percent value={protocolData?.volumeUSDChange} wrap={true} />
-                </RowFixed>
-                <RowFixed mr="20px">
-                  <TYPE.main mr="4px">Fees 24H: </TYPE.main>
-                  <TYPE.label mr="4px">{formatDollarAmount(protocolData?.feesUSD)}</TYPE.label>
-                  <Percent value={protocolData?.feeChange} wrap={true} />
-                </RowFixed>
-                <HideMedium>
-                  <RowFixed mr="20px">
-                    <TYPE.main mr="4px">TVL: </TYPE.main>
-                    <TYPE.label mr="4px">{formatDollarAmount(protocolData?.tvlUSD)}</TYPE.label>
-                    <TYPE.main></TYPE.main>
-                    <Percent value={protocolData?.tvlUSDChange} wrap={true} />
-                  </RowFixed>
-                </HideMedium>
-              </RowFixed>
-            </RowBetween>
-          </DarkGreyCard>
-        </HideSmall>
-        <RowBetween>
-          <TYPE.main>Top Tokens</TYPE.main>
-          <StyledInternalLink to="/tokens">Explore</StyledInternalLink>
-        </RowBetween>
-        <TokenTable tokenDatas={formattedTokens} />
-        <RowBetween>
-          <TYPE.main>Top Pools</TYPE.main>
-          <StyledInternalLink to="/pools">Explore</StyledInternalLink>
-        </RowBetween>
-        <PoolTable poolDatas={poolDatas} />
-        <RowBetween>
-          <TYPE.main>Transactions</TYPE.main>
-        </RowBetween>
-        {transactions ? <TransactionsTable transactions={transactions} /> : null}
+      <ThemedBackgroundGlobal backgroundColor={'#808080'} />
+      <AutoColumn gap="20px">
+        {cycleArray.map((element) => {
+          return <Cycle key={element.cycleNumber} {...element} />
+        })}
       </AutoColumn>
     </PageWrapper>
   )

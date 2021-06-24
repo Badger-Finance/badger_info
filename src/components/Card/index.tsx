@@ -26,6 +26,8 @@ export const GreyCard = styled(Card)`
 
 export const DarkGreyCard = styled(Card)`
   background-color: ${({ theme }) => theme.bg0};
+  word-wrap: break-word;
+  display: inline-block;
 `
 
 export const OutlineCard = styled(Card)`
