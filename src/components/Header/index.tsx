@@ -242,17 +242,15 @@ export default function Header() {
           </BadgerIcon>
         </Title>
         <HeaderLinks>
-          <StyledNavLink id={`pool-nav-link`} to={'/'} isActive={(match, { pathname }) => pathname === '/'}>
-            Overview
+          <StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
+            Cycle Info
           </StyledNavLink>
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
+
           <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
             Boost Info
-          </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/users'}>
-            User Info
           </StyledNavLink>
 
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>
@@ -261,6 +259,7 @@ export default function Header() {
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
+        <SearchSmall />
         {/* <HeaderElement>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (

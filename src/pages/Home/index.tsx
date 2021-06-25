@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import styled from 'styled-components'
 import { AutoColumn } from 'components/Column'
 import useTheme from 'hooks/useTheme'
 import { PageWrapper, ThemedBackgroundGlobal } from 'pages/styled'

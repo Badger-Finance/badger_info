@@ -168,23 +168,8 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
   const [showMenu, setShowMenu] = useState(false)
   const [value, setValue] = useState('')
 
-  const { tokens, pools } = useFetchSearchResults(value)
-
-  useEffect(() => {
-    if (value !== '') {
-      setFocused(true)
-    } else {
-      setFocused(false)
-    }
-  }, [value])
-
-  const [tokensShown, setTokensShown] = useState(3)
-  const [poolsShown, setPoolsShown] = useState(3)
-
   const handleClick = (e: any) => {
     if (!(menuRef.current && menuRef.current.contains(e.target)) && !(ref.current && ref.current.contains(e.target))) {
-      setPoolsShown(3)
-      setTokensShown(3)
       setShowMenu(false)
     }
   }
@@ -195,32 +180,6 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
       document.removeEventListener('click', handleClick)
     }
   })
-
-  // watchlist
-  const [savedTokens, addSavedToken] = useSavedTokens()
-  const [savedPools, addSavedPool] = useSavedPools()
-
-  const handleNav = (to: string) => {
-    setShowMenu(false)
-    setPoolsShown(3)
-    setTokensShown(3)
-    history.push(to)
-  }
-
-  // get date for watchlist
-  const watchListTokenData = useTokenDatas(savedTokens)
-  const watchListPoolData = usePoolDatas(savedPools)
-
-  // filter on view
-  const [showWatchlist, setShowWatchlist] = useState(false)
-  const tokensForList = useMemo(
-    () => (showWatchlist ? watchListTokenData ?? [] : tokens.sort((t0, t1) => (t0.volumeUSD > t1.volumeUSD ? -1 : 1))),
-    [showWatchlist, tokens, watchListTokenData]
-  )
-  const poolForList = useMemo(
-    () => (showWatchlist ? watchListPoolData ?? [] : pools.sort((p0, p1) => (p0.volumeUSD > p1.volumeUSD ? -1 : 1))),
-    [pools, showWatchlist, watchListPoolData]
-  )
 
   return (
     <Hotkeys keyName="command+/" onKeyDown={handleDown}>
@@ -233,7 +192,7 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
             onChange={(e) => {
               setValue(e.target.value)
             }}
-            placeholder="Search pools or tokens"
+            placeholder="Search cycles"
             ref={ref}
             onFocus={() => {
               setFocused(true)
@@ -245,150 +204,25 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
         </Wrapper>
         <Menu hide={!showMenu} ref={menuRef}>
           <AutoColumn gap="lg">
-            <AutoColumn gap="sm">
-              <RowFixed>
-                <OptionButton enabled={!showWatchlist} onClick={() => setShowWatchlist(false)}>
-                  Search
-                </OptionButton>
-                <OptionButton enabled={showWatchlist} onClick={() => setShowWatchlist(true)}>
-                  Watchlist
-                </OptionButton>
-              </RowFixed>
-            </AutoColumn>
+            <AutoColumn gap="sm"></AutoColumn>
             <ResponsiveGrid>
-              <TYPE.main>Tokens</TYPE.main>
+              <TYPE.main>Cycle</TYPE.main>
               <HideSmall>
                 <TYPE.main textAlign="end" fontSize="12px">
-                  Volume 24H
+                  Cycle Number
                 </TYPE.main>
               </HideSmall>
               <HideSmall>
                 <TYPE.main textAlign="end" fontSize="12px">
-                  TVL
+                  Start Block
                 </TYPE.main>
               </HideSmall>
               <HideSmall>
                 <TYPE.main textAlign="end" fontSize="12px">
-                  Price
+                  End Block
                 </TYPE.main>
               </HideSmall>
             </ResponsiveGrid>
-            {tokensForList
-              .filter((t) => !TOKEN_HIDE.includes(t.address))
-              .slice(0, tokensShown)
-              .map((t, i) => {
-                return (
-                  <HoverRowLink onClick={() => handleNav('/tokens/' + t.address)} key={i}>
-                    <ResponsiveGrid>
-                      <RowFixed>
-                        <CurrencyLogo address={t.address} />
-                        <TYPE.label ml="10px">
-                          <HoverInlineText text={`${t.name} (${t.symbol})`} />{' '}
-                        </TYPE.label>
-                        <SavedIcon
-                          id="watchlist-icon"
-                          size={'16px'}
-                          style={{ marginLeft: '8px' }}
-                          fill={savedTokens.includes(t.address)}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            addSavedToken(t.address)
-                          }}
-                        />
-                      </RowFixed>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(t.volumeUSD)}</TYPE.label>
-                      </HideSmall>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(t.tvlUSD)}</TYPE.label>
-                      </HideSmall>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(t.priceUSD)}</TYPE.label>
-                      </HideSmall>
-                    </ResponsiveGrid>
-                  </HoverRowLink>
-                )
-              })}
-            {tokensForList.length === 0 ? (
-              <TYPE.main>{showWatchlist ? 'Saved tokens will appear here' : 'No results'}</TYPE.main>
-            ) : null}
-            <HoverText
-              onClick={() => {
-                setTokensShown(tokensShown + 5)
-              }}
-              hide={!(tokensForList.length > 3 && tokensForList.length >= tokensShown)}
-              ref={textRef}
-            >
-              See more...
-            </HoverText>
-            <Break />
-            <ResponsiveGrid>
-              <TYPE.main>Pools</TYPE.main>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  Volume 24H
-                </TYPE.main>
-              </HideSmall>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  TVL
-                </TYPE.main>
-              </HideSmall>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  Price
-                </TYPE.main>
-              </HideSmall>
-            </ResponsiveGrid>
-            {poolForList
-              .filter((p) => !POOL_HIDE.includes(p.address))
-              .slice(0, poolsShown)
-              .map((p, i) => {
-                return (
-                  <HoverRowLink onClick={() => handleNav('/pools/' + p.address)} key={i}>
-                    <ResponsiveGrid key={i}>
-                      <RowFixed>
-                        <DoubleCurrencyLogo address0={p.token0.address} address1={p.token1.address} />
-                        <TYPE.label ml="10px" style={{ whiteSpace: 'nowrap' }}>
-                          <HoverInlineText maxCharacters={12} text={`${p.token0.symbol} / ${p.token1.symbol}`} />
-                        </TYPE.label>
-                        <GreyBadge ml="10px">{feeTierPercent(p.feeTier)}</GreyBadge>
-                        <SavedIcon
-                          id="watchlist-icon"
-                          size={'16px'}
-                          style={{ marginLeft: '10px' }}
-                          fill={savedPools.includes(p.address)}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            addSavedPool(p.address)
-                          }}
-                        />
-                      </RowFixed>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(p.volumeUSD)}</TYPE.label>
-                      </HideSmall>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(p.tvlUSD)}</TYPE.label>
-                      </HideSmall>
-                      <HideSmall>
-                        <TYPE.label textAlign="end">{formatDollarAmount(p.token0Price)}</TYPE.label>
-                      </HideSmall>
-                    </ResponsiveGrid>
-                  </HoverRowLink>
-                )
-              })}
-            {poolForList.length === 0 ? (
-              <TYPE.main>{showWatchlist ? 'Saved pools will appear here' : 'No results'}</TYPE.main>
-            ) : null}
-            <HoverText
-              onClick={() => {
-                setPoolsShown(poolsShown + 5)
-              }}
-              hide={!(poolForList.length > 3 && poolForList.length >= poolsShown)}
-              ref={textRef}
-            >
-              See more...
-            </HoverText>
           </AutoColumn>
         </Menu>
       </Container>

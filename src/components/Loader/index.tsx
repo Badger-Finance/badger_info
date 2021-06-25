@@ -1,5 +1,5 @@
 import React from 'react'
-import v3 from '../../assets/images/whitev3.svg'
+import badger from '../../assets/svg/badger.svg'
 import styled, { keyframes, css } from 'styled-components'
 
 const rotate = keyframes`
@@ -74,13 +74,15 @@ const AnimatedImg = styled.div`
   & > * {
     width: 72px;
   }
+  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+  filter: invert(100%);
 `
 
 export const LocalLoader = ({ fill }: { fill: boolean }) => {
   return (
     <Wrapper fill={fill ? 1 : 0}>
       <AnimatedImg>
-        <img src={v3} alt="loading-icon" />
+        <img src={badger} alt="loading-icon" />
       </AnimatedImg>
     </Wrapper>
   )

@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
 import Header from '../components/Header'
@@ -100,7 +100,10 @@ export default function App() {
           <BodyWrapper>
             <Popups />
             <Switch>
-              <Route exact strict path="/" component={Home} />
+              <Route exact path="/">
+                <Redirect to="/cycle" />
+              </Route>
+              <Route exact strict path="/cycle" component={Home} />
               <Route exact strict path="/cycle/:cycleNumber" component={CycleAnalytics} />
               <Route exact strict path="/boosts" component={BoostsInfo} />
             </Switch>
