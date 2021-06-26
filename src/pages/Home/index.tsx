@@ -3,7 +3,7 @@ import { AutoColumn } from 'components/Column'
 import useTheme from 'hooks/useTheme'
 import { PageWrapper, ThemedBackgroundGlobal } from 'pages/styled'
 
-import Cycle from 'pages/Cycle/CycleInfo'
+import Cycle from 'components/Cycle'
 
 export default function Home() {
   useEffect(() => {

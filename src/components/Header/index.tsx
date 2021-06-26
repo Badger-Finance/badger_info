@@ -243,14 +243,17 @@ export default function Header() {
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
-            Cycle Info
+            Cycles
           </StyledNavLink>
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
 
           <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
-            Boost Info
+            Boosts
+          </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/user'}>
+            Users
           </StyledNavLink>
 
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>

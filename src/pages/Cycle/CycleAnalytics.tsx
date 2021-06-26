@@ -6,9 +6,7 @@ import styled from 'styled-components'
 import { TYPE } from 'theme'
 import { ButtonPrimary } from 'components/Button'
 import { useParams } from 'react-router-dom'
-import BarChart from 'components/RewardsBarChart'
 import RewardsBarChart from 'components/RewardsBarChart'
-import { Type } from 'react-feather'
 
 interface RouteParams {
   cycleNumber: string
@@ -145,7 +143,7 @@ const CycleAnalytics = () => {
   return (
     <PageWrapper>
       <CenteredHeader>
-        <TYPE.largeHeader>Cycle Analytics for {cycleNumber}</TYPE.largeHeader>
+        <TYPE.largeHeader>Cycle {cycleNumber}</TYPE.largeHeader>
       </CenteredHeader>
       <ContentLayout>
         <DarkGreyCard>

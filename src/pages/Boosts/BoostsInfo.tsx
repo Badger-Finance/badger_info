@@ -9,6 +9,7 @@ import { formatDollarAmount } from 'utils/numbers'
 import { Label, ClickableText } from 'components/Text'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
+import { Link } from 'react-router-dom'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -42,7 +43,7 @@ const ResponsiveGrid = styled.div`
   }
 `
 
-const LinkWrapper = styled.a`
+const LinkWrapper = styled(Link)`
   text-decoration: none;
   :hover {
     cursor: pointer;
@@ -52,6 +53,10 @@ const LinkWrapper = styled.a`
 
 const PageWrapper = styled.div`
   width: 80%;
+`
+
+const AddressLabel = styled(Label)`
+  display: inline-block;
 `
 
 interface BoostData {
@@ -64,10 +69,10 @@ interface BoostData {
 }
 const DataRow = ({ boostData, index }: { boostData: BoostData; index: number }) => {
   return (
-    <LinkWrapper href={'https://etherscan.io/address/' + boostData.address} target="_blank" rel="noferrer">
+    <LinkWrapper to={'/user/' + boostData.address}>
       <ResponsiveGrid>
         <Label>{index + 1}</Label>
-        <Label>{boostData.address}</Label>
+        <AddressLabel>{boostData.address}</AddressLabel>
         <Label end={1} fontWeight={400}>
           {boostData.boost.toFixed(6)}
         </Label>

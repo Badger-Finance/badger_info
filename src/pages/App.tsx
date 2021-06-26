@@ -14,6 +14,7 @@ import { useSubgraphStatus } from 'state/application/hooks'
 import { DarkGreyCard } from 'components/Card'
 import CycleAnalytics from 'pages/Cycle/CycleAnalytics'
 import BoostsInfo from 'pages/Boosts/BoostsInfo'
+import User from 'pages/User/User'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -106,6 +107,7 @@ export default function App() {
               <Route exact strict path="/cycle" component={Home} />
               <Route exact strict path="/cycle/:cycleNumber" component={CycleAnalytics} />
               <Route exact strict path="/boosts" component={BoostsInfo} />
+              <Route exact strict path="/user/:address" component={User}></Route>
             </Switch>
             <Marginer />
           </BodyWrapper>

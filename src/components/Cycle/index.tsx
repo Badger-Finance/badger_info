@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { AutoColumn } from 'components/Column'
 import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
