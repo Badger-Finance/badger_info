@@ -14,7 +14,7 @@ interface RouteParams {
 const ACCOUNTS_URL = 'https://api.badger.finance/v2/accounts/'
 
 const PageWrapper = styled.div`
-  width: 60%;
+  width: 70%;
 `
 const TitleWrapper = styled.div`
   word-wrap: break-word;
@@ -38,10 +38,6 @@ const DataWrapper = styled.div`
   flex-direction: column;
   grid-gap: 1em;
 `
-const GraphWrapper = styled.div`
-  flex-grow: 1;
-`
-const TableWrapper = styled.div``
 
 const SideWrapper = styled.div`
   height: 50%;
@@ -58,13 +54,18 @@ const User = () => {
       const result = await fetch(url)
       const json = await result.json()
       const balances = json.balances.map((b: any) => {
+        let multiplier = json.multipliers[b.id]
+        if (!multiplier) {
+          multiplier = 0
+        }
         return {
           assetName: b.name,
           value: b.value,
           balance: b.balance,
-          multiplier: json.multipliers[b.id],
+          multiplier: multiplier,
         }
       })
+      console.log(balances)
 
       setValue(json.value)
       setBoost(json.boost)
@@ -122,13 +123,9 @@ const User = () => {
             </SideWrapper>
           </DataWrapper>
 
-          <GraphWrapper>
-            <DarkGreyCard>
-              <TableWrapper>
-                <BalanceTable accountData={accountData} />
-              </TableWrapper>
-            </DarkGreyCard>
-          </GraphWrapper>
+          <DarkGreyCard>
+            <BalanceTable accountData={accountData} />
+          </DarkGreyCard>
         </ContentLayout>
       </AutoColumn>
     </PageWrapper>

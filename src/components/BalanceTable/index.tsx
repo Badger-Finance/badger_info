@@ -72,13 +72,13 @@ const DataRow = ({ accountData, index }: { accountData: AccountData; index: numb
       <ResponsiveGrid>
         <Label>{index + 1}</Label>
         <AddressLabel>{accountData.assetName}</AddressLabel>
-        <Label end={1} fontWeight={400}>
+        <Label end={2} fontWeight={400}>
           {accountData.balance.toFixed(6)}
         </Label>
-        <Label end={1} fontWeight={400}>
-          {accountData.multiplier ? accountData.multiplier.toFixed(2) : '-'}
+        <Label end={2} fontWeight={400}>
+          {accountData.multiplier.toFixed(2)}
         </Label>
-        <Label end={1} fontWeight={400}>
+        <Label end={2} fontWeight={400}>
           {formatDollarAmount(accountData.value)}
         </Label>
       </ResponsiveGrid>
