@@ -16,7 +16,7 @@ const ResponsiveGrid = styled.div`
   grid-gap: 1em;
   align-items: center;
 
-  grid-template-columns: 20px 3fr repeat(4, 1fr);
+  grid-template-columns: 20px 3fr repeat(3, 1fr);
 
   @media screen and (max-width: 900px) {
     grid-template-columns: 20px 1.5fr repeat(3, 1fr);
@@ -146,8 +146,6 @@ const BalanceTable = (props: any) => {
         }
         return null
       })}
-      <Break />
-      <Break />
     </AutoColumn>
   )
 }

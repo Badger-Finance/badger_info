@@ -39,8 +39,11 @@ const DataWrapper = styled.div`
   grid-gap: 1em;
 `
 
-const SideWrapper = styled.div`
-  height: 50%;
+const BoostWrapper = styled.div`
+  height: 40%;
+`
+const AssetWrapper = styled.div`
+  height: 60%;
 `
 const User = () => {
   const { address } = useParams<RouteParams>()
@@ -83,7 +86,7 @@ const User = () => {
         </TYPE.largeHeader>
         <ContentLayout>
           <DataWrapper>
-            <SideWrapper>
+            <BoostWrapper>
               <DarkGreyCard style={{ height: '100%' }}>
                 <AutoColumn gap="5px">
                   <TYPE.mediumHeader>Boost Info</TYPE.mediumHeader>
@@ -99,9 +102,9 @@ const User = () => {
                   </AutoColumn>
                 </AutoColumn>
               </DarkGreyCard>
-            </SideWrapper>
-            <SideWrapper>
-              <DarkGreyCard>
+            </BoostWrapper>
+            <AssetWrapper>
+              <DarkGreyCard style={{ height: '100%' }}>
                 <AutoColumn gap="5px">
                   <TYPE.mediumHeader>Total Assets</TYPE.mediumHeader>
                   <AutoColumn gap="10px">
@@ -120,7 +123,7 @@ const User = () => {
                   </AutoColumn>
                 </AutoColumn>
               </DarkGreyCard>
-            </SideWrapper>
+            </AssetWrapper>
           </DataWrapper>
 
           <DarkGreyCard>
