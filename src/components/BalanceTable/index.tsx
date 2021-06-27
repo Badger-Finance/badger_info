@@ -73,11 +73,13 @@ const DataRow = ({ accountData, index }: { accountData: AccountData; index: numb
         <Label>{index + 1}</Label>
         <AddressLabel>{accountData.assetName}</AddressLabel>
         <Label end={2} fontWeight={400}>
-          {accountData.balance.toFixed(6)}
+          {accountData.multiplier.toFixed(2)}x
         </Label>
+
         <Label end={2} fontWeight={400}>
-          {accountData.multiplier.toFixed(2)}
+          {accountData.balance.toFixed(3)}
         </Label>
+
         <Label end={2} fontWeight={400}>
           {formatDollarAmount(accountData.value)}
         </Label>
@@ -124,11 +126,12 @@ const BalanceTable = (props: any) => {
         <ClickableText color={theme.text2} onClick={() => handleSort(SORT_FIELD.assetName)}>
           Asset
         </ClickableText>
+
+        <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.multiplier)}>
+          Final Multiplier {arrow(SORT_FIELD.multiplier)}
+        </ClickableText>
         <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.balance)}>
           Balance {arrow(SORT_FIELD.balance)}
-        </ClickableText>
-        <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.multiplier)}>
-          Multiplier {arrow(SORT_FIELD.multiplier)}
         </ClickableText>
         <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.value)}>
           Value {arrow(SORT_FIELD.value)}

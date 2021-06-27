@@ -59,7 +59,7 @@ const User = () => {
       const balances = json.balances.map((b: any) => {
         let multiplier = json.multipliers[b.id]
         if (!multiplier) {
-          multiplier = 0
+          multiplier = 1
         }
         return {
           assetName: b.name,
