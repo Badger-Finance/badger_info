@@ -192,7 +192,7 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
             onChange={(e) => {
               setValue(e.target.value)
             }}
-            placeholder="Search cycles"
+            placeholder="Search Cycles and Users"
             ref={ref}
             onFocus={() => {
               setFocused(true)

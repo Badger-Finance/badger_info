@@ -18,6 +18,20 @@ export const formatDollarAmount = (num: number | undefined, digits = 2, round = 
   })
 }
 
+export const formatBalanceAmount = (num: number) => {
+  let balance: any = 0
+  if (num > 1e-3) {
+    balance = num.toFixed(3)
+  } else if (num == 0) {
+    balance = '0.000'
+  } else {
+    balance = num.toExponential(3)
+  }
+  if (num > 1e6) {
+    balance = num.toExponential(3)
+  }
+  return balance
+}
 // using a currency library here in case we want to add more in future
 export const formatAmount = (num: number | undefined, digits = 2) => {
   if (num === 0) return '0'

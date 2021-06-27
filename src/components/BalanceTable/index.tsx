@@ -4,12 +4,13 @@ import { ExtraSmallOnly, HideExtraSmall, TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import Loader, { LoadingRows } from 'components/Loader'
 import { AutoColumn } from 'components/Column'
-import { formatDollarAmount } from 'utils/numbers'
+import { formatDollarAmount, formatBalanceAmount } from 'utils/numbers'
 import { Label, ClickableText } from 'components/Text'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
 import { Link } from 'react-router-dom'
 import { Square } from 'react-feather'
+import { enableExperimentalFragmentVariables } from '@apollo/client'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -77,7 +78,7 @@ const DataRow = ({ accountData, index }: { accountData: AccountData; index: numb
         </Label>
 
         <Label end={2} fontWeight={400}>
-          {accountData.balance.toFixed(3)}
+          {formatBalanceAmount(accountData.balance)}
         </Label>
 
         <Label end={2} fontWeight={400}>
