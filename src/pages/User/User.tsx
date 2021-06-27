@@ -45,6 +45,11 @@ const BoostWrapper = styled.div`
 const AssetWrapper = styled.div`
   height: 60%;
 `
+
+const EtherscanLink = styled.a`
+  color: white;
+`
+
 const User = () => {
   const { address } = useParams<RouteParams>()
   const [accountData, setAccountData] = useState()
@@ -82,7 +87,12 @@ const User = () => {
     <PageWrapper>
       <AutoColumn gap="10px">
         <TYPE.largeHeader>
-          <TitleWrapper>{`User Analytics for ${address}`}</TitleWrapper>
+          <TitleWrapper>
+            {'User Analytics for '}
+            <EtherscanLink href={`https://etherscan.io/address/${address}`} target="_blank">
+              {address}
+            </EtherscanLink>
+          </TitleWrapper>
         </TYPE.largeHeader>
         <ContentLayout>
           <DataWrapper>
