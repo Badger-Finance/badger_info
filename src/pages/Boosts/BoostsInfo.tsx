@@ -1,7 +1,6 @@
-import BadgerBoosts from './BadgerBoosts'
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
-import { ExtraSmallOnly, HideExtraSmall, TYPE } from 'theme'
+import { Button, ExtraSmallOnly, HideExtraSmall, TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import Loader, { LoadingRows } from 'components/Loader'
 import { AutoColumn } from 'components/Column'
@@ -10,6 +9,9 @@ import { Label, ClickableText } from 'components/Text'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
 import { Link } from 'react-router-dom'
+import { useBoostData } from 'state/boosts/hooks'
+import { ButtonPrimary } from 'components/Button'
+import { CSVLink, CSVDownload } from 'react-csv'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -59,6 +61,9 @@ const AddressLabel = styled(Label)`
   display: inline-block;
 `
 
+const ButtonWrapper = styled.div`
+  width: 15%;
+`
 interface BoostData {
   address: string
   boost: number
@@ -90,23 +95,6 @@ const DataRow = ({ boostData, index }: { boostData: BoostData; index: number }) 
   )
 }
 
-function BoostsToArray(boosts: any): Array<BoostData> {
-  const boostArray: Array<BoostData> = []
-  for (const item of Object.entries(boosts)) {
-    const address = item[0]
-    const data: any = item[1]
-    boostArray.push({
-      address: address,
-      boost: data.boost,
-      stakeRatio: data.stakeRatio,
-      nftMultiplier: data.nftMultiplier,
-      nativeBalance: data.nativeBalance,
-      nonNativeBalance: data.nonNativeBalance,
-    })
-  }
-  return boostArray
-}
-
 const SORT_FIELD = {
   address: 'name',
   boost: 'boost',
@@ -120,6 +108,20 @@ const BoostsInfo = () => {
   const maxAmount = 300
   const [sortField, setSortField] = useState(SORT_FIELD.boost)
   const [sortDirection, setSortDirection] = useState<boolean>(true)
+  const boosts = useBoostData()
+  const csvData = useMemo(() => {
+    const data = [['address', 'stakeRatio', 'boost', 'nonNativeBalance', 'nativeBalance']]
+    boosts.forEach((b) => {
+      data.push([
+        b.address,
+        String(b.stakeRatio),
+        String(b.boost),
+        b.nativeBalance == null ? '0' : String(b.nativeBalance),
+        String(b.nonNativeBalance),
+      ])
+    })
+    return data
+  }, [boosts])
   const theme = useTheme()
 
   const handleSort = useCallback(
@@ -129,9 +131,9 @@ const BoostsInfo = () => {
     },
     [sortDirection, sortField]
   )
-  const boosts = BoostsToArray(BadgerBoosts.userData)
   const sortedBoosts = useMemo(() => {
     return boosts
+      .slice()
       .sort((a, b) => {
         if (a && b) {
           return a[sortField as keyof BoostData] > b[sortField as keyof BoostData]
@@ -155,6 +157,11 @@ const BoostsInfo = () => {
       <AutoColumn gap="20px">
         <TYPE.largeHeader>Boost Analytics</TYPE.largeHeader>
         <TYPE.mediumHeader>Only {maxAmount} records shown for performance reasons</TYPE.mediumHeader>
+        <ButtonWrapper>
+          <CSVLink filename={'badger-boosts.csv'} data={csvData}>
+            <ButtonPrimary style={{ backgroundColor: 'grey' }}>Export To Csv</ButtonPrimary>
+          </CSVLink>
+        </ButtonWrapper>
         <DarkGreyCard>
           {sortedBoosts.length > 0 ? (
             <AutoColumn gap="16px">
