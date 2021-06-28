@@ -5,13 +5,13 @@ import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import BalanceTable from 'components/BalanceTable'
-import { Type } from 'react-feather'
 import { formatDollarAmount } from 'utils/numbers'
+import { useAccountData, useUpdateAccountData } from 'state/accounts/hooks'
+import { fetchAccountData } from 'data/accounts/index'
 
 interface RouteParams {
   address: string
 }
-const ACCOUNTS_URL = 'https://api.badger.finance/v2/accounts/'
 
 const PageWrapper = styled.div`
   width: 70%;
@@ -52,37 +52,20 @@ const EtherscanLink = styled.a`
 
 const User = () => {
   const { address } = useParams<RouteParams>()
-  const [accountData, setAccountData] = useState()
-  const [value, setValue] = useState(0)
-  const [boost, setBoost] = useState(0)
-  const [boostRank, setBoostRank] = useState(0)
+  const updateAccountData = useUpdateAccountData(address)
+  const accountData = useAccountData(address)
+  const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
   useEffect(() => {
-    const fetchData = async () => {
-      const url = `${ACCOUNTS_URL}/${address}?chain=eth`
-      const result = await fetch(url)
-      const json = await result.json()
-      const balances = json.balances.map((b: any) => {
-        let multiplier = json.multipliers[b.id]
-        if (!multiplier) {
-          multiplier = 1
+    const fetch = async () => {
+      if (!accountData) {
+        const { error, data } = await fetchAccountData(address)
+        if (!error && data) {
+          updateAccountData(data)
         }
-        return {
-          assetName: b.name,
-          value: b.value,
-          balance: b.balance,
-          multiplier: multiplier,
-        }
-      })
-      console.log(balances)
-
-      setValue(json.value)
-      setBoost(json.boost)
-      setBoostRank(json.boostRank)
-      setAccountData(balances)
+      }
     }
-
-    fetchData()
-  }, [])
+    fetch()
+  }, [address])
   return (
     <PageWrapper>
       <AutoColumn gap="10px">
@@ -120,7 +103,7 @@ const User = () => {
                   <AutoColumn gap="10px">
                     <AutoColumn gap="5px">
                       <TYPE.main>Assets in $</TYPE.main>
-                      <TYPE.label fontSize="20px">{formatDollarAmount(value)}</TYPE.label>
+                      <TYPE.label fontSize="20px">{formatDollarAmount(netWorth)}</TYPE.label>
                     </AutoColumn>
                     <AutoColumn gap="5px">
                       <TYPE.main>Assets in ₿</TYPE.main>
@@ -137,7 +120,7 @@ const User = () => {
           </DataWrapper>
 
           <DarkGreyCard>
-            <BalanceTable accountData={accountData} />
+            <BalanceTable balanceData={balances} />
           </DarkGreyCard>
         </ContentLayout>
       </AutoColumn>

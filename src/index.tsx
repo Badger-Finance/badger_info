@@ -13,6 +13,7 @@ import ProtocolUpdater from './state/protocol/updater'
 import TokenUpdater from './state/tokens/updater'
 import PoolUpdater from './state/pools/updater'
 import ApplicationUpdater from './state/application/updater'
+import BoostsUpdater from './state/boosts/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import { ApolloProvider } from '@apollo/client/react'
 import { client } from 'apollo/client'
@@ -46,6 +47,7 @@ function Updaters() {
       <TokenUpdater />
       <PoolUpdater />
       <ApplicationUpdater />
+      <BoostsUpdater />
     </>
   )
 }

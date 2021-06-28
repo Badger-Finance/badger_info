@@ -1,16 +1,12 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
-import { ExtraSmallOnly, HideExtraSmall, TYPE } from 'theme'
-import { DarkGreyCard } from 'components/Card'
-import Loader, { LoadingRows } from 'components/Loader'
 import { AutoColumn } from 'components/Column'
 import { formatDollarAmount, formatBalanceAmount } from 'utils/numbers'
 import { Label, ClickableText } from 'components/Text'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
 import { Link } from 'react-router-dom'
-import { Square } from 'react-feather'
-import { enableExperimentalFragmentVariables } from '@apollo/client'
+import { Balance } from 'state/accounts/reducer'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -49,13 +45,6 @@ const SORT_FIELD = {
   value: 'value',
   multiplier: 'multiplier',
 }
-interface AccountData {
-  assetName: string
-  balance: number
-  value: number
-  multiplier: number
-}
-
 const AddressLabel = styled(Label)`
   display: inline-block;
 `
@@ -67,28 +56,30 @@ const LinkWrapper = styled(Link)`
   }
 `
 
-const DataRow = ({ accountData, index }: { accountData: AccountData; index: number }) => {
+const DataRow = (props: any) => {
+  const { index, balanceData } = props
   return (
     <LinkWrapper to={''}>
       <ResponsiveGrid>
         <Label>{index + 1}</Label>
-        <AddressLabel>{accountData.assetName}</AddressLabel>
+        <AddressLabel>{balanceData.assetName}</AddressLabel>
         <Label end={2} fontWeight={400}>
-          {accountData.multiplier.toFixed(2)}x
+          {balanceData.multiplier.toFixed(2)}x
         </Label>
 
         <Label end={2} fontWeight={400}>
-          {formatBalanceAmount(accountData.balance)}
+          {formatBalanceAmount(balanceData.balance)}
         </Label>
 
         <Label end={2} fontWeight={400}>
-          {formatDollarAmount(accountData.value)}
+          {formatDollarAmount(balanceData.value)}
         </Label>
       </ResponsiveGrid>
     </LinkWrapper>
   )
 }
 const BalanceTable = (props: any) => {
+  console.log(props)
   const theme = useTheme()
   const [sortField, setSortField] = useState(SORT_FIELD.balance)
   const [sortDirection, setSortDirection] = useState<boolean>(true)
@@ -99,20 +90,20 @@ const BalanceTable = (props: any) => {
     },
     [sortDirection, sortField]
   )
-  const sortedAccountData = useMemo(() => {
-    if (!props.accountData) {
+  const sortedBalanceData = useMemo(() => {
+    if (!props.balanceData) {
       return []
     }
-    return props.accountData.sort((a: any, b: any) => {
+    return props.balanceData.slice().sort((a: any, b: any) => {
       if (a && b) {
-        return a[sortField as keyof AccountData] > b[sortField as keyof AccountData]
+        return a[sortField as keyof Balance] > b[sortField as keyof Balance]
           ? (sortDirection ? -1 : 1) * 1
           : (sortDirection ? -1 : 1) * -1
       } else {
         return -1
       }
     })
-  }, [sortDirection, sortField, props.accountData])
+  }, [sortDirection, sortField, props.balanceData])
 
   const arrow = useCallback(
     (field: string) => {
@@ -139,11 +130,11 @@ const BalanceTable = (props: any) => {
         </ClickableText>
       </ResponsiveGrid>
       <Break />
-      {sortedAccountData.map((data: any, i: any) => {
+      {sortedBalanceData.map((data: Balance, i: any) => {
         if (data) {
           return (
             <React.Fragment key={i}>
-              <DataRow index={i} accountData={data} />
+              <DataRow index={i} balanceData={data} />
               <Break />
             </React.Fragment>
           )
