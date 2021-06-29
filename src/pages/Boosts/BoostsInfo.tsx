@@ -62,7 +62,8 @@ const AddressLabel = styled(Label)`
 `
 
 const ButtonWrapper = styled.div`
-  width: 15%;
+  width: 15%
+  min-width: 180px;
 `
 interface BoostData {
   address: string
@@ -105,7 +106,7 @@ const SORT_FIELD = {
 }
 const BoostsInfo = () => {
   // for sorting
-  const maxAmount = 300
+  const maxAmount = 400
   const [sortField, setSortField] = useState(SORT_FIELD.boost)
   const [sortDirection, setSortDirection] = useState<boolean>(true)
   const boosts = useBoostData()
@@ -158,7 +159,7 @@ const BoostsInfo = () => {
         <TYPE.largeHeader>Boost Analytics</TYPE.largeHeader>
         <TYPE.mediumHeader>Only {maxAmount} records shown for performance reasons</TYPE.mediumHeader>
         <ButtonWrapper>
-          <CSVLink filename={'badger-boosts.csv'} data={csvData}>
+          <CSVLink style={{ color: 'white' }} filename={'badger-boosts.csv'} data={csvData}>
             <ButtonPrimary style={{ backgroundColor: 'grey' }}>Export To Csv</ButtonPrimary>
           </CSVLink>
         </ButtonWrapper>

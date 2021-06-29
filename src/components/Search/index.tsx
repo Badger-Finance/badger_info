@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 import Row, { RowFixed } from 'components/Row'
 import { HideSmall, TYPE } from 'theme'
+import { useHistory } from 'react-router-dom'
 import Hotkeys from 'react-hot-keys'
 import { useFetchSearchResults } from 'data/search'
 import { AutoColumn } from 'components/Column'
@@ -12,7 +13,6 @@ import { GreyBadge } from 'components/Card'
 import { feeTierPercent } from 'utils'
 import { useSavedTokens, useSavedPools } from 'state/user/hooks'
 import { SavedIcon } from 'components/Button'
-import { useHistory } from 'react-router-dom'
 import { useTokenDatas } from 'state/tokens/hooks'
 import { usePoolDatas } from 'state/pools/hooks'
 import HoverInlineText from 'components/HoverInlineText'
@@ -111,46 +111,6 @@ const ResponsiveGrid = styled.div`
   `};
 `
 
-const Break = styled.div`
-  height: 1px;
-  background-color: ${({ theme }) => theme.bg1};
-  width: 100%;
-`
-
-const HoverText = styled.div<{ hide?: boolean | undefined }>`
-  color: ${({ theme }) => theme.blue1}
-  display: ${({ hide = false }) => hide && 'none'};
-  :hover {
-    cursor: pointer;
-    opacity: 0.6;
-  }
-`
-
-const HoverRowLink = styled.div`
-  :hover {
-    cursor: pointer;
-    opacity: 0.6;
-  }
-`
-
-const OptionButton = styled.div<{ enabled: boolean }>`
-  width: fit-content;
-  padding: 4px 8px;
-  border-radius: 8px;
-  display: flex;
-  font-size: 12px;
-  font-weight: 600;
-  margin-right: 10px;
-  justify-content: center;
-  align-items: center;
-  background-color: ${({ theme, enabled }) => (enabled ? theme.pink1 : 'transparent')};
-  color: ${({ theme, enabled }) => (enabled ? theme.white : theme.pink1)};
-  :hover {
-    opacity: 0.6;
-    cursor: pointer;
-  }
-`
-
 const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
   const history = useHistory()
 
@@ -202,29 +162,6 @@ const Search = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
           />
           {!focused && <TYPE.gray pl="2px">⌘/</TYPE.gray>}
         </Wrapper>
-        <Menu hide={!showMenu} ref={menuRef}>
-          <AutoColumn gap="lg">
-            <AutoColumn gap="sm"></AutoColumn>
-            <ResponsiveGrid>
-              <TYPE.main>Cycle</TYPE.main>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  Cycle Number
-                </TYPE.main>
-              </HideSmall>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  Start Block
-                </TYPE.main>
-              </HideSmall>
-              <HideSmall>
-                <TYPE.main textAlign="end" fontSize="12px">
-                  End Block
-                </TYPE.main>
-              </HideSmall>
-            </ResponsiveGrid>
-          </AutoColumn>
-        </Menu>
       </Container>
     </Hotkeys>
   )

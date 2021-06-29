@@ -43,10 +43,6 @@ function Updaters() {
   return (
     <>
       <UserUpdater />
-      <ProtocolUpdater />
-      <TokenUpdater />
-      <PoolUpdater />
-      <ApplicationUpdater />
       <BoostsUpdater />
     </>
   )
