@@ -8,6 +8,7 @@ import BalanceTable from 'components/BalanceTable'
 import { formatDollarAmount } from 'utils/numbers'
 import { useAccountData, useUpdateAccountData } from 'state/accounts/hooks'
 import { fetchAccountData } from 'data/accounts/index'
+import { usePrices } from 'hooks/usePricing'
 
 interface RouteParams {
   address: string
@@ -54,6 +55,7 @@ const User = () => {
   const { address } = useParams<RouteParams>()
   const updateAccountData = useUpdateAccountData(address)
   const accountData = useAccountData(address)
+  const prices = usePrices()
   const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
   useEffect(() => {
     const fetch = async () => {
@@ -107,11 +109,11 @@ const User = () => {
                     </AutoColumn>
                     <AutoColumn gap="5px">
                       <TYPE.main>Assets in ₿</TYPE.main>
-                      <TYPE.label fontSize="20px">1.58</TYPE.label>
+                      <TYPE.label fontSize="20px">{(netWorth / prices.btc).toFixed(3)}</TYPE.label>
                     </AutoColumn>
                     <AutoColumn gap="5px">
                       <TYPE.main>Assets in Ξ</TYPE.main>
-                      <TYPE.label fontSize="20px">2.58</TYPE.label>
+                      <TYPE.label fontSize="20px">{(netWorth / prices.eth).toFixed(3)}</TYPE.label>
                     </AutoColumn>
                   </AutoColumn>
                 </AutoColumn>
