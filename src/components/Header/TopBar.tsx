@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { RowBetween, RowFixed, AutoRow } from 'components/Row'
 import { TYPE, ExternalLink } from 'theme'
-import { useEthPrices } from 'hooks/useEthPrices'
 import { formatDollarAmount } from 'utils/numbers'
 import Polling from './Polling'
+import { usePrices } from 'hooks/usePricing'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,16 +22,14 @@ const StyledLink = styled(ExternalLink)`
 `
 
 const TopBar = () => {
+  const prices = usePrices()
   return (
     <Wrapper>
       <RowBetween>
-        <AutoRow gap="6px">
-          <RowFixed>
-            <Item>BTC Price:</Item>
-            <Item fontWeight="700" ml="4px">
-              {'$30k'}
-            </Item>
-          </RowFixed>
+        <AutoRow gap="10px">
+          <Item>BTC Price: {formatDollarAmount(prices.btc)}</Item>
+          <Item>ETH Price: {formatDollarAmount(prices.eth)}</Item>
+          <Item>BADGER Price: {formatDollarAmount(prices.badger)}</Item>
         </AutoRow>
         <AutoRow gap="6px" style={{ justifyContent: 'flex-end' }}>
           <StyledLink href="https://badger.wiki">Docs</StyledLink>
