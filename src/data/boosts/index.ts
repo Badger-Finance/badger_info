@@ -5,7 +5,7 @@ export async function fetchBoosts() {
   try {
     const result = await fetch(`${API_URL}/boosts`)
     const json = await result.json()
-    for (const item of Object.entries(json['userData'])) {
+    for (const item of Object.entries(json['boosts']['userData'])) {
       const address = item[0]
       const data: any = item[1]
       boostArray.push({
