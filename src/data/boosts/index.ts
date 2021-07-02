@@ -1,9 +1,9 @@
 import { BoostData } from 'state/boosts/reducer'
-const API_URL = 'https://badger-analytics.herokuapp.com'
+import { ANALYTICS_API_URL } from 'data/urls'
 export async function fetchBoosts() {
   const boostArray: Array<BoostData> = []
   try {
-    const result = await fetch(`${API_URL}/boosts`)
+    const result = await fetch(`${ANALYTICS_API_URL}/boosts`)
     const json = await result.json()
     for (const item of Object.entries(json['boosts']['userData'])) {
       const address = item[0]

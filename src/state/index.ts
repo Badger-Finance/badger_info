@@ -11,6 +11,7 @@ import tokens from './tokens/reducer'
 import pools from './pools/reducer'
 import boosts from './boosts/reducer'
 import accounts from './accounts/reducer'
+import cycle from './cycle/reducer'
 
 const PERSISTED_KEYS: string[] = ['user', 'lists']
 
@@ -25,6 +26,7 @@ const store = configureStore({
     pools,
     boosts,
     accounts,
+    cycle,
   },
   middleware: [...getDefaultMiddleware({ thunk: false, immutableCheck: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS }),

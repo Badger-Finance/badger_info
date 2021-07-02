@@ -2,7 +2,7 @@ import { updateAccountData } from './actions'
 import { AccountData } from './reducer'
 import { AppState, AppDispatch } from '../index'
 import { useDispatch, useSelector } from 'react-redux'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 
 export function useUpdateAccountData(address: string) {
   const dispatch = useDispatch<AppDispatch>()

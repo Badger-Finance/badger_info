@@ -7,6 +7,7 @@ import { TYPE } from 'theme'
 import { ButtonPrimary } from 'components/Button'
 import { useParams } from 'react-router-dom'
 import RewardsBarChart from 'components/RewardsBarChart'
+import { useCycle } from 'state/cycle/hooks'
 
 interface RouteParams {
   cycleNumber: string
@@ -51,6 +52,7 @@ const ChartWrapper = styled.div`
 const CycleAnalytics = () => {
   const { cycleNumber } = useParams<RouteParams>()
   const [selected, setSelected] = useState('Badger')
+  const cycleData = useCycle(Number(cycleNumber))
   const totalRewards = [
     {
       token: 'Badger',

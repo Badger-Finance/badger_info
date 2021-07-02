@@ -21,17 +21,17 @@ interface CycleProps {
   startBlock: number
   endBlock: number
 }
-const Cycle = (props: CycleProps) => {
+const Cycle = (props: any) => {
   return (
     <AutoColumn gap="10px">
-      <LinkWrapper to={`/cycle/${props.cycleNumber}`}>
-        <TYPE.largeHeader>Cycle {props.cycleNumber}</TYPE.largeHeader>
+      <LinkWrapper to={`/cycle/${props.cycle}`}>
+        <TYPE.largeHeader>Cycle {props.cycle}</TYPE.largeHeader>
       </LinkWrapper>
       <DarkGreyCard>
         <AutoColumn gap="lg">
           <AutoColumn gap="4px">
             <TYPE.main fontWeight={400}>Root</TYPE.main>
-            <TYPE.label fontSize="20px">{props.root}</TYPE.label>
+            <TYPE.label fontSize="20px">{props.merkleRoot}</TYPE.label>
           </AutoColumn>
           <AutoColumn gap="4px">
             <TYPE.main fontWeight={400}>Content Hash</TYPE.main>

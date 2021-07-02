@@ -1,7 +1,7 @@
-const API_URL = 'https://staging-api.badger.finance/v2'
+import { BADGER_API_URL } from './../urls'
 import { AccountData, Balance } from 'state/accounts/reducer'
 export async function fetchAccountData(address: string) {
-  const url = `${API_URL}/accounts/${address}?chain=eth`
+  const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`
   try {
     const result = await fetch(url)
     const json = await result.json()
