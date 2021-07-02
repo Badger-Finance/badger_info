@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
@@ -8,6 +8,7 @@ import { ButtonPrimary } from 'components/Button'
 import { useParams } from 'react-router-dom'
 import RewardsBarChart from 'components/RewardsBarChart'
 import { useCycleData } from 'state/cycle/hooks'
+import tokens from 'constants/tokens'
 interface RouteParams {
   cycleNumber: string
 }
@@ -53,32 +54,30 @@ const CycleAnalytics = () => {
   const [selected, setSelected] = useState('Badger')
   const cycleData = useCycleData(cycleNumber)
   console.log(cycleData)
-  const totalRewards = [
-    {
-      token: 'Badger',
-      amount: 100,
-    },
-    {
-      token: 'Digg',
-      amount: 105,
-    },
-    {
-      token: 'DFD',
-      amount: 100,
-    },
-    {
-      token: 'XSushi',
-      amount: 100,
-    },
-    {
-      token: `Cvx`,
-      amount: 100,
-    },
-    {
-      token: 'cvxCrv',
-      amount: 100,
-    },
-  ]
+  const totalRewards = useMemo(() => {
+    const { totalTokenDist } = cycleData || {}
+    const total: any = {}
+    if (totalTokenDist) {
+      Object.entries(totalTokenDist).forEach((td) => {
+        Object.entries(td[1]).forEach((ta) => {
+          console.log(ta[0])
+          console.log(ta[1])
+          if (!(ta[0] in total)) {
+            total[ta[0]] = 0
+          }
+          total[ta[0]] += Number(ta[1])
+        })
+      })
+    }
+    return Object.entries(total).map((value) => {
+      return {
+        token: value[0],
+        amount: value[1],
+      }
+    })
+  }, [cycleData])
+  console.log(totalRewards)
+
   const data: ChartData = {
     Badger: [
       {
@@ -151,15 +150,15 @@ const CycleAnalytics = () => {
         <DarkGreyCard>
           <AutoColumn gap="17.5px">
             <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>
-            {totalRewards.map((element) => {
-              return (
-                <AutoColumn key={element.token} gap="7.5px">
-                  <TYPE.main fontWeight={400}>{element.token} Rewards</TYPE.main>
-                  <TYPE.label fontSize="20px">{element.amount}</TYPE.label>
-                  <TYPE.subHeader>${element.amount * 5}</TYPE.subHeader>
-                </AutoColumn>
-              )
-            })}
+            {totalRewards.length > 0 &&
+              totalRewards.map((element) => {
+                return (
+                  <AutoColumn key={tokens[element.token]} gap="7.5px">
+                    <TYPE.main fontWeight={400}>{tokens[element.token]} Rewards</TYPE.main>
+                    <TYPE.label fontSize="20px">{`${element.amount}`}</TYPE.label>
+                  </AutoColumn>
+                )
+              })}
           </AutoColumn>
         </DarkGreyCard>
         <DarkGreyCard>
@@ -168,12 +167,12 @@ const CycleAnalytics = () => {
             <AutoRow gap="10px">
               {totalRewards.map((element) => {
                 return (
-                  <SmallButton key={element.token}>
+                  <SmallButton key={tokens[element.token]}>
                     <ButtonPrimary
-                      onClick={() => setSelected(element.token)}
+                      onClick={() => setSelected(tokens[element.token])}
                       bgColor={element.token == selected ? 'blue' : 'grey'}
                     >
-                      {element.token}
+                      {tokens[element.token]}
                     </ButtonPrimary>
                   </SmallButton>
                 )
