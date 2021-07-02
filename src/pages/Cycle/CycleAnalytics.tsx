@@ -43,7 +43,7 @@ const SmallButton = styled.div`
 `
 
 const ChartWrapper = styled.div`
-  height: 600px;
+  height: 400px;
 `
 interface SumRewards {
   token: string
@@ -99,10 +99,6 @@ const CycleAnalytics = () => {
               <TYPE.label>{cycleData && cycleData.endBlock}</TYPE.label>
               <TYPE.main>Cycle Length</TYPE.main>
               <TYPE.label>{cycleData && timeBetweenBlocks}</TYPE.label>
-              <TYPE.main>Root</TYPE.main>
-              <TYPE.label>{cycleData && cycleData.merkleRoot}</TYPE.label>
-              <TYPE.main>Content Hash</TYPE.main>
-              <TYPE.label>{cycleData && cycleData.contentHash}</TYPE.label>
             </AutoColumn>
           </AutoColumn>
         </DarkGreyCard>
