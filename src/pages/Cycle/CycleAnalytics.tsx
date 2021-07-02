@@ -9,16 +9,10 @@ import { useParams } from 'react-router-dom'
 import RewardsBarChart from 'components/RewardsBarChart'
 import { useCycleData } from 'state/cycle/hooks'
 import tokens from 'constants/tokens'
+import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
+import { ChartData } from 'utils/tokenDist'
 interface RouteParams {
   cycleNumber: string
-}
-
-interface ChartElement {
-  name: string
-  uv: number
-}
-interface ChartData {
-  [key: string]: Array<ChartElement>
 }
 
 const ContentLayout = styled.div`
@@ -46,100 +40,22 @@ const SmallButton = styled.div`
 `
 
 const ChartWrapper = styled.div`
-  height: 500px;
+  height: 600px;
 `
 
 const CycleAnalytics = () => {
   const cycleNumber = Number(useParams<RouteParams>().cycleNumber)
   const [selected, setSelected] = useState('Badger')
   const cycleData = useCycleData(cycleNumber)
-  console.log(cycleData)
   const totalRewards = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
-    const total: any = {}
-    if (totalTokenDist) {
-      Object.entries(totalTokenDist).forEach((td) => {
-        Object.entries(td[1]).forEach((ta) => {
-          console.log(ta[0])
-          console.log(ta[1])
-          if (!(ta[0] in total)) {
-            total[ta[0]] = 0
-          }
-          total[ta[0]] += Number(ta[1])
-        })
-      })
-    }
-    return Object.entries(total).map((value) => {
-      return {
-        token: value[0],
-        amount: value[1],
-      }
-    })
+    return sumTokenDist(totalTokenDist)
   }, [cycleData])
-  console.log(totalRewards)
-
-  const data: ChartData = {
-    Badger: [
-      {
-        name: 'Page A',
-        uv: 100,
-      },
-      {
-        name: 'Page B',
-        uv: 200,
-      },
-      {
-        name: 'Page C',
-        uv: 590,
-      },
-      {
-        name: 'Page D',
-        uv: 1780,
-      },
-      {
-        name: 'Page E',
-        uv: 1890,
-      },
-      {
-        name: 'Page F',
-        uv: 390,
-      },
-      {
-        name: 'Page G',
-        uv: 3490,
-      },
-    ],
-    Digg: [
-      {
-        name: 'Page A',
-        uv: 4000,
-      },
-      {
-        name: 'Page B',
-        uv: 3000,
-      },
-      {
-        name: 'Page C',
-        uv: 2000,
-      },
-      {
-        name: 'Page D',
-        uv: 2780,
-      },
-      {
-        name: 'Page E',
-        uv: 1890,
-      },
-      {
-        name: 'Page F',
-        uv: 2390,
-      },
-      {
-        name: 'Page G',
-        uv: 3490,
-      },
-    ],
-  }
+  const chartData = useMemo(() => {
+    const { totalTokenDist } = cycleData || {}
+    return tokenDistToChart(totalTokenDist) as ChartData
+  }, [cycleData])
+  console.log(chartData)
 
   return (
     <PageWrapper>
@@ -170,7 +86,7 @@ const CycleAnalytics = () => {
                   <SmallButton key={tokens[element.token]}>
                     <ButtonPrimary
                       onClick={() => setSelected(tokens[element.token])}
-                      bgColor={element.token == selected ? 'blue' : 'grey'}
+                      bgColor={tokens[element.token] == selected ? 'blue' : 'grey'}
                     >
                       {tokens[element.token]}
                     </ButtonPrimary>
@@ -180,7 +96,7 @@ const CycleAnalytics = () => {
             </AutoRow>
           </AutoColumn>
           <ChartWrapper>
-            <RewardsBarChart data={data[selected]} />
+            <RewardsBarChart data={chartData[selected]} />
           </ChartWrapper>
         </DarkGreyCard>
       </ContentLayout>

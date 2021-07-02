@@ -6,7 +6,7 @@ const RewardsBarChart = (props: any) => {
     <ResponsiveContainer width="95%">
       <BarChart
         width={300}
-        height={100}
+        height={500}
         data={props.data}
         margin={{
           top: 40,
@@ -15,12 +15,11 @@ const RewardsBarChart = (props: any) => {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
+        <CartesianGrid strokeDasharray="4 4" />
+        <XAxis dy={70} dataKey="sett" height={140} angle={-70} interval={0} />
         <YAxis />
         <Tooltip />
-        <Legend />
-        <Bar dataKey="uv" fill="#8884d8" />
+        <Bar dataKey="amount" fill="#8884d8" />
       </BarChart>
     </ResponsiveContainer>
   )

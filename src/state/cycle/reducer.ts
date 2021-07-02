@@ -8,7 +8,7 @@ export interface CycleData {
   endBlock: number
   totalTokenDist: TokenDist
 }
-interface TokenDist {
+export interface TokenDist {
   [sett: string]: {
     [token: string]: number
   }
