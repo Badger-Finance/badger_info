@@ -255,6 +255,10 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
             Users
           </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/vaults'}>
+            Vaults
+          </StyledNavLink>
+
 
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>
             Wallet
@@ -262,7 +266,6 @@ export default function Header() {
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
-        <SearchSmall />
         {/* <HeaderElement>
           <HideSmall>
             {chainId && NETWORK_LABELS[chainId] && (
