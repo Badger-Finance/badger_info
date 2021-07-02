@@ -15,3 +15,18 @@ export async function fetchCycles(page: number) {
     }
   }
 }
+export async function fetchCycle(cycleNumber: number) {
+  try {
+    const result = await fetch(`${ANALYTICS_API_URL}/cycle/${cycleNumber}`)
+    const json = await result.json()
+    return {
+      error: false,
+      data: json,
+    }
+  } catch (error) {
+    return {
+      error: true,
+      data: {},
+    }
+  }
+}

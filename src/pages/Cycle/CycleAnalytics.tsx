@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
@@ -7,8 +7,7 @@ import { TYPE } from 'theme'
 import { ButtonPrimary } from 'components/Button'
 import { useParams } from 'react-router-dom'
 import RewardsBarChart from 'components/RewardsBarChart'
-import { useCycle } from 'state/cycle/hooks'
-
+import { useCycleData } from 'state/cycle/hooks'
 interface RouteParams {
   cycleNumber: string
 }
@@ -50,9 +49,10 @@ const ChartWrapper = styled.div`
 `
 
 const CycleAnalytics = () => {
-  const { cycleNumber } = useParams<RouteParams>()
+  const cycleNumber = Number(useParams<RouteParams>().cycleNumber)
   const [selected, setSelected] = useState('Badger')
-  const cycleData = useCycle(Number(cycleNumber))
+  const cycleData = useCycleData(cycleNumber)
+  console.log(cycleData)
   const totalRewards = [
     {
       token: 'Badger',

@@ -5,7 +5,7 @@ import { TYPE } from 'theme'
 import { PageWrapper, ThemedBackgroundGlobal } from 'pages/styled'
 
 import Cycle from 'components/Cycle'
-import { useAddCyclePage, useCyclePage, useCyclePages } from 'state/cycle/hooks'
+import { useAddCyclePage, useCyclePage, useCyclePageData, useCyclePages } from 'state/cycle/hooks'
 import { fetchCycles } from 'data/cycles'
 import { CycleData } from 'state/cycle/reducer'
 
@@ -15,34 +15,14 @@ export default function Home() {
   }, [])
 
   const [page, setPage] = useState<number>(0)
-  const [cycleArray, setCycleArray] = useState<Array<CycleData>>([])
-  const cyclePages = useCyclePages()
-  const addCyclePage = useAddCyclePage()
+  const cyclePageData = useCyclePageData(page) || []
   const maxPage = 5
-
-  useEffect(() => {
-    console.log(page)
-
-    async function fetchPage() {
-      const { error, data } = await fetchCycles(page)
-      if (!error) {
-        addCyclePage(data, page)
-        setCycleArray(data)
-      }
-    }
-    console.log(cyclePages)
-    if (!cyclePages[page]) {
-      fetchPage()
-    } else {
-      setCycleArray(cyclePages[page])
-    }
-  }, [page])
 
   return (
     <PageWrapper>
       <ThemedBackgroundGlobal backgroundColor={'#808080'} />
       <AutoColumn gap="20px">
-        {cycleArray.map((element) => {
+        {cyclePageData.map((element) => {
           return <Cycle key={element.cycle} {...element} />
         })}
         <PageButtons>
