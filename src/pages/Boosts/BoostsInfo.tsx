@@ -192,17 +192,18 @@ const BoostsInfo = () => {
               </ResponsiveGrid>
 
               <Break />
-              {sortedBoosts.map((data, i) => {
-                if (data) {
-                  return (
-                    <React.Fragment key={i}>
-                      <DataRow index={i} boostData={data} />
-                      <Break />
-                    </React.Fragment>
-                  )
-                }
-                return null
-              })}
+              {sortedBoosts.length > 0 &&
+                sortedBoosts.map((data, i) => {
+                  if (data) {
+                    return (
+                      <React.Fragment key={i}>
+                        <DataRow index={i} boostData={data} />
+                        <Break />
+                      </React.Fragment>
+                    )
+                  }
+                  return null
+                })}
             </AutoColumn>
           ) : (
             <LoadingRows>
