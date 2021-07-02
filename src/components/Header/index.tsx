@@ -259,7 +259,6 @@ export default function Header() {
             Vaults
           </StyledNavLink>
 
-
           {/* <StyledNavLink id={`stake-nav-link`} to={'/wallet'}>
             Wallet
           </StyledNavLink> */}
