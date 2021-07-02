@@ -11,6 +11,9 @@ import { useCycleData } from 'state/cycle/hooks'
 import tokens from 'constants/tokens'
 import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
+import { formatBalanceAmount } from 'utils/numbers'
+import { Type } from 'react-feather'
+import { calcTimeBetweenBlocks } from 'utils/time'
 interface RouteParams {
   cycleNumber: string
 }
@@ -42,20 +45,33 @@ const SmallButton = styled.div`
 const ChartWrapper = styled.div`
   height: 600px;
 `
+interface SumRewards {
+  token: string
+  amount: number
+}
 
 const CycleAnalytics = () => {
   const cycleNumber = Number(useParams<RouteParams>().cycleNumber)
   const [selected, setSelected] = useState('Badger')
+  const [timeBetweenBlocks, setTimeBetweenBlocks] = useState('0')
   const cycleData = useCycleData(cycleNumber)
   const totalRewards = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
-    return sumTokenDist(totalTokenDist)
+    return sumTokenDist(totalTokenDist) as Array<SumRewards>
   }, [cycleData])
   const chartData = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
     return tokenDistToChart(totalTokenDist) as ChartData
   }, [cycleData])
-  console.log(chartData)
+  useEffect(() => {
+    async function fetch() {
+      const { error, data } = await calcTimeBetweenBlocks(cycleData.startBlock, cycleData.endBlock)
+      setTimeBetweenBlocks(data)
+    }
+    if (cycleData) {
+      fetch()
+    }
+  }, [cycleData])
 
   return (
     <PageWrapper>
@@ -71,10 +87,23 @@ const CycleAnalytics = () => {
                 return (
                   <AutoColumn key={tokens[element.token]} gap="7.5px">
                     <TYPE.main fontWeight={400}>{tokens[element.token]} Rewards</TYPE.main>
-                    <TYPE.label fontSize="20px">{`${element.amount}`}</TYPE.label>
+                    <TYPE.label>{formatBalanceAmount(element.amount)}</TYPE.label>
                   </AutoColumn>
                 )
               })}
+            <TYPE.mediumHeader>Cycle Info</TYPE.mediumHeader>
+            <AutoColumn gap="10px">
+              <TYPE.main>Start Block</TYPE.main>
+              <TYPE.label>{cycleData && cycleData.startBlock}</TYPE.label>
+              <TYPE.main>End Block</TYPE.main>
+              <TYPE.label>{cycleData && cycleData.endBlock}</TYPE.label>
+              <TYPE.main>Cycle Length</TYPE.main>
+              <TYPE.label>{cycleData && timeBetweenBlocks}</TYPE.label>
+              <TYPE.main>Root</TYPE.main>
+              <TYPE.label>{cycleData && cycleData.merkleRoot}</TYPE.label>
+              <TYPE.main>Content Hash</TYPE.main>
+              <TYPE.label>{cycleData && cycleData.contentHash}</TYPE.label>
+            </AutoColumn>
           </AutoColumn>
         </DarkGreyCard>
         <DarkGreyCard>
