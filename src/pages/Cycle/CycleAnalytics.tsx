@@ -31,7 +31,7 @@ const ContentLayout = styled.div`
 `
 
 const PageWrapper = styled.div`
-  width: 80%;
+  width: 90%;
 `
 
 const CenteredHeader = styled.div`

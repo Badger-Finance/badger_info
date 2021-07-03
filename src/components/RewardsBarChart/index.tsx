@@ -3,7 +3,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 
 const RewardsBarChart = (props: any) => {
   return (
-    <ResponsiveContainer width="95%">
+    <ResponsiveContainer width="99%">
       <BarChart
         width={300}
         height={500}

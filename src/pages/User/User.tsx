@@ -126,7 +126,7 @@ const User = () => {
             <BalanceTable balanceData={balances} />
           </DarkGreyCard>
         </ContentLayout>
-        <ScoreTable></ScoreTable>
+        <ScoreTable address={address} />
       </AutoColumn>
     </PageWrapper>
   )

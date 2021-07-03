@@ -32,9 +32,11 @@ export const initalState: AccountsState = {
 }
 
 export default createReducer(initalState, (builder) => {
-  builder.addCase(updateAccountData, (state, { payload: { address, accountData } }) => {
-    state.accounts[address] = accountData
-  }).addCase(updateScoreData,(state, { payload: { address, scoreData }}) => {
-    state.scores[address] = scoreData
-  })
+  builder
+    .addCase(updateAccountData, (state, { payload: { address, accountData } }) => {
+      state.accounts[address] = accountData
+    })
+    .addCase(updateScoreData, (state, { payload: { address, scoreData } }) => {
+      state.scores[address] = scoreData
+    })
 })

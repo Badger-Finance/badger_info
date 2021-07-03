@@ -5,11 +5,11 @@ import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
+import { useScoreData } from 'state/accounts/hooks'
 
 const TableWrapper = styled.div`
     display: flex;
     flex-direction: row
-    height: 300px;
     width: 60%;
     margin-top: 10px;
 `
@@ -33,7 +33,9 @@ const DataRow = (props: any) => {
   )
 }
 
-const ScoreTable = () => {
+const ScoreTable = (props: { address: string }) => {
+  const scoreData = useScoreData(props.address)
+  console.log(scoreData)
   const theme = useTheme()
   return (
     <TableWrapper>
@@ -46,9 +48,11 @@ const ScoreTable = () => {
           </Row>
           <Break />
         </>
-        <DataRow number={'1'} first={'Badger Staking'} second={'✅'} />
-        <DataRow number={'2'} first={'Condition'} second={'Fulfilled'} />
-        <DataRow number={'3'} first={'Condition'} second={'Fulfilled'} />
+        {scoreData.map((score, index) => {
+          const name = Object.keys(score)[0]
+          const scoreNumber = Object.values(score)[0]
+          return <DataRow key={index} number={index} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
+        })}
       </DarkGreyCard>
     </TableWrapper>
   )

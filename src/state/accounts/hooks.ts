@@ -13,26 +13,27 @@ export function useAccountData(address: string) {
   return useSelector((state: AppState) => state.accounts.accounts[address])
 }
 
-function useScores(address:string) {
+function useScores(address: string) {
   return useSelector((state: AppState) => state.accounts.scores[address])
 }
-export function useScoreData(address:string) {
+export function useScoreData(address: string) {
   const dispatch = useDispatch<AppDispatch>()
   const scores = useScores(address)
   useEffect(() => {
     async function fetch() {
       const { error, data } = await fetchScores(address)
-      if(!error) {
-        dispatch(updateScoreData({
-          address,
-          scoreData:data
-        }))
+      if (!error) {
+        dispatch(
+          updateScoreData({
+            address,
+            scoreData: data,
+          })
+        )
       }
     }
-    if(!scores) {
+    if (!scores) {
       fetch()
     }
-    
-  }, [address,scores,dispatch])
-
+  }, [address, scores, dispatch])
+  return scores
 }
