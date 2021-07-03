@@ -9,6 +9,7 @@ import { formatDollarAmount } from 'utils/numbers'
 import { useAccountData, useUpdateAccountData } from 'state/accounts/hooks'
 import { fetchAccountData } from 'data/accounts/index'
 import { usePrices } from 'hooks/usePricing'
+import ScoreTable from 'components/Score'
 
 interface RouteParams {
   address: string
@@ -125,6 +126,7 @@ const User = () => {
             <BalanceTable balanceData={balances} />
           </DarkGreyCard>
         </ContentLayout>
+        <ScoreTable></ScoreTable>
       </AutoColumn>
     </PageWrapper>
   )

@@ -1,4 +1,4 @@
-import { BADGER_API_URL } from './../urls'
+import { BADGER_API_URL, ANALYTICS_API_URL } from './../urls'
 import { AccountData, Balance } from 'state/accounts/reducer'
 export async function fetchAccountData(address: string) {
   const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`
@@ -30,6 +30,25 @@ export async function fetchAccountData(address: string) {
     console.log(error)
     return {
       error: true,
+    }
+  }
+}
+
+export async function fetchScores(address: string) {
+  try {
+    const result = await fetch(`${ANALYTICS_API_URL}/scores/${address}`)
+    const json = await result.json()
+    //TODO: convert json to right ScoreData
+    return {
+      error:false,
+      data:json
+    }
+
+    
+  } catch(error) {
+    return {
+      error:true,
+      data:{}
     }
   }
 }

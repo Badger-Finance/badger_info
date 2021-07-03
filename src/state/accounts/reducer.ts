@@ -1,4 +1,4 @@
-import { updateAccountData } from './actions'
+import { updateAccountData, updateScoreData } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 
 export interface AccountData {
@@ -14,14 +14,27 @@ export interface Balance {
   multiplier: number
 }
 
+export interface ScoreData {
+  [cond: string]: number
+}
 interface AccountsState {
-  [address: string]: AccountData
+  accounts: {
+    [address: string]: AccountData
+  }
+  scores: {
+    [address: string]: Array<ScoreData>
+  }
 }
 
-export const initalState: AccountsState = {}
+export const initalState: AccountsState = {
+  accounts: {},
+  scores: {},
+}
 
 export default createReducer(initalState, (builder) => {
   builder.addCase(updateAccountData, (state, { payload: { address, accountData } }) => {
-    state[address] = accountData
+    state.accounts[address] = accountData
+  }).addCase(updateScoreData,(state, { payload: { address, scoreData }}) => {
+    state.scores[address] = scoreData
   })
 })
