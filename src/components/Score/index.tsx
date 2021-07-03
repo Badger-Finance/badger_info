@@ -8,10 +8,13 @@ import useTheme from 'hooks/useTheme'
 import { useScoreData } from 'state/accounts/hooks'
 
 const TableWrapper = styled.div`
-    display: flex;
-    flex-direction: row
-    width: 60%;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: row
+  width: 500px;
+  @media screen and (max-width: 800px) {
+    width: 100%
+  }
+  margin-top: 10px;
 `
 
 const Row = styled.div`
@@ -26,7 +29,7 @@ const DataRow = (props: any) => {
       <Row>
         <TYPE.label style={{ width: '10%' }}>{props.number}</TYPE.label>
         <TYPE.label style={{ width: '70%' }}>{props.first}</TYPE.label>
-        <TYPE.label style={{ width: '30%' }}>{props.second}</TYPE.label>
+        <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
       </Row>
       <Break />
     </>
@@ -44,7 +47,7 @@ const ScoreTable = (props: { address: string }) => {
           <Row>
             <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
             <TYPE.label style={{ width: '70%', color: theme.text2 }}>{'Condition'}</TYPE.label>
-            <TYPE.label style={{ width: '30%', color: theme.text2 }}>{'Fulfilled'}</TYPE.label>
+            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Fulfilled'}</TYPE.label>
           </Row>
           <Break />
         </>
@@ -52,7 +55,7 @@ const ScoreTable = (props: { address: string }) => {
           scoreData.map((score, index) => {
             const name = Object.keys(score)[0]
             const scoreNumber = Object.values(score)[0]
-            return <DataRow key={index} number={index} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
+            return <DataRow key={index} number={index + 1} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
           })}
       </DarkGreyCard>
     </TableWrapper>

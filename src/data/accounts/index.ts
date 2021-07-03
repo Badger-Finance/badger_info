@@ -47,7 +47,7 @@ export async function fetchScores(address: string) {
         })
       } else {
         conditions.push({
-          [json.conditions[cond]]: json.data[cond]
+          [json.conditions[cond]]: json.data[cond],
         })
       }
     })
