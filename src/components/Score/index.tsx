@@ -48,11 +48,12 @@ const ScoreTable = (props: { address: string }) => {
           </Row>
           <Break />
         </>
-        {scoreData.map((score, index) => {
-          const name = Object.keys(score)[0]
-          const scoreNumber = Object.values(score)[0]
-          return <DataRow key={index} number={index} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
-        })}
+        {scoreData &&
+          scoreData.map((score, index) => {
+            const name = Object.keys(score)[0]
+            const scoreNumber = Object.values(score)[0]
+            return <DataRow key={index} number={index} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
+          })}
       </DarkGreyCard>
     </TableWrapper>
   )

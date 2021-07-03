@@ -79,7 +79,6 @@ const DataRow = (props: any) => {
   )
 }
 const BalanceTable = (props: any) => {
-  console.log(props)
   const theme = useTheme()
   const [sortField, setSortField] = useState(SORT_FIELD.balance)
   const [sortDirection, setSortDirection] = useState<boolean>(true)
