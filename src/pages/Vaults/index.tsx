@@ -6,6 +6,7 @@ import { TYPE } from 'theme'
 import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
 import { useSetts } from 'state/setts/hooks'
+import { SettInfo } from 'state/setts/reducer'
 const PageWrapper = styled.div`
   width: 80%;
 `
@@ -22,13 +23,18 @@ const Vaults = () => {
     <PageWrapper>
       <VaultInfoWrapper>
         {setts &&
-          setts.map((v) => {
-            return (
-              <DarkGreyCard style={{ margin: '15px', width: '300px', minWidth: '180px' }} key={v.name}>
-                <VaultInfo id={v.vaultToken} name={v.name} tvl={v.tvl} minApr={v.minApr} maxApr={v.maxApr} />
-              </DarkGreyCard>
-            )
-          })}
+          setts
+            .slice()
+            .sort((a: SettInfo, b: SettInfo) => {
+              return b.tvl - a.tvl
+            })
+            .map((v: SettInfo) => {
+              return (
+                <DarkGreyCard style={{ margin: '15px', width: '300px', minWidth: '180px' }} key={v.name}>
+                  <VaultInfo id={v.vaultToken} name={v.name} tvl={v.tvl} minApr={v.minApr} maxApr={v.maxApr} />
+                </DarkGreyCard>
+              )
+            })}
       </VaultInfoWrapper>
     </PageWrapper>
   )
