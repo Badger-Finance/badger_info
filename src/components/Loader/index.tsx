@@ -126,23 +126,3 @@ export const LoadingRows = styled.div`
     margin-bottom: 2em;
   }
 `
-export const LoadingBalanceRows = styled.div`
-  display: flex;
-  flex-direction: row
-  min-width: 75%;
-  max-width: 100%;
-  grid-template-columns: repeat(4, 1fr);
-  & > div {
-    animation: ${loadingAnimation} 1.5s infinite;
-    animation-fill-mode: both;
-    background: linear-gradient(
-      to left,
-      ${({ theme }) => theme.bg1} 25%,
-      ${({ theme }) => theme.bg2} 50%,
-      ${({ theme }) => theme.bg1} 75%
-    );
-    border-radius: 12px;
-    height: 40px
-    will-change: background-position;
-  }
-`

@@ -16,6 +16,8 @@ import CycleAnalytics from 'pages/Cycle/CycleAnalytics'
 import BoostsInfo from 'pages/Boosts/BoostsInfo'
 import User from 'pages/User/User'
 import Asset from 'pages/Assets/AssetInfo'
+import Vaults from 'pages/Vaults'
+import Vault from 'pages/Vault'
 import AccountInputPage from 'pages/AccountInput/AccountInputPage'
 
 const AppWrapper = styled.div`
@@ -112,6 +114,8 @@ export default function App() {
               <Route exact strict path="/user" component={AccountInputPage} />
               <Route exact strict path="/user/:address" component={User}></Route>
               <Route exact strict path="/asset/:asset" component={Asset}></Route>
+              <Route exact strict path="/vault" component={Vaults}></Route>
+              <Route exact strict path="/vault/:vaultName" component={Vault} />
             </Switch>
             <Marginer />
           </BodyWrapper>

@@ -9,11 +9,8 @@ import './i18n'
 import App from './pages/App'
 import store from './state'
 import UserUpdater from './state/user/updater'
-import ProtocolUpdater from './state/protocol/updater'
-import TokenUpdater from './state/tokens/updater'
-import PoolUpdater from './state/pools/updater'
-import ApplicationUpdater from './state/application/updater'
 import BoostsUpdater from './state/boosts/updater'
+import SettsUpdater from './state/setts/updater'
 import ThemeProvider, { FixedGlobalStyle, ThemedGlobalStyle } from './theme'
 import { ApolloProvider } from '@apollo/client/react'
 import { client } from 'apollo/client'
@@ -43,6 +40,7 @@ function Updaters() {
   return (
     <>
       <UserUpdater />
+      <SettsUpdater />
       <BoostsUpdater />
     </>
   )
