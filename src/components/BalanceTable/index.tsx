@@ -55,8 +55,10 @@ const LinkWrapper = styled(Link)`
     opacity: 0.7;
   }
 `
-
-const DataRow = (props: any) => {
+const LoadingRows = () => {
+  return <div>Loading</div>
+}
+const DataRow = (props: { index: number; balanceData: Balance }) => {
   const { index, balanceData } = props
   return (
     <LinkWrapper to={''}>
@@ -129,17 +131,18 @@ const BalanceTable = (props: any) => {
         </ClickableText>
       </ResponsiveGrid>
       <Break />
-      {sortedBalanceData.map((data: Balance, i: any) => {
-        if (data) {
+      {sortedBalanceData.length > 0 ? (
+        sortedBalanceData.map((data: Balance, i: any) => {
           return (
             <React.Fragment key={i}>
               <DataRow index={i} balanceData={data} />
               <Break />
             </React.Fragment>
           )
-        }
-        return null
-      })}
+        })
+      ) : (
+        <LoadingRows />
+      )}
     </AutoColumn>
   )
 }
