@@ -7,6 +7,7 @@ import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
 import { Link } from 'react-router-dom'
 import { Balance } from 'state/accounts/reducer'
+import { LocalLoader } from 'components/Loader'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -55,8 +56,18 @@ const LinkWrapper = styled(Link)`
     opacity: 0.7;
   }
 `
+
+const LoaderWrapper = styled.div`
+  top: 50%;
+  margin: 0;
+`
+
 const LoadingRows = () => {
-  return <div>Loading</div>
+  return (
+    <LoaderWrapper>
+      <LocalLoader fill={false} />
+    </LoaderWrapper>
+  )
 }
 const DataRow = (props: { index: number; balanceData: Balance }) => {
   const { index, balanceData } = props
