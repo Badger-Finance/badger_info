@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
-import { useSettByAddress } from 'state/setts/hooks'
+import { useSettByAddress, useVaultData } from 'state/setts/hooks'
 import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
@@ -28,6 +28,7 @@ const AprWrapper = styled.div``
 const Vault = () => {
   const { vaultAddress } = useParams<RouteParams>()
   const sett = useSettByAddress(vaultAddress)
+  const vaultData = useVaultData(vaultAddress)
   const total = sett?.sources.reduce(
     (acc: any, curr: any) => {
       if (!curr.boostable) {
@@ -82,6 +83,23 @@ const Vault = () => {
               <AutoColumn gap="5px">
                 <TYPE.main>Price Per Full Share</TYPE.main>
                 <TYPE.label>{sett && sett?.ppfs.toFixed(3)}</TYPE.label>
+              </AutoColumn>
+            </AutoColumn>
+          </DarkGreyCard>
+          <DarkGreyCard>
+            <AutoColumn gap="15px">
+              <TYPE.mediumHeader>Strategy Info</TYPE.mediumHeader>
+              <AutoColumn gap="5px">
+                <TYPE.main>Current Strategy</TYPE.main>
+                <TYPE.label>{vaultData.strategy.address}</TYPE.label>
+              </AutoColumn>
+              <AutoColumn gap="5px">
+                <TYPE.main>Total Earnings</TYPE.main>
+                <TYPE.label>{vaultData.strategy.totalEarnings}</TYPE.label>
+              </AutoColumn>
+              <AutoColumn gap="5px">
+                <TYPE.main>Total Harvests</TYPE.main>
+                <TYPE.label>{vaultData.strategy.numHarvests}</TYPE.label>
               </AutoColumn>
             </AutoColumn>
           </DarkGreyCard>

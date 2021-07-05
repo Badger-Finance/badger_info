@@ -1,9 +1,9 @@
-import { updateSettData, updateWhaleData } from './actions'
+import { updateSettData, updateVaultInfo } from './actions'
 import { AppState, AppDispatch } from './../index'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SettInfo, WhaleInfo } from './reducer'
-import { fetchWhales } from 'data/setts'
+import { fetchVaultInfo } from 'data/setts'
 import { useState, useEffect } from 'react'
 
 export const useUpdateSetts = () => {
@@ -19,50 +19,34 @@ export const useUpdateSetts = () => {
   )
 }
 
-export const useUpdateWhales = () => {
-  const dispatch = useDispatch<AppDispatch>()
-  return useCallback(
-    (whales: Array<WhaleInfo>, vault: string) =>
-      dispatch(
-        updateWhaleData({
-          vault,
-          whales,
-        })
-      ),
-    [dispatch]
-  )
-}
-
 export const useWhales = (address: string) => {
-  return useSelector((state: AppState) => state.setts.whales[address])
+  return useSelector((state: AppState) => state.setts.vaults[address].whaleInfo)
 }
 
-export const useWhaleData = (address: string) => {
+const useVault = (address: string) => {
+  return useSelector((state: AppState) => state.setts.vaults[address])
+}
+
+export const useVaultData = (vaultAddress: string) => {
   const dispatch = useDispatch<AppDispatch>()
-  const whaleData = useWhales(address)
-  const sett = useSettByAddress(address)
+  const vault = useVault(vaultAddress)
   useEffect(() => {
     async function fetch() {
-      const { error, data } = await fetchWhales(address)
+      const { error, data } = await fetchVaultInfo(vaultAddress)
       if (!error) {
         dispatch(
-          updateWhaleData({
-            vault: address,
-            whales: data.map((w: any) => {
-              return {
-                ...w,
-                underlyingBalance: w.shareBalance / (sett?.ppfs || 1),
-              }
-            }),
+          updateVaultInfo({
+            vaultAddress,
+            vault: data,
           })
         )
       }
     }
-    if (!whaleData) {
+    if (!vault) {
       fetch()
     }
-  }, [address, whaleData, dispatch])
-  return whaleData
+  })
+  return vault
 }
 
 export const useSetts = () => {

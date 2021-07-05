@@ -1,4 +1,4 @@
-import { updateSettData, updateWhaleData } from './actions'
+import { updateSettData, updateVaultInfo } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 
 export interface SettInfo {
@@ -22,16 +22,39 @@ export interface WhaleInfo {
   shareBalance: number
   underlyingBalance: number
 }
+export interface StrategyInfo {
+  address: string
+  numHarvests: number
+  totalEarnings: number
+}
+export interface VaultTransfers {
+  address: string
+  transactionHash: string
+  amount: number
+  blockNumber: number
+}
+export interface HarvestInfo {
+  transactionHash: string
+  earnings: number
+  blockNumber: number
+}
+export interface VaultInfo {
+  whaleInfo: Array<WhaleInfo>
+  deposits: Array<VaultTransfers>
+  withdrawals: Array<VaultTransfers>
+  harvests: Array<HarvestInfo>
+  strategy: StrategyInfo
+}
 interface Setts {
   setts: Array<SettInfo>
-  whales: {
-    [vault: string]: Array<WhaleInfo>
+  vaults: {
+    [vault: string]: VaultInfo
   }
 }
 
 const initialState: Setts = {
   setts: [],
-  whales: {},
+  vaults: {},
 }
 
 export default createReducer(initialState, (builder) => {
@@ -39,7 +62,7 @@ export default createReducer(initialState, (builder) => {
     .addCase(updateSettData, (state, { payload: { setts } }) => {
       state.setts = setts
     })
-    .addCase(updateWhaleData, (state, { payload: { vault, whales } }) => {
-      state.whales[vault] = whales
+    .addCase(updateVaultInfo, (state, { payload: { vaultAddress, vault } }) => {
+      state.vaults[vaultAddress] = vault
     })
 })

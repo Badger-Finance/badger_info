@@ -1,5 +1,5 @@
 import React from 'react'
-import { useWhaleData } from 'state/setts/hooks'
+import { useWhales } from 'state/setts/hooks'
 import styled from 'styled-components'
 import { WhaleInfo } from 'state/setts/reducer'
 import { PageButtons, Arrow, Break } from 'components/shared'
@@ -50,7 +50,7 @@ const WhaleRow = (props: any) => {
   )
 }
 const Whales = (props: Props) => {
-  const whaleInfo = useWhaleData(props.vaultAddress)
+  const whaleInfo: any = []
   console.log(whaleInfo)
   return (
     <Wrapper>
@@ -64,7 +64,7 @@ const Whales = (props: Props) => {
         <Break />
       </>
       {whaleInfo &&
-        whaleInfo.map((w, i) => {
+        whaleInfo.map((w: any, i: any) => {
           return (
             <WhaleRow
               number={i}
