@@ -12,6 +12,7 @@ export async function fetchAccountData(address: string) {
       }
       return {
         assetName: b.name,
+        vaultAddress: b.id,
         value: b.value,
         balance: b.balance,
         multiplier: multiplier,

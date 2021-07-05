@@ -8,6 +8,13 @@ export interface SettInfo {
   ppfs: number
   minApr: number
   maxApr: number
+  sources: Array<RewardsSource>
+}
+export interface RewardsSource {
+  name: string
+  minApr: number
+  maxApr: number
+  boostable: boolean
 }
 interface Setts {
   setts: Array<SettInfo>

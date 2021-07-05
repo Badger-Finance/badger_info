@@ -9,6 +9,7 @@ export interface AccountData {
 }
 export interface Balance {
   assetName: string
+  vaultAddress: string
   value: number
   balance: number
   multiplier: number

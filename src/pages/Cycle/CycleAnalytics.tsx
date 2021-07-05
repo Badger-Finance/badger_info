@@ -12,7 +12,6 @@ import tokens from 'constants/tokens'
 import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
 import { formatBalanceAmount } from 'utils/numbers'
-import { Type } from 'react-feather'
 import { calcTimeBetweenBlocks } from 'utils/time'
 interface RouteParams {
   cycleNumber: string

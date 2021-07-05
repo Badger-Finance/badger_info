@@ -115,7 +115,7 @@ export default function App() {
               <Route exact strict path="/user/:address" component={User}></Route>
               <Route exact strict path="/asset/:asset" component={Asset}></Route>
               <Route exact strict path="/vault" component={Vaults}></Route>
-              <Route exact strict path="/vault/:vaultName" component={Vault} />
+              <Route exact strict path="/vault/:vaultAddress" component={Vault} />
             </Switch>
             <Marginer />
           </BodyWrapper>

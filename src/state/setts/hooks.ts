@@ -20,3 +20,10 @@ export const useUpdateSetts = () => {
 export const useSetts = () => {
   return useSelector((state: AppState) => state.setts.setts)
 }
+export const useSettByAddress = (address: string) => {
+  return useSelector((state: AppState) => {
+    return state.setts.setts.find((s: SettInfo) => {
+      return s.vaultToken == address
+    })
+  })
+}

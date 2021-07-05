@@ -13,6 +13,14 @@ export async function fetchSetts() {
           tvl: sett.value,
           minApr: sett.minApr || sett.apr,
           maxApr: sett.maxApr || sett.apr,
+          sources: sett.sources.map((s: any) => {
+            return {
+              name: s.name,
+              minApr: s.boostable ? s.minApr : s.apr,
+              maxApr: s.boostable ? s.maxApr : s.apr,
+              boostable: s.boostable,
+            }
+          }),
         }
       }),
     }

@@ -59,11 +59,12 @@ const PageWrapper = styled.div`
 
 const AddressLabel = styled(Label)`
   display: inline-block;
+  text-decoration: underline;
 `
 
 const ButtonWrapper = styled.div`
   width: 15%
-  min-width: 180px;
+  text-decoration: underline;
 `
 interface BoostData {
   address: string
