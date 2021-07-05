@@ -72,7 +72,7 @@ const LoadingRows = () => {
 const DataRow = (props: { index: number; balanceData: Balance }) => {
   const { index, balanceData } = props
   return (
-    <LinkWrapper to={''}>
+    <LinkWrapper to={`/vault/${balanceData.vaultAddress}`}>
       <ResponsiveGrid>
         <Label>{index + 1}</Label>
         <AddressLabel>{balanceData.assetName}</AddressLabel>

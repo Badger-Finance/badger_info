@@ -1,5 +1,6 @@
 import { BADGER_API_URL } from './../urls'
-
+import gql from 'graphql-tag'
+import { settsClient } from 'apollo/client'
 export async function fetchSetts() {
   try {
     const result = await fetch(`${BADGER_API_URL}/setts`)
@@ -11,6 +12,7 @@ export async function fetchSetts() {
           name: sett.name,
           vaultToken: sett.vaultToken,
           tvl: sett.value,
+          ppfs: sett.ppfs,
           minApr: sett.minApr || sett.apr,
           maxApr: sett.maxApr || sett.apr,
           sources: sett.sources.map((s: any) => {
@@ -29,6 +31,42 @@ export async function fetchSetts() {
     return {
       error: true,
       data: [],
+    }
+  }
+}
+
+export async function fetchWhales(vaultAddress: string) {
+  const FETCH_WHALES = gql`
+    query($vaultAddr: AccountVaultBalance_filter) {
+      accountVaultBalances(first: 10, where: $vaultAddr, orderBy: shareBalance, orderDirection: desc) {
+        account {
+          id
+        }
+        shareBalance
+        netDeposits
+      }
+    }
+  `
+  try {
+    const { data, errors, loading } = await settsClient.query({
+      query: FETCH_WHALES,
+      variables: {
+        vaultAddr: {
+          vault: vaultAddress.toLowerCase(),
+        },
+      },
+    })
+    console.log(data)
+    console.log(errors)
+    return {
+      data,
+      error: false,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      data: {},
+      error: true,
     }
   }
 }

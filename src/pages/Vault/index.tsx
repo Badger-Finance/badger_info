@@ -5,29 +5,50 @@ import { useSettByAddress } from 'state/setts/hooks'
 import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
-
+import { formatDollarAmount } from 'utils/numbers'
+import Whales from 'components/Whales'
 interface RouteParams {
   vaultAddress: string
 }
 const PageWrapper = styled.div`
-  width: 60%;
+  width: 75%;
 `
 const CardRow = styled.div`
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 1000px) {
+    flex-wrap: wrap;
+  }
+  justify-content: space-betweeen;
 `
-// TVL, Apy, PPfs, harvests/deposits/withdrawals, whales, num users, current strategy/amount of rewards pending
+
+const AprWrapper = styled.div``
+
+// TVL, PPfs, harvests/deposits/withdrawals, whales, num users, current strategy/amount of rewards pending
 const Vault = () => {
   const { vaultAddress } = useParams<RouteParams>()
   const sett = useSettByAddress(vaultAddress)
+  const total = sett?.sources.reduce(
+    (acc: any, curr: any) => {
+      if (!curr.boostable) {
+        acc[0] += curr.minApr
+        acc[1] += curr.minApr
+      } else {
+        acc[0] += curr.minApr
+        acc[1] += curr.maxApr
+      }
+      return acc
+    },
+    [0, 0]
+  )
   return (
     <PageWrapper>
       <AutoColumn gap="20px">
         <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
         <CardRow>
-          <DarkGreyCard style={{ margin: '5px', width: '300px' }}>
+          <DarkGreyCard style={{ margin: '5px', minWidth: '200px' }}>
             <AutoColumn gap="15px">
-              <TYPE.mediumHeader>Rewards Breakdown</TYPE.mediumHeader>
+              <TYPE.mediumHeader>APR Breakdown</TYPE.mediumHeader>
               {sett &&
                 sett?.sources.map((s) => {
                   return (
@@ -39,10 +60,35 @@ const Vault = () => {
                     </AutoColumn>
                   )
                 })}
+              {sett && (
+                <AutoColumn gap="5px">
+                  <TYPE.main>Total</TYPE.main>
+                  <TYPE.label>
+                    {total[0] != total[1]
+                      ? `${total[0].toFixed(2)}% - ${total[1].toFixed(2)}%`
+                      : `${total[0].toFixed(2)}%`}
+                  </TYPE.label>
+                </AutoColumn>
+              )}
             </AutoColumn>
           </DarkGreyCard>
-          <DarkGreyCard style={{ width: '30%', margin: '5px' }}></DarkGreyCard>
-          <DarkGreyCard style={{ width: '30%', margin: '5px' }}></DarkGreyCard>
+          <DarkGreyCard style={{ minWidth: '150px', margin: '5px' }}>
+            <AutoColumn gap="15px">
+              <TYPE.mediumHeader>Vault Stats</TYPE.mediumHeader>
+              <AutoColumn gap="5px">
+                <TYPE.main>TVL</TYPE.main>
+                <TYPE.label>{formatDollarAmount(sett?.tvl)}</TYPE.label>
+              </AutoColumn>
+              <AutoColumn gap="5px">
+                <TYPE.main>Price Per Full Share</TYPE.main>
+                <TYPE.label>{sett && sett?.ppfs.toFixed(3)}</TYPE.label>
+              </AutoColumn>
+            </AutoColumn>
+          </DarkGreyCard>
+          <DarkGreyCard style={{ margin: '5px' }}>
+            <TYPE.mediumHeader>Whales</TYPE.mediumHeader>
+            <Whales vaultAddress={vaultAddress} />
+          </DarkGreyCard>
         </CardRow>
       </AutoColumn>
     </PageWrapper>

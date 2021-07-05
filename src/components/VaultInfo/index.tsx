@@ -39,7 +39,9 @@ const VaultInfo = (props: VaultInfoProps) => {
           <AutoColumn gap="4px">
             <TYPE.main fontWeight={400}>APR</TYPE.main>
             <TYPE.label fontSize="20px">
-              {props.minApr.toFixed(2)}% - {props.maxApr.toFixed(2)}%
+              {props.minApr !== props.maxApr
+                ? `${props.minApr.toFixed(2)}% - ${props.maxApr.toFixed(2)}%`
+                : `${props.minApr.toFixed(2)}%`}
             </TYPE.label>
           </AutoColumn>
         </AutoColumn>

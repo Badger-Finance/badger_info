@@ -8,7 +8,7 @@ import { AutoRow } from 'components/Row'
 import { useSetts } from 'state/setts/hooks'
 import { SettInfo } from 'state/setts/reducer'
 const PageWrapper = styled.div`
-  width: 70%;
+  width: 80%;
 `
 const VaultInfoWrapper = styled.div`
   display: flex;
