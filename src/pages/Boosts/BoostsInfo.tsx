@@ -118,8 +118,8 @@ const BoostsInfo = () => {
         b.address,
         String(b.stakeRatio),
         String(b.boost),
-        b.nativeBalance == null ? '0' : String(b.nativeBalance),
         String(b.nonNativeBalance),
+        b.nativeBalance == null ? '0' : String(b.nativeBalance),
       ])
     })
     return data
