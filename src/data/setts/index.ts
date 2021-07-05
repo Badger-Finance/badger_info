@@ -38,12 +38,11 @@ export async function fetchSetts() {
 export async function fetchWhales(vaultAddress: string) {
   const FETCH_WHALES = gql`
     query($vaultAddr: AccountVaultBalance_filter) {
-      accountVaultBalances(first: 10, where: $vaultAddr, orderBy: shareBalance, orderDirection: desc) {
+      accountVaultBalances(first: 6, where: $vaultAddr, orderBy: shareBalance, orderDirection: desc) {
         account {
           id
         }
         shareBalance
-        netDeposits
       }
     }
   `
@@ -56,10 +55,13 @@ export async function fetchWhales(vaultAddress: string) {
         },
       },
     })
-    console.log(data)
-    console.log(errors)
     return {
-      data,
+      data: data.accountVaultBalances.map((avb: any) => {
+        return {
+          address: avb.account.id,
+          shareBalance: avb.shareBalance,
+        }
+      }),
       error: false,
     }
   } catch (error) {

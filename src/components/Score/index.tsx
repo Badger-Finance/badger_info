@@ -38,7 +38,6 @@ const DataRow = (props: any) => {
 
 const ScoreTable = (props: { address: string }) => {
   const scoreData = useScoreData(props.address)
-  console.log(scoreData)
   const theme = useTheme()
   return (
     <TableWrapper>

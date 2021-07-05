@@ -85,11 +85,11 @@ const Vault = () => {
               </AutoColumn>
             </AutoColumn>
           </DarkGreyCard>
-          <DarkGreyCard style={{ margin: '5px' }}>
-            <TYPE.mediumHeader>Whales</TYPE.mediumHeader>
-            <Whales vaultAddress={vaultAddress} />
-          </DarkGreyCard>
         </CardRow>
+        <DarkGreyCard style={{ margin: '5px' }}>
+          <TYPE.mediumHeader>Whales</TYPE.mediumHeader>
+          <Whales vaultAddress={vaultAddress} />
+        </DarkGreyCard>
       </AutoColumn>
     </PageWrapper>
   )
