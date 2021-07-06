@@ -37,12 +37,12 @@ const TableRow = (props: TableRowProps) => {
   return (
     <LinkWrapper to={props.linkAddress || ''}>
       <Row>
-        {props.labels.map((l) => {
+        {props.labels.map((l, index) => {
           if (l.externalLink) {
             return <div></div>
           } else {
             return (
-              <TYPE.label key={l.label} style={{ width: l.width, textAlign: 'center' }}>
+              <TYPE.label key={index} style={{ width: l.width, textAlign: 'center' }}>
                 {l.label}
               </TYPE.label>
             )
