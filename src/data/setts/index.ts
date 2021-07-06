@@ -109,14 +109,18 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
         vaultAddr: vaultAddress.toLowerCase(),
       },
     })
+    let ppfs = data.vault.pricePerFullShare
+    if (ppfs < 1) {
+      ppfs *= 1e10
+    }
     const decimals = data.vault.shareToken.decimals
     const strategy: StrategyInfo = {
       address: data.vault.currentStrategy?.id || 'undefined',
       numHarvests: Number(data.vault.totalHarvestCalls) || 0,
       totalEarnings: Number(data.vault.totalEarnings) || 0,
     }
-    const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals, sharePrice))
-    const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals, sharePrice))
+    const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals, sharePrice, ppfs))
+    const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals, sharePrice, ppfs))
 
     const harvests: Array<HarvestInfo> = data.vault.harvests.map((h: any) => {
       return {
@@ -132,7 +136,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
       return {
         address: b.account.id,
         shareBalance: Number(b.shareBalance),
-        value: Number(b.shareBalance) * sharePrice,
+        value: (Number(b.shareBalance) * sharePrice) / ppfs,
       }
     })
     const vaultInfo: VaultInfo = {
@@ -151,13 +155,13 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
     throw Error(error)
   }
 }
-function mapTransfers(decimals: number, sharePrice: number) {
+function mapTransfers(decimals: number, sharePrice: number, ppfs: number) {
   return (action: any) => {
     return {
       address: action.account.id,
       transactionHash: action.id.split('-')[1],
       amount: action.amount / Math.pow(10, decimals),
-      value: (action.amount / Math.pow(10, decimals)) * sharePrice,
+      value: ((action.amount / Math.pow(10, decimals)) * sharePrice) / ppfs,
     }
   }
 }
