@@ -67,7 +67,6 @@ export async function fetchVaultInfo(vaultAddress: string) {
           transaction {
             blockNumber
           }
-          pricePerFullShare
         }
         withdrawals(first: 10, orderBy: pricePerFullShare, orderDirection: desc) {
           amount
@@ -113,10 +112,13 @@ export async function fetchVaultInfo(vaultAddress: string) {
       }
     })
     const whaleInfo: Array<WhaleInfo> = data.vault.balances.map((b: any) => {
+      if (data.vault.pricePerFullShare < 1) {
+        data.vault.pricePerFullShare *= 1e10
+      }
       return {
         address: b.account.id,
         shareBalance: Number(b.shareBalance),
-        underlyingBalance: Number(b.shareBalance / data.vault.pricePerFullShare),
+        underlyingBalance: Number(b.shareBalance) / data.vault.pricePerFullShare,
       }
     })
     const vaultInfo: VaultInfo = {
