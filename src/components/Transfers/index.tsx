@@ -11,7 +11,8 @@ interface TransfersProps {
 const Transfers = (props: TransfersProps) => {
   const tableData = props.transfers?.map((w: VaultTransfers, index: number) => {
     return {
-      linkAddress: '/user/' + w.address,
+      linkAddress: 'https://etherscan.com/tx/' + w.transactionHash,
+      external: true,
       labels: [
         {
           label: index + 1,
@@ -39,7 +40,7 @@ const Transfers = (props: TransfersProps) => {
     },
     address: {
       label: 'Address',
-      width: '70%',
+      width: '60%',
     },
     amount: {
       label: 'Amount',

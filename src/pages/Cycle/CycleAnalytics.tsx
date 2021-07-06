@@ -37,7 +37,7 @@ const CenteredHeader = styled.div`
   text-align: center;
 `
 const SmallButton = styled.div`
-  width: 60px;
+  width: 100px;
   whitespace: normal;
 `
 

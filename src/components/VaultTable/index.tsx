@@ -17,10 +17,6 @@ const Row = styled.div`
 
 const Wrapper = styled.div``
 
-const AddressLabel = styled(Label)`
-  display: inline-block;
-  text-decoration: underline;
-`
 const LinkWrapper = styled(Link)`
   text-decoration: none;
   :hover {
@@ -28,29 +24,39 @@ const LinkWrapper = styled(Link)`
     opacity: 0.7;
   }
 `
+const MyLink = (props: any) => {
+  console.log(props)
+  if (props.external) {
+    return (
+      <a style={{ textDecoration: 'none' }} href={props.link}>
+        {props.children}
+      </a>
+    )
+  } else {
+    return <LinkWrapper to={props.link}>{props.children}</LinkWrapper>
+  }
+}
+
 interface TableRowProps {
-  linkAddress?: string
+  linkAddress: any
+  external: boolean
   labels: Array<{ label: string; width: string; externalLink?: string }>
   index: number
 }
 const TableRow = (props: TableRowProps) => {
   return (
-    <LinkWrapper to={props.linkAddress || ''}>
+    <MyLink external={props.external} link={props.linkAddress}>
       <Row>
         {props.labels.map((l, index) => {
-          if (l.externalLink) {
-            return <div></div>
-          } else {
-            return (
-              <TYPE.label key={index} style={{ width: l.width, textAlign: 'center' }}>
-                {l.label}
-              </TYPE.label>
-            )
-          }
+          return (
+            <TYPE.label key={index} style={{ width: l.width, textAlign: 'center' }}>
+              {l.label}
+            </TYPE.label>
+          )
         })}
       </Row>
       <Break />
-    </LinkWrapper>
+    </MyLink>
   )
 }
 
