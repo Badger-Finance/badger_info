@@ -25,7 +25,6 @@ const LinkWrapper = styled(Link)`
   }
 `
 const MyLink = (props: any) => {
-  console.log(props)
   if (props.external) {
     return (
       <a style={{ textDecoration: 'none' }} href={props.link}>

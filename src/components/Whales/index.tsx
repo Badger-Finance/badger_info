@@ -1,7 +1,7 @@
 import React from 'react'
 import { useWhales } from 'state/setts/hooks'
 import { WhaleInfo } from 'state/setts/reducer'
-import { formatBalanceAmount } from 'utils/numbers'
+import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
 
 interface Props {
@@ -27,7 +27,7 @@ const Whales = (props: Props) => {
           width: '30%',
         },
         {
-          label: formatBalanceAmount(w.underlyingBalance),
+          label: formatDollarAmount(w.value),
           width: '30%',
         },
       ],
@@ -47,7 +47,7 @@ const Whales = (props: Props) => {
       width: '30%',
     },
     underlyingBalance: {
-      label: 'Underlying Balance',
+      label: 'Value',
       width: '30%',
     },
   }

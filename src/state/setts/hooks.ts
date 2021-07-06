@@ -1,9 +1,9 @@
-import { updateSettData, updateVaultInfo } from './actions'
+import { updatePrices, updateSettData, updateVaultInfo } from './actions'
 import { AppState, AppDispatch } from './../index'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SettInfo, WhaleInfo } from './reducer'
-import { fetchVaultInfo } from 'data/setts'
+import { SettInfo, Prices } from './reducer'
+import { fetchVaultInfo, fetchPrices } from 'data/setts'
 import { useState, useEffect } from 'react'
 
 export const useUpdateSetts = () => {
@@ -34,12 +34,50 @@ const useVault = (address: string) => {
   return useSelector((state: AppState) => state.setts.vaults[address])
 }
 
+export const useUpdatePrices = () => {
+  const dispatch = useDispatch<AppDispatch>()
+  return useCallback(
+    (prices: Prices) => {
+      dispatch(
+        updatePrices({
+          prices,
+        })
+      )
+    },
+    [dispatch]
+  )
+}
+const usePriceData = (address: string) => {
+  const updatePrices = useUpdatePrices()
+  const price = usePrice(address)
+  useEffect(() => {
+    async function fetch() {
+      const { error, data } = await fetchPrices()
+      if (!error) {
+        updatePrices(data)
+      }
+    }
+    if (!price) {
+      fetch()
+    }
+  }, [address])
+
+  return price
+}
+const usePrice = (address: string) => {
+  return useSelector((state: AppState) => state.setts.prices[address])
+}
+export const usePrices = () => {
+  return useSelector((state: AppState) => state.setts.prices)
+}
+
 export const useVaultData = (vaultAddress: string) => {
   const dispatch = useDispatch<AppDispatch>()
   const vault = useVault(vaultAddress)
+  const price = usePriceData(vaultAddress)
   useEffect(() => {
     async function fetch() {
-      const { error, data } = await fetchVaultInfo(vaultAddress)
+      const { error, data } = await fetchVaultInfo(vaultAddress, price)
       if (!error) {
         dispatch(
           updateVaultInfo({

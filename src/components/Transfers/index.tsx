@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDeposits, useWithdrawals } from 'state/setts/hooks'
 import { VaultTransfers } from 'state/setts/reducer'
-import { formatBalanceAmount } from 'utils/numbers'
+import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
 
 interface TransfersProps {
@@ -27,7 +27,7 @@ const Transfers = (props: TransfersProps) => {
           width: '30%',
         },
         {
-          label: w.blockNumber,
+          label: formatDollarAmount(w.value),
           width: '30%',
         },
       ],
@@ -40,14 +40,14 @@ const Transfers = (props: TransfersProps) => {
     },
     address: {
       label: 'Address',
-      width: '60%',
+      width: '70%',
     },
     amount: {
       label: 'Amount',
       width: '30%',
     },
-    blockNumber: {
-      label: 'Block Number',
+    value: {
+      label: 'Value',
       width: '30%',
     },
   }

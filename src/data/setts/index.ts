@@ -36,8 +36,22 @@ export async function fetchSetts() {
     }
   }
 }
-
-export async function fetchVaultInfo(vaultAddress: string) {
+export async function fetchPrices() {
+  try {
+    const result = await fetch(`${BADGER_API_URL}/prices`)
+    const json = await result.json()
+    return {
+      data: json,
+      error: false,
+    }
+  } catch (error) {
+    return {
+      data: {},
+      error: true,
+    }
+  }
+}
+export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
   const FETCH_VAULT_INFO = gql`
     query($vaultAddr: ID) {
       vault(id: $vaultAddr) {
@@ -101,8 +115,8 @@ export async function fetchVaultInfo(vaultAddress: string) {
       numHarvests: Number(data.vault.totalHarvestCalls) || 0,
       totalEarnings: Number(data.vault.totalEarnings) || 0,
     }
-    const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals))
-    const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals))
+    const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals, sharePrice))
+    const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals, sharePrice))
 
     const harvests: Array<HarvestInfo> = data.vault.harvests.map((h: any) => {
       return {
@@ -118,7 +132,7 @@ export async function fetchVaultInfo(vaultAddress: string) {
       return {
         address: b.account.id,
         shareBalance: Number(b.shareBalance),
-        underlyingBalance: Number(b.shareBalance) / data.vault.pricePerFullShare,
+        value: Number(b.shareBalance) * sharePrice,
       }
     })
     const vaultInfo: VaultInfo = {
@@ -137,13 +151,13 @@ export async function fetchVaultInfo(vaultAddress: string) {
     throw Error(error)
   }
 }
-function mapTransfers(decimals: number) {
+function mapTransfers(decimals: number, sharePrice: number) {
   return (action: any) => {
     return {
       address: action.account.id,
       transactionHash: action.id.split('-')[1],
       amount: action.amount / Math.pow(10, decimals),
-      blockNumber: action.transaction.blockNumber,
+      value: (action.amount / Math.pow(10, decimals)) * sharePrice,
     }
   }
 }
