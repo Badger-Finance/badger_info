@@ -23,6 +23,13 @@ export const useWhales = (address: string) => {
   return useSelector((state: AppState) => state.setts.vaults[address]?.whaleInfo)
 }
 
+export const useDeposits = (address: string) => {
+  return useSelector((state: AppState) => state.setts.vaults[address]?.deposits)
+}
+export const useWithdrawals = (address: string) => {
+  return useSelector((state: AppState) => state.setts.vaults[address]?.withdrawals)
+}
+
 const useVault = (address: string) => {
   return useSelector((state: AppState) => state.setts.vaults[address])
 }

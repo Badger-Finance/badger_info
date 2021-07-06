@@ -10,9 +10,7 @@ interface Props {
 
 const Whales = (props: Props) => {
   const whaleInfo = useWhales(props.vaultAddress)
-  console.log(whaleInfo)
   const tableData = whaleInfo?.map((w: WhaleInfo, index: number) => {
-    console.log(w)
     return {
       linkAddress: '/user/' + w.address,
       labels: [

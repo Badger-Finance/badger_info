@@ -102,7 +102,6 @@ export async function fetchVaultInfo(vaultAddress: string) {
       numHarvests: Number(data.vault.totalHarvestCalls) || 0,
       totalEarnings: Number(data.vault.totalEarnings) || 0,
     }
-
     const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals))
     const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals))
 
@@ -141,7 +140,7 @@ function mapTransfers(decimals: number) {
     return {
       address: action.account.id,
       transactionHash: action.id.split('-')[1],
-      amount: action.amount / decimals,
+      amount: action.amount / Math.pow(10, decimals),
       blockNumber: action.transaction.blockNumber,
     }
   }

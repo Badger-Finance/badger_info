@@ -29,20 +29,24 @@ const LinkWrapper = styled(Link)`
   }
 `
 interface TableRowProps {
-  linkAddress: string
-  labels: Array<{ label: string; width: string }>
+  linkAddress?: string
+  labels: Array<{ label: string; width: string; externalLink?: string }>
   index: number
 }
 const TableRow = (props: TableRowProps) => {
   return (
-    <LinkWrapper to={props.linkAddress}>
+    <LinkWrapper to={props.linkAddress || ''}>
       <Row>
         {props.labels.map((l) => {
-          return (
-            <TYPE.label key={l.label} style={{ width: l.width }}>
-              {l.label}
-            </TYPE.label>
-          )
+          if (l.externalLink) {
+            return <div></div>
+          } else {
+            return (
+              <TYPE.label key={l.label} style={{ width: l.width, textAlign: 'center' }}>
+                {l.label}
+              </TYPE.label>
+            )
+          }
         })}
       </Row>
       <Break />
@@ -60,7 +64,7 @@ const VaultTable = (props: VaultTableProps) => {
       <Row>
         {props.headers.map((h) => {
           return (
-            <TYPE.label key={h.label} style={{ width: h.width, color: 'grey' }}>
+            <TYPE.label key={h.label} style={{ width: h.width, color: 'grey', textAlign: 'center' }}>
               {h.label}
             </TYPE.label>
           )
