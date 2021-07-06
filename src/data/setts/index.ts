@@ -2,6 +2,7 @@ import { StrategyInfo, VaultTransfers, HarvestInfo, WhaleInfo, VaultInfo } from 
 import { BADGER_API_URL } from './../urls'
 import gql from 'graphql-tag'
 import { settsClient } from 'apollo/client'
+import { formatBalanceAmount } from 'utils/numbers'
 export async function fetchSetts() {
   try {
     const result = await fetch(`${BADGER_API_URL}/setts`)
@@ -97,9 +98,9 @@ export async function fetchVaultInfo(vaultAddress: string) {
     })
     const decimals = data.vault.shareToken.decimals
     const strategy: StrategyInfo = {
-      address: data.vault.currentStrategy.id,
-      numHarvests: Number(data.vault.totalHarvestCalls),
-      totalEarnings: Number(data.vault.totalEarnings),
+      address: data.vault.currentStrategy?.id || 'undefined',
+      numHarvests: Number(data.vault.totalHarvestCalls) || 0,
+      totalEarnings: Number(data.vault.totalEarnings) || 0,
     }
 
     const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals))
@@ -115,8 +116,8 @@ export async function fetchVaultInfo(vaultAddress: string) {
     const whaleInfo: Array<WhaleInfo> = data.vault.balances.map((b: any) => {
       return {
         address: b.account.id,
-        shareBalance: b.shareBalance,
-        underlyingBalance: b.shareBalance / data.vault.pricePerFullShare,
+        shareBalance: Number(b.shareBalance),
+        underlyingBalance: Number(b.shareBalance / data.vault.pricePerFullShare),
       }
     })
     const vaultInfo: VaultInfo = {
@@ -131,6 +132,7 @@ export async function fetchVaultInfo(vaultAddress: string) {
       error: false,
     }
   } catch (error) {
+    console.log(error)
     throw Error(error)
   }
 }

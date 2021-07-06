@@ -86,7 +86,7 @@ const Vault = () => {
               </AutoColumn>
             </AutoColumn>
           </DarkGreyCard>
-          <DarkGreyCard>
+          <DarkGreyCard style={{ margin: '5px' }}>
             <AutoColumn gap="15px">
               <TYPE.mediumHeader>Strategy Info</TYPE.mediumHeader>
               <AutoColumn gap="5px">

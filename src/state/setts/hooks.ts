@@ -20,7 +20,7 @@ export const useUpdateSetts = () => {
 }
 
 export const useWhales = (address: string) => {
-  return useSelector((state: AppState) => state.setts.vaults[address].whaleInfo)
+  return useSelector((state: AppState) => state.setts.vaults[address]?.whaleInfo)
 }
 
 const useVault = (address: string) => {
