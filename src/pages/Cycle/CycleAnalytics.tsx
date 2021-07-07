@@ -12,7 +12,7 @@ import tokens from 'constants/tokens'
 import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
 import { formatBalanceAmount } from 'utils/numbers'
-import { calcTimeBetweenBlocks } from 'utils/time'
+import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
 interface RouteParams {
   cycleNumber: string
 }
@@ -53,6 +53,9 @@ const CycleAnalytics = () => {
   const cycleNumber = Number(useParams<RouteParams>().cycleNumber)
   const [selected, setSelected] = useState('Badger')
   const [timeBetweenBlocks, setTimeBetweenBlocks] = useState('0')
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+
   const cycleData = useCycleData(cycleNumber)
   const totalRewards = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
@@ -65,7 +68,15 @@ const CycleAnalytics = () => {
   useEffect(() => {
     async function fetch() {
       const { error, data } = await calcTimeBetweenBlocks(cycleData.startBlock, cycleData.endBlock)
-      setTimeBetweenBlocks(data)
+      if (data.diff) {
+        setTimeBetweenBlocks(data?.diff)
+      }
+      if (data.startDate) {
+        setStartDate(data.startDate)
+      }
+      if (data.endDate) {
+        setEndDate(data.endDate)
+      }
     }
     if (cycleData) {
       fetch()
@@ -94,8 +105,11 @@ const CycleAnalytics = () => {
             <AutoColumn gap="10px">
               <TYPE.main>Start Block</TYPE.main>
               <TYPE.label>{cycleData && cycleData.startBlock}</TYPE.label>
+              <TYPE.small>{dateToString(startDate)}</TYPE.small>
               <TYPE.main>End Block</TYPE.main>
               <TYPE.label>{cycleData && cycleData.endBlock}</TYPE.label>
+              <TYPE.small>{dateToString(endDate)}</TYPE.small>
+
               <TYPE.main>Cycle Length</TYPE.main>
               <TYPE.label>{cycleData && timeBetweenBlocks}</TYPE.label>
             </AutoColumn>
