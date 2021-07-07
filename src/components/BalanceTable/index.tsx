@@ -62,7 +62,7 @@ const LoaderWrapper = styled.div`
   margin: 0;
 `
 
-const LoadingRows = () => {
+export const LoadingRows = () => {
   return (
     <LoaderWrapper>
       <LocalLoader fill={false} />
