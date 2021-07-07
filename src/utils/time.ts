@@ -27,7 +27,7 @@ export async function calcTimeBetweenBlocks(startBlock: number, endBlock: number
   }
 }
 export function dateToString(date: Date) {
-  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getMinutes()}`
+  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
   const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
   return `${dateString} ${time}`
 }

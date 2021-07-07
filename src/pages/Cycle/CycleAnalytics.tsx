@@ -105,10 +105,10 @@ const CycleAnalytics = () => {
             <AutoColumn gap="10px">
               <TYPE.main>Start Block</TYPE.main>
               <TYPE.label>{cycleData && cycleData.startBlock}</TYPE.label>
-              <TYPE.small>{dateToString(startDate)}</TYPE.small>
+              <TYPE.small>{startDate.toUTCString()}</TYPE.small>
               <TYPE.main>End Block</TYPE.main>
               <TYPE.label>{cycleData && cycleData.endBlock}</TYPE.label>
-              <TYPE.small>{dateToString(endDate)}</TYPE.small>
+              <TYPE.small>{endDate.toUTCString()}</TYPE.small>
 
               <TYPE.main>Cycle Length</TYPE.main>
               <TYPE.label>{cycleData && timeBetweenBlocks}</TYPE.label>
