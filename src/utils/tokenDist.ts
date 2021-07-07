@@ -17,6 +17,9 @@ export function sumTokenDist(totalTokenDist: TokenDist) {
         if (!(ta[0] in total)) {
           total[ta[0]] = 0
         }
+        if (ta[1] > 1e18) {
+          ta[1] /= 1e18
+        }
         total[ta[0]] += Number(ta[1])
       })
     })
@@ -36,7 +39,10 @@ export function tokenDistToChart(totalTokenDist: TokenDist) {
       const dist = td[1]
       Object.entries(dist).forEach((ta) => {
         const token = ta[0]
-        const amount = ta[1]
+        let amount = ta[1]
+        if (amount > 1e18) {
+          amount /= 1e18
+        }
         if (!(tokens[token] in chartData)) {
           chartData[tokens[token]] = []
         }
