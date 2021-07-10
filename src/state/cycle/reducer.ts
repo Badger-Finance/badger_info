@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { addCyclePage, addCycle } from './actions'
+import { addCyclePage, addCycle, addCycleError } from './actions'
 export interface CycleData {
   cycle: number
   merkleRoot: string
@@ -21,10 +21,14 @@ interface CycleState {
   cycles: {
     [cycleNumber: number]: CycleData
   }
+  errors: {
+    [cycleNumber: number]: boolean
+  }
 }
 export const initalState: CycleState = {
   cyclePages: {},
   cycles: {},
+  errors: {},
 }
 export default createReducer(initalState, (builder) => {
   builder
@@ -36,5 +40,8 @@ export default createReducer(initalState, (builder) => {
     })
     .addCase(addCycle, (state, { payload: { cycle } }) => {
       state.cycles[cycle.cycle] = cycle
+    })
+    .addCase(addCycleError, (state, { payload: { cycleNumber, errorStatus, error } }) => {
+      state.errors[cycleNumber] = errorStatus
     })
 })

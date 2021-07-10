@@ -151,8 +151,20 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
       error: false,
     }
   } catch (error) {
-    console.log(error)
-    throw Error(error)
+    return {
+      data: {
+        strategy: {
+          address: 'Vault not found',
+          numHarvests: 0,
+          totalEarnings: 0,
+        },
+        deposits: [],
+        withdrawals: [],
+        whaleInfo: [],
+        harvests: [],
+      },
+      error: true,
+    }
   }
 }
 function mapTransfers(decimals: number, sharePrice: number, ppfs: number) {

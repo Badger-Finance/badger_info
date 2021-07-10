@@ -1,4 +1,4 @@
-import { addCyclePage, addCycle } from './actions'
+import { addCyclePage, addCycle, addCycleError } from './actions'
 import { CycleData } from './reducer'
 import { AppState, AppDispatch } from '../index'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,6 +33,9 @@ export function useCyclePages() {
 export function useCycle(cycleNumber: number) {
   return useSelector((state: AppState) => state.cycle.cycles[cycleNumber])
 }
+export function useCycleError(cycleNumber: number) {
+  return useSelector((state: AppState) => state.cycle.errors[cycleNumber])
+}
 
 export function useCycleData(cycleNumber: number) {
   const dispatch = useDispatch<AppDispatch>()
@@ -40,8 +43,14 @@ export function useCycleData(cycleNumber: number) {
   useEffect(() => {
     async function fetch() {
       const { error, data } = await fetchCycle(cycleNumber)
+      dispatch(
+        addCycleError({
+          cycleNumber,
+          errorStatus: !data.success,
+        })
+      )
       if (!error) {
-        dispatch(addCycle({ cycle: data }))
+        dispatch(addCycle({ cycle: data.data }))
       }
     }
     if (!cycle) {
@@ -58,7 +67,7 @@ export function useCyclePageData(pageNumber: number) {
     async function fetch() {
       const { error, data } = await fetchCycles(pageNumber)
       if (!error) {
-        dispatch(addCyclePage({ cycles: data, page: pageNumber }))
+        dispatch(addCyclePage({ cycles: data.data, page: pageNumber }))
       }
     }
     if (!page) {

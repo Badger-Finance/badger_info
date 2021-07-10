@@ -4,7 +4,8 @@ export async function fetchBoosts() {
   const boostArray: Array<BoostData> = []
   try {
     const result = await fetch(`${ANALYTICS_API_URL}/boosts`)
-    const json = await result.json()
+    let json = await result.json()
+    json = json.data
     for (const item of Object.entries(json['boosts']['userData'])) {
       const address = item[0]
       const data: any = item[1]
