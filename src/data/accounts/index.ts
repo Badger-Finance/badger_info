@@ -5,6 +5,11 @@ export async function fetchAccountData(address: string) {
   try {
     const result = await fetch(url)
     const json = await result.json()
+    if (json?.status == 500) {
+      return {
+        error: true,
+      }
+    }
     const balances = json.balances.map((b: any) => {
       let multiplier = json.multipliers[b.id]
       if (!multiplier) {

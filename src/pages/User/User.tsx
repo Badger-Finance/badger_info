@@ -55,6 +55,7 @@ const EtherscanLink = styled.a`
 const User = () => {
   const { address } = useParams<RouteParams>()
   const updateAccountData = useUpdateAccountData(address)
+  const [accountError, setAccountError] = useState(false)
   const accountData = useAccountData(address)
   const prices = usePrices()
   const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
@@ -64,71 +65,79 @@ const User = () => {
         const { error, data } = await fetchAccountData(address)
         if (!error && data) {
           updateAccountData(data)
+        } else {
+          setAccountError(error)
         }
       }
     }
     fetch()
   }, [address])
   return (
-    <PageWrapper>
-      <AutoColumn gap="10px">
-        <TYPE.largeHeader>
-          <TitleWrapper>
-            {'User Analytics for '}
-            <EtherscanLink href={`https://etherscan.io/address/${address}`} target="_blank">
-              {address}
-            </EtherscanLink>
-          </TitleWrapper>
-        </TYPE.largeHeader>
-        <ContentLayout>
-          <DataWrapper>
-            <BoostWrapper>
-              <DarkGreyCard style={{ height: '100%' }}>
-                <AutoColumn gap="5px">
-                  <TYPE.mediumHeader>Boost Info</TYPE.mediumHeader>
-                  <AutoColumn gap="10px">
+    <>
+      {accountError == true ? (
+        <div> No account data for {address}</div>
+      ) : (
+        <PageWrapper>
+          <AutoColumn gap="10px">
+            <TYPE.largeHeader>
+              <TitleWrapper>
+                {'User Analytics for '}
+                <EtherscanLink href={`https://etherscan.io/address/${address}`} target="_blank">
+                  {address}
+                </EtherscanLink>
+              </TitleWrapper>
+            </TYPE.largeHeader>
+            <ContentLayout>
+              <DataWrapper>
+                <BoostWrapper>
+                  <DarkGreyCard style={{ height: '100%' }}>
                     <AutoColumn gap="5px">
-                      <TYPE.main>Boost</TYPE.main>
-                      <TYPE.label fontSize="20px">{boost.toFixed(4)}</TYPE.label>
+                      <TYPE.mediumHeader>Boost Info</TYPE.mediumHeader>
+                      <AutoColumn gap="10px">
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Boost</TYPE.main>
+                          <TYPE.label fontSize="20px">{boost.toFixed(4)}</TYPE.label>
+                        </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Boost Rank</TYPE.main>
+                          <TYPE.label fontSize="20px">{boostRank}</TYPE.label>
+                        </AutoColumn>
+                      </AutoColumn>
                     </AutoColumn>
+                  </DarkGreyCard>
+                </BoostWrapper>
+                <AssetWrapper>
+                  <DarkGreyCard style={{ height: '100%' }}>
                     <AutoColumn gap="5px">
-                      <TYPE.main>Boost Rank</TYPE.main>
-                      <TYPE.label fontSize="20px">{boostRank}</TYPE.label>
+                      <TYPE.mediumHeader>Total Assets</TYPE.mediumHeader>
+                      <AutoColumn gap="10px">
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Assets in $</TYPE.main>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(netWorth)}</TYPE.label>
+                        </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Assets in ₿</TYPE.main>
+                          <TYPE.label fontSize="20px">{(netWorth / prices.btc).toFixed(3)}</TYPE.label>
+                        </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Assets in Ξ</TYPE.main>
+                          <TYPE.label fontSize="20px">{(netWorth / prices.eth).toFixed(3)}</TYPE.label>
+                        </AutoColumn>
+                      </AutoColumn>
                     </AutoColumn>
-                  </AutoColumn>
-                </AutoColumn>
-              </DarkGreyCard>
-            </BoostWrapper>
-            <AssetWrapper>
-              <DarkGreyCard style={{ height: '100%' }}>
-                <AutoColumn gap="5px">
-                  <TYPE.mediumHeader>Total Assets</TYPE.mediumHeader>
-                  <AutoColumn gap="10px">
-                    <AutoColumn gap="5px">
-                      <TYPE.main>Assets in $</TYPE.main>
-                      <TYPE.label fontSize="20px">{formatDollarAmount(netWorth)}</TYPE.label>
-                    </AutoColumn>
-                    <AutoColumn gap="5px">
-                      <TYPE.main>Assets in ₿</TYPE.main>
-                      <TYPE.label fontSize="20px">{(netWorth / prices.btc).toFixed(3)}</TYPE.label>
-                    </AutoColumn>
-                    <AutoColumn gap="5px">
-                      <TYPE.main>Assets in Ξ</TYPE.main>
-                      <TYPE.label fontSize="20px">{(netWorth / prices.eth).toFixed(3)}</TYPE.label>
-                    </AutoColumn>
-                  </AutoColumn>
-                </AutoColumn>
-              </DarkGreyCard>
-            </AssetWrapper>
-          </DataWrapper>
+                  </DarkGreyCard>
+                </AssetWrapper>
+              </DataWrapper>
 
-          <DarkGreyCard>
-            <BalanceTable balanceData={balances} />
-          </DarkGreyCard>
-        </ContentLayout>
-        <ScoreTable address={address} />
-      </AutoColumn>
-    </PageWrapper>
+              <DarkGreyCard>
+                <BalanceTable balanceData={balances} />
+              </DarkGreyCard>
+            </ContentLayout>
+            <ScoreTable address={address} />
+          </AutoColumn>
+        </PageWrapper>
+      )}
+    </>
   )
 }
 
