@@ -15,6 +15,8 @@ export async function fetchSetts() {
           vaultToken: sett.vaultToken,
           tvl: sett.value,
           ppfs: sett.ppfs,
+          minMultiplier: sett.minApr ? sett.minApr / sett.apr : 1,
+          maxMultiplier: sett.maxApr ? sett.maxApr / sett.apr : 1,
           minApr: sett.minApr || sett.apr,
           maxApr: sett.maxApr || sett.apr,
           sources: sett.sources.map((s: any) => {

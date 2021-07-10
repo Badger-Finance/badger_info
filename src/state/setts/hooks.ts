@@ -9,12 +9,14 @@ import { useState, useEffect } from 'react'
 export const useUpdateSetts = () => {
   const dispatch = useDispatch<AppDispatch>()
   return useCallback(
-    (setts: Array<SettInfo>) =>
+    (setts: Array<SettInfo>) => {
       dispatch(
         updateSettData({
           setts,
         })
-      ),
+      )
+    },
+
     [dispatch]
   )
 }

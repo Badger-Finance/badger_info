@@ -23,6 +23,8 @@ interface VaultInfoProps {
   tvl: number
   minApr: number
   maxApr: number
+  minMult: number
+  maxMult: number
 }
 const VaultInfo = (props: VaultInfoProps) => {
   return (
@@ -42,6 +44,14 @@ const VaultInfo = (props: VaultInfoProps) => {
               {props.minApr !== props.maxApr
                 ? `${props.minApr.toFixed(2)}% - ${props.maxApr.toFixed(2)}%`
                 : `${props.minApr.toFixed(2)}%`}
+            </TYPE.label>
+          </AutoColumn>
+          <AutoColumn gap="4px">
+            <TYPE.main fontWeight={400}>Multipliers</TYPE.main>
+            <TYPE.label fontSize="20px">
+              {props.minMult !== props.maxMult
+                ? `${props.minMult.toFixed(2)}x - ${props.maxMult.toFixed(2)}x`
+                : `${props.minMult.toFixed(2)}x`}
             </TYPE.label>
           </AutoColumn>
         </AutoColumn>

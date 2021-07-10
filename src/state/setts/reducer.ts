@@ -6,6 +6,8 @@ export interface SettInfo {
   vaultToken: string
   tvl: number
   ppfs: number
+  minMultiplier: number
+  maxMultiplier: number
   minApr: number
   maxApr: number
   sources: Array<RewardsSource>

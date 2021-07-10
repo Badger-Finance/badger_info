@@ -11,6 +11,7 @@ export default function Updater() {
     async function update() {
       if (setts && setts.length == 0) {
         const { error, data } = await fetchSetts()
+        //console.log(data)
         if (!error) {
           updateSetts(data)
         }

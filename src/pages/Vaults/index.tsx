@@ -31,7 +31,15 @@ const Vaults = () => {
             .map((v: SettInfo) => {
               return (
                 <DarkGreyCard style={{ margin: '15px', width: '300px', minWidth: '180px' }} key={v.name}>
-                  <VaultInfo id={v.vaultToken} name={v.name} tvl={v.tvl} minApr={v.minApr} maxApr={v.maxApr} />
+                  <VaultInfo
+                    id={v.vaultToken}
+                    name={v.name}
+                    tvl={v.tvl}
+                    minApr={v.minApr}
+                    maxApr={v.maxApr}
+                    maxMult={v.maxMultiplier}
+                    minMult={v.minMultiplier}
+                  />
                 </DarkGreyCard>
               )
             })}
