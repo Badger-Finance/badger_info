@@ -72,7 +72,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
           }
           shareBalance
         }
-        deposits(first: 10, orderBy: pricePerFullShare, orderDirection: desc) {
+        deposits(first: 10, orderBy: blockNumber, orderDirection: desc) {
           amount
           id
           account {
@@ -82,7 +82,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
             blockNumber
           }
         }
-        withdrawals(first: 10, orderBy: pricePerFullShare, orderDirection: desc) {
+        withdrawals(first: 10, orderBy: blockNumber, orderDirection: desc) {
           amount
           id
           account {

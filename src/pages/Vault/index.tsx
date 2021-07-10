@@ -92,15 +92,15 @@ const Vault = () => {
               <TYPE.mediumHeader>Strategy Info</TYPE.mediumHeader>
               <AutoColumn gap="5px">
                 <TYPE.main>Current Strategy</TYPE.main>
-                <TYPE.label>{vaultData?.strategy.address}</TYPE.label>
+                <TYPE.label>{vaultData?.strategy ? vaultData.strategy.address : 'Loading...'}</TYPE.label>
               </AutoColumn>
               <AutoColumn gap="5px">
                 <TYPE.main>Total Earnings</TYPE.main>
-                <TYPE.label>{vaultData?.strategy?.totalEarnings}</TYPE.label>
+                <TYPE.label>{vaultData?.strategy ? vaultData.strategy.totalEarnings : 'Loading...'}</TYPE.label>
               </AutoColumn>
               <AutoColumn gap="5px">
                 <TYPE.main>Total Harvests</TYPE.main>
-                <TYPE.label>{vaultData?.strategy?.numHarvests}</TYPE.label>
+                <TYPE.label>{vaultData?.strategy ? vaultData.strategy.numHarvests : 'Loading...'}</TYPE.label>
               </AutoColumn>
             </AutoColumn>
           </DarkGreyCard>
