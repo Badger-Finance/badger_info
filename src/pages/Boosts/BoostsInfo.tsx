@@ -65,6 +65,9 @@ const AddressLabel = styled(Label)`
 const ButtonWrapper = styled.div`
   width: 15%
   text-decoration: underline;
+  @media screen and (max-width: 670px) {
+    width: 100%
+  }
 `
 interface BoostData {
   address: string
