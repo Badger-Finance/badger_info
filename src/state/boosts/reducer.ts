@@ -1,4 +1,4 @@
-import { updateBoostData } from './actions'
+import { updateBoostData, updateUnlockSchedules } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 
 export interface BoostData {
@@ -10,16 +10,33 @@ export interface BoostData {
   nonNativeBalance: number
 }
 
-interface BoostsState {
+export interface BoostsState {
   boosts: Array<BoostData>
+  unlockSchedules: UnlockSchedules
+}
+export interface UnlockSchedules {
+  [sett: string]: Schedule
+}
+interface Schedule {
+  sett: string
+  token: string
+  initalTokensLocked: number
+  startTime: number
+  endTime: number
+  duration: number
 }
 
 export const initalState: BoostsState = {
   boosts: [],
+  unlockSchedules: {},
 }
 
 export default createReducer(initalState, (builder) => {
-  builder.addCase(updateBoostData, (state, { payload: { boosts } }) => {
-    state.boosts = boosts
-  })
+  builder
+    .addCase(updateBoostData, (state, { payload: { boosts } }) => {
+      state.boosts = boosts
+    })
+    .addCase(updateUnlockSchedules, (state, { payload: { schedules } }) => {
+      state.unlockSchedules = schedules
+    })
 })

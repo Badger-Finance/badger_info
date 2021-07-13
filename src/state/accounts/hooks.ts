@@ -1,9 +1,9 @@
-import { updateAccountData, updateScoreData } from './actions'
+import { updateAccountData, updateScoreData, updateNftData } from './actions'
 import { AccountData } from './reducer'
 import { AppState, AppDispatch } from '../index'
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback, useEffect } from 'react'
-import { fetchScores } from 'data/accounts'
+import { fetchNftScore, fetchScores } from 'data/accounts'
 
 export function useUpdateAccountData(address: string) {
   const dispatch = useDispatch<AppDispatch>()
@@ -27,6 +27,39 @@ export function useScoreData(address: string) {
           updateScoreData({
             address,
             scoreData: data,
+          })
+        )
+      }
+    }
+    if (!scores) {
+      fetch()
+    }
+  }, [address, scores, dispatch])
+  return scores
+}
+
+function useNftScores(address: string) {
+  return useSelector((state: AppState) => state.accounts.nftScores[address])
+}
+export function useNftScoresData(address: string) {
+  const dispatch = useDispatch<AppDispatch>()
+  const scores = useNftScores(address)
+  useEffect(() => {
+    async function fetch() {
+      const { error, data } = await fetchNftScore(address)
+      console.log(error, data)
+      if (!error) {
+        dispatch(
+          updateNftData({
+            address,
+            nftData: data,
+          })
+        )
+      } else {
+        dispatch(
+          updateNftData({
+            address,
+            nftData: data,
           })
         )
       }

@@ -1,4 +1,4 @@
-import { updateAccountData, updateScoreData } from './actions'
+import { updateAccountData, updateScoreData, updateNftData } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 
 export interface AccountData {
@@ -18,6 +18,15 @@ export interface Balance {
 export interface ScoreData {
   [cond: string]: number
 }
+export interface NftData {
+  score: number
+  multiplier: number
+  nfts: Array<Nft>
+}
+interface Nft {
+  amount: number
+  token: string
+}
 interface AccountsState {
   accounts: {
     [address: string]: AccountData
@@ -25,11 +34,15 @@ interface AccountsState {
   scores: {
     [address: string]: Array<ScoreData>
   }
+  nftScores: {
+    [address: string]: NftData
+  }
 }
 
 export const initalState: AccountsState = {
   accounts: {},
   scores: {},
+  nftScores: {},
 }
 
 export default createReducer(initalState, (builder) => {
@@ -39,5 +52,8 @@ export default createReducer(initalState, (builder) => {
     })
     .addCase(updateScoreData, (state, { payload: { address, scoreData } }) => {
       state.scores[address] = scoreData
+    })
+    .addCase(updateNftData, (state, { payload: { address, nftData } }) => {
+      state.nftScores[address] = nftData
     })
 })

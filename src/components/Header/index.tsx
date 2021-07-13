@@ -244,6 +244,9 @@ export default function Header() {
           <StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
             Cycles
           </StyledNavLink>
+          <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
+            Schedules
+          </StyledNavLink>
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
@@ -254,7 +257,7 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
             Users
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={'/vault'}>
+          <StyledNavLink id={`stake-nav-link`} to={'/vaults'}>
             Vaults
           </StyledNavLink>
 

@@ -10,6 +10,7 @@ import { useAccountData, useUpdateAccountData } from 'state/accounts/hooks'
 import { fetchAccountData } from 'data/accounts/index'
 import { usePrices } from 'hooks/usePricing'
 import ScoreTable from 'components/Score'
+import NftTable from 'components/NftTable'
 
 interface RouteParams {
   address: string
@@ -50,6 +51,14 @@ const AssetWrapper = styled.div`
 
 const EtherscanLink = styled.a`
   color: white;
+`
+
+const ScoreWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `
 
 const User = () => {
@@ -133,7 +142,10 @@ const User = () => {
                 <BalanceTable balanceData={balances} />
               </DarkGreyCard>
             </ContentLayout>
-            <ScoreTable address={address} />
+            <ScoreWrapper>
+              <ScoreTable address={address} />
+              <NftTable address={address} />
+            </ScoreWrapper>
           </AutoColumn>
         </PageWrapper>
       )}

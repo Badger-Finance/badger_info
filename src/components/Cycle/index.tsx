@@ -14,6 +14,10 @@ const LinkWrapper = styled(Link)`
   padding-left: 1rem;
 `
 
+const CycleWrapper = styled.div`
+  width: 90%;
+  margin: 0 auto;
+`
 interface CycleProps {
   cycleNumber: number
   root: string
@@ -23,31 +27,33 @@ interface CycleProps {
 }
 const Cycle = (props: any) => {
   return (
-    <AutoColumn gap="10px">
-      <LinkWrapper to={`/cycle/${props.cycle}`}>
-        <TYPE.largeHeader>Cycle {props.cycle}</TYPE.largeHeader>
-      </LinkWrapper>
-      <DarkGreyCard>
-        <AutoColumn gap="lg">
-          <AutoColumn gap="4px">
-            <TYPE.main fontWeight={400}>Root</TYPE.main>
-            <TYPE.label fontSize="20px">{props.merkleRoot}</TYPE.label>
+    <CycleWrapper>
+      <AutoColumn gap="10px">
+        <LinkWrapper to={`/cycle/${props.cycle}`}>
+          <TYPE.largeHeader>Cycle {props.cycle}</TYPE.largeHeader>
+        </LinkWrapper>
+        <DarkGreyCard>
+          <AutoColumn gap="lg">
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>Root</TYPE.main>
+              <TYPE.label fontSize="20px">{props.merkleRoot}</TYPE.label>
+            </AutoColumn>
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>Content Hash</TYPE.main>
+              <TYPE.label fontSize="20px">{props.contentHash}</TYPE.label>
+            </AutoColumn>
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>Start Block</TYPE.main>
+              <TYPE.label fontSize="20px">{props.startBlock}</TYPE.label>
+            </AutoColumn>
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>End Block</TYPE.main>
+              <TYPE.label fontSize="20px">{props.endBlock}</TYPE.label>
+            </AutoColumn>
           </AutoColumn>
-          <AutoColumn gap="4px">
-            <TYPE.main fontWeight={400}>Content Hash</TYPE.main>
-            <TYPE.label fontSize="20px">{props.contentHash}</TYPE.label>
-          </AutoColumn>
-          <AutoColumn gap="4px">
-            <TYPE.main fontWeight={400}>Start Block</TYPE.main>
-            <TYPE.label fontSize="20px">{props.startBlock}</TYPE.label>
-          </AutoColumn>
-          <AutoColumn gap="4px">
-            <TYPE.main fontWeight={400}>End Block</TYPE.main>
-            <TYPE.label fontSize="20px">{props.endBlock}</TYPE.label>
-          </AutoColumn>
-        </AutoColumn>
-      </DarkGreyCard>
-    </AutoColumn>
+        </DarkGreyCard>
+      </AutoColumn>
+    </CycleWrapper>
   )
 }
 

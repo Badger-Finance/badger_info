@@ -19,6 +19,7 @@ import Asset from 'pages/Assets/AssetInfo'
 import Vaults from 'pages/Vaults'
 import Vault from 'pages/Vault'
 import AccountInputPage from 'pages/AccountInput/AccountInputPage'
+import UnlockSchedules from './Schedules/UnlockSchedules'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -114,8 +115,9 @@ export default function App() {
               <Route exact strict path="/user" component={AccountInputPage} />
               <Route exact strict path="/user/:address" component={User}></Route>
               <Route exact strict path="/asset/:asset" component={Asset}></Route>
-              <Route exact strict path="/vault" component={Vaults}></Route>
-              <Route exact strict path="/vault/:vaultAddress" component={Vault} />
+              <Route exact strict path="/vaults" component={Vaults}></Route>
+              <Route exact strict path="/vaults/:vaultAddress" component={Vault} />
+              <Route exact strict path="/schedules" component={UnlockSchedules} />
             </Switch>
             <Marginer />
           </BodyWrapper>

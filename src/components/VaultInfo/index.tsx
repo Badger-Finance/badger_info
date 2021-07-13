@@ -29,7 +29,7 @@ interface VaultInfoProps {
 const VaultInfo = (props: VaultInfoProps) => {
   return (
     <AutoColumn gap="10px">
-      <LinkWrapper to={`/vault/${props.id}`}>
+      <LinkWrapper to={`/vaults/${props.id}`}>
         <TYPE.largeHeader>{props.name}</TYPE.largeHeader>
       </LinkWrapper>
       <DarkGreyCard>

@@ -29,3 +29,18 @@ export async function fetchBoosts() {
     }
   }
 }
+export async function fetchSchedules() {
+  try {
+    const result = await fetch(`${ANALYTICS_API_URL}/schedules`)
+    const json = await result.json()
+    return {
+      error: false,
+      data: json.data.schedules,
+    }
+  } catch (error) {
+    return {
+      error: false,
+      data: {},
+    }
+  }
+}

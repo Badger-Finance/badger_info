@@ -69,3 +69,37 @@ export async function fetchScores(address: string) {
     }
   }
 }
+
+export async function fetchNftScore(address: string) {
+  try {
+    const result = await fetch(`${ANALYTICS_API_URL}/nft_score/${address}`)
+    const json = await result.json()
+    console.log(json)
+    if (!json.success) {
+      console.log('no data')
+      return {
+        error: true,
+        data: {},
+      }
+    } else {
+      console.log('data')
+      return {
+        error: false,
+        data: {
+          ...json.data,
+          nfts: json.data.nfts.map((n: any) => {
+            return {
+              amount: n.amount,
+              token: n.token.id,
+            }
+          }),
+        },
+      }
+    }
+  } catch (error) {
+    return {
+      error: true,
+      data: {},
+    }
+  }
+}

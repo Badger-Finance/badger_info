@@ -5,17 +5,13 @@ import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { PageButtons, Arrow, Break } from 'components/shared'
 import useTheme from 'hooks/useTheme'
-import { useScoreData } from 'state/accounts/hooks'
+import { useNftScoresData, useScoreData } from 'state/accounts/hooks'
 
 const TableWrapper = styled.div`
   display: flex;
   flex-direction: row
-  width: 500px;
-  @media screen and (max-width: 800px) {
-    width: 100%
-  }
   margin-top: 10px;
-  margin-right: 20px;
+  flex: 1;
 `
 
 const Row = styled.div`
@@ -29,7 +25,7 @@ const DataRow = (props: any) => {
     <>
       <Row>
         <TYPE.label style={{ width: '10%' }}>{props.number}</TYPE.label>
-        <TYPE.label style={{ width: '70%' }}>{props.first}</TYPE.label>
+        <TYPE.label style={{ width: '60%', wordBreak: 'break-word' }}>{props.first}</TYPE.label>
         <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
       </Row>
       <Break />
@@ -37,8 +33,9 @@ const DataRow = (props: any) => {
   )
 }
 
-const ScoreTable = (props: { address: string }) => {
-  const scoreData = useScoreData(props.address)
+const NftTable = (props: { address: string }) => {
+  const nftScores = useNftScoresData(props.address)
+  const nfts = nftScores?.nfts || []
   const theme = useTheme()
   return (
     <TableWrapper>
@@ -46,16 +43,14 @@ const ScoreTable = (props: { address: string }) => {
         <>
           <Row>
             <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
-            <TYPE.label style={{ width: '70%', color: theme.text2 }}>{'Condition'}</TYPE.label>
+            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'NFT'}</TYPE.label>
             <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Fulfilled'}</TYPE.label>
           </Row>
           <Break />
         </>
-        {scoreData ? (
-          scoreData.map((score, index) => {
-            const name = Object.keys(score)[0]
-            const scoreNumber = Object.values(score)[0]
-            return <DataRow key={index} number={index + 1} first={name} second={scoreNumber > 0 ? '✅' : '❌'} />
+        {nfts ? (
+          nfts.map((nft, index) => {
+            return <DataRow key={index} number={index + 1} first={nft.token} second={nft.amount > 0 ? '✅' : '❌'} />
           })
         ) : (
           <div>loading</div>
@@ -64,5 +59,4 @@ const ScoreTable = (props: { address: string }) => {
     </TableWrapper>
   )
 }
-
-export default ScoreTable
+export default NftTable
