@@ -4,8 +4,8 @@ import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { PageButtons, Arrow, Break } from 'components/shared'
+import NFTS from 'constants/nfts'
 import useTheme from 'hooks/useTheme'
-import { useNftScoresData, useScoreData } from 'state/accounts/hooks'
 
 const TableWrapper = styled.div`
   display: flex;
@@ -14,18 +14,20 @@ const TableWrapper = styled.div`
   flex: 1;
 `
 
-const Row = styled.div`
+const Row = styled.a`
   display: flex;
   flex-direction: row;
   padding-bottom: 10px;
   padding-top: 10px;
 `
 const DataRow = (props: any) => {
+  const [addr, id] = props.first.split('-')
+
   return (
     <>
-      <Row>
+      <Row href={`https://opensea.io/assets/${addr}/${id}`} target="_blank" rel="noopener noreferrer">
         <TYPE.label style={{ width: '10%' }}>{props.number}</TYPE.label>
-        <TYPE.label style={{ width: '60%', wordBreak: 'break-word' }}>{props.first}</TYPE.label>
+        <TYPE.label style={{ width: '60%', wordBreak: 'break-word' }}>{NFTS[props.first]}</TYPE.label>
         <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
       </Row>
       <Break />
@@ -33,9 +35,7 @@ const DataRow = (props: any) => {
   )
 }
 
-const NftTable = (props: { address: string }) => {
-  const nftScores = useNftScoresData(props.address)
-  const nfts = nftScores?.nfts || []
+const NftTable = (props: any) => {
   const theme = useTheme()
   return (
     <TableWrapper>
@@ -48,8 +48,8 @@ const NftTable = (props: { address: string }) => {
           </Row>
           <Break />
         </>
-        {nfts ? (
-          nfts.map((nft, index) => {
+        {props.nfts ? (
+          props.nfts.map((nft: any, index: number) => {
             return <DataRow key={index} number={index + 1} first={nft.token} second={nft.amount > 0 ? '✅' : '❌'} />
           })
         ) : (

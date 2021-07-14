@@ -11,6 +11,7 @@ import { fetchAccountData } from 'data/accounts/index'
 import { usePrices } from 'hooks/usePricing'
 import ScoreTable from 'components/Score'
 import NftTable from 'components/NftTable'
+import { useNftScoresData } from 'state/accounts/hooks'
 
 interface RouteParams {
   address: string
@@ -43,10 +44,10 @@ const DataWrapper = styled.div`
 `
 
 const BoostWrapper = styled.div`
-  height: 40%;
+  height: 56%;
 `
 const AssetWrapper = styled.div`
-  height: 60%;
+  height: 44%;
 `
 
 const EtherscanLink = styled.a`
@@ -68,6 +69,9 @@ const User = () => {
   const accountData = useAccountData(address)
   const prices = usePrices()
   const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
+  const nftScores = useNftScoresData(address)
+  const nfts = nftScores?.nfts || []
+  const { score = 0, multiplier = 1 } = nftScores || {}
   useEffect(() => {
     const fetch = async () => {
       if (!accountData) {
@@ -111,6 +115,14 @@ const User = () => {
                           <TYPE.main>Boost Rank</TYPE.main>
                           <TYPE.label fontSize="20px">{boostRank}</TYPE.label>
                         </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>NFT Multiplier</TYPE.main>
+                          <TYPE.label fontSize="20px">{multiplier.toFixed(4)}</TYPE.label>
+                        </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>NFT Score</TYPE.main>
+                          <TYPE.label fontSize="20px">{score.toFixed(3)}</TYPE.label>
+                        </AutoColumn>
                       </AutoColumn>
                     </AutoColumn>
                   </DarkGreyCard>
@@ -144,7 +156,7 @@ const User = () => {
             </ContentLayout>
             <ScoreWrapper>
               <ScoreTable address={address} />
-              <NftTable address={address} />
+              <NftTable nfts={nfts} />
             </ScoreWrapper>
           </AutoColumn>
         </PageWrapper>
