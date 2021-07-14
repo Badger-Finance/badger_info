@@ -9,7 +9,7 @@ import tokens from 'constants/tokens'
 import { useSettByAddress } from 'state/setts/hooks'
 import { Schedule } from 'state/boosts/reducer'
 import { Link } from 'react-router-dom'
-
+import { unixToDateString } from 'utils/time'
 const PageWrapper = styled.div`
   margin: 0 auto;
 `
@@ -66,11 +66,11 @@ const ScheduleInfo = (props: ScheduleProps) => {
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Start Time</TYPE.main>
-              <TYPE.label fontSize="20px">{data.startTime}</TYPE.label>
+              <TYPE.label fontSize="20px">{unixToDateString(data.startTime)}</TYPE.label>
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>End Time</TYPE.main>
-              <TYPE.label fontSize="20px">{data.endTime}</TYPE.label>
+              <TYPE.label fontSize="20px">{unixToDateString(data.endTime)}</TYPE.label>
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Duration </TYPE.main>

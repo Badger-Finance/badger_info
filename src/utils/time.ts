@@ -32,6 +32,9 @@ export function dateToString(date: Date) {
   return `${dateString} ${time}`
 }
 
+export function unixToDateString(unixTimestamp: number) {
+  return unixToDate(unixTimestamp).toUTCString()
+}
 function unixToDate(unixTimestamp: number) {
   return new Date(unixTimestamp * 1000)
 }
