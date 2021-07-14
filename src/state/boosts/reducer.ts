@@ -17,10 +17,10 @@ export interface BoostsState {
 export interface UnlockSchedules {
   [sett: string]: Schedule
 }
-interface Schedule {
+export interface Schedule {
   sett: string
   token: string
-  initalTokensLocked: number
+  initialTokensLocked: number
   startTime: number
   endTime: number
   duration: number

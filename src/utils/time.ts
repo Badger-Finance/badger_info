@@ -18,8 +18,8 @@ export async function calcTimeBetweenBlocks(startBlock: number, endBlock: number
       error: false,
       data: {
         diff: msToTime((endTime - startTime) * 1000),
-        startDate: new Date(startTime * 1000),
-        endDate: new Date(endTime * 1000),
+        startDate: unixToDate(startTime),
+        endDate: unixToDate(endTime),
       },
     }
   } else {
@@ -30,4 +30,8 @@ export function dateToString(date: Date) {
   const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`
   const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
   return `${dateString} ${time}`
+}
+
+function unixToDate(unixTimestamp: number) {
+  return new Date(unixTimestamp * 1000)
 }

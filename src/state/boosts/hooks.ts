@@ -25,11 +25,12 @@ export function useSchedulesData() {
     async function fetch() {
       const { error, data } = await fetchSchedules()
       if (!error) {
-        dispatch(updateUnlockSchedules(data))
+        dispatch(updateUnlockSchedules({ schedules: data }))
       }
     }
-    if (!schedules) {
+    if (!Object.keys(schedules).length) {
       fetch()
     }
   }, [schedules, dispatch])
+  return schedules
 }

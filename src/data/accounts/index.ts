@@ -76,13 +76,11 @@ export async function fetchNftScore(address: string) {
     const json = await result.json()
     console.log(json)
     if (!json.success) {
-      console.log('no data')
       return {
         error: true,
         data: {},
       }
     } else {
-      console.log('data')
       return {
         error: false,
         data: {
