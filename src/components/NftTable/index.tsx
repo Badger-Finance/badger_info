@@ -14,7 +14,7 @@ const TableWrapper = styled.div`
   flex: 1;
 `
 
-const Row = styled.a`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   padding-bottom: 10px;
@@ -25,9 +25,16 @@ const DataRow = (props: any) => {
 
   return (
     <>
-      <Row href={`https://opensea.io/assets/${addr}/${id}`} target="_blank" rel="noopener noreferrer">
+      <Row>
         <TYPE.label style={{ width: '10%' }}>{props.number}</TYPE.label>
-        <TYPE.label style={{ width: '60%', wordBreak: 'break-word' }}>{NFTS[props.first]}</TYPE.label>
+        <a
+          style={{ width: '60%', wordBreak: 'break-word' }}
+          href={`https://opensea.io/assets/${addr}/${id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <TYPE.label>{NFTS[props.first]}</TYPE.label>
+        </a>
         <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
       </Row>
       <Break />
