@@ -9,7 +9,9 @@ import tokens from 'constants/tokens'
 import { useSettByAddress } from 'state/setts/hooks'
 import { Schedule } from 'state/boosts/reducer'
 import { Link } from 'react-router-dom'
-import { unixToDateString } from 'utils/time'
+import { unixToDateString, percentInRange } from 'utils/time'
+import ProgressBar from '@ramonak/react-progress-bar'
+
 const PageWrapper = styled.div`
   margin: 0 auto;
 `
@@ -47,6 +49,7 @@ interface ScheduleProps {
 const ScheduleInfo = (props: ScheduleProps) => {
   const { settAddr, data } = props
   const sett = useSettByAddress(settAddr)
+  const percent = (percentInRange(data.startTime, data.endTime) * 100).toFixed(1)
   return (
     <>
       <LinkWrapper to={`/vaults/${settAddr}`}>
@@ -75,6 +78,10 @@ const ScheduleInfo = (props: ScheduleProps) => {
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Duration </TYPE.main>
               <TYPE.label fontSize="20px">{msToTime(data.duration * 1000)}</TYPE.label>
+            </AutoColumn>
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>Schedule Progress</TYPE.main>
+              <ProgressBar completed={Number(percent)} bgColor={'green'} />
             </AutoColumn>
           </AutoColumn>
         </AutoColumn>

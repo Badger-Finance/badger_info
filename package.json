@@ -129,6 +129,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.15",
     "@data-ui/histogram": "^0.0.84",
+    "@ramonak/react-progress-bar": "^3.1.0",
     "@types/numeral": "^2.0.1",
     "@types/react-csv": "^1.1.1",
     "@uniswap/default-token-list": "^2.0.0",

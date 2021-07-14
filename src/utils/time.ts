@@ -32,9 +32,16 @@ export function dateToString(date: Date) {
   return `${dateString} ${time}`
 }
 
-export function unixToDateString(unixTimestamp: number) {
+export function unixToDateString(unixTimestamp: number): string {
   return unixToDate(unixTimestamp).toUTCString()
 }
-function unixToDate(unixTimestamp: number) {
+function unixToDate(unixTimestamp: number): Date {
   return new Date(unixTimestamp * 1000)
+}
+
+export function percentInRange(start: number, end: number) {
+  const mid = Date.now() / 1000
+  const diff = end - start
+  const midAmount = end - mid
+  return 1 - midAmount / diff
 }
