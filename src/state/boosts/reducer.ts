@@ -15,7 +15,7 @@ export interface BoostsState {
   unlockSchedules: UnlockSchedules
 }
 export interface UnlockSchedules {
-  [sett: string]: Schedule
+  [sett: string]: Array<Schedule>
 }
 export interface Schedule {
   sett: string

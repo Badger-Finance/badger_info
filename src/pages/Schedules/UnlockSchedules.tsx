@@ -26,6 +26,10 @@ const LinkWrapper = styled(Link)`
   min-width: 180px;
 `
 
+const BarWrapper = styled.div`
+  width: 75%;
+  margin: 0 auto;
+`
 const UnlockSchedules = () => {
   const schedulesData = useSchedulesData()
 
@@ -34,7 +38,11 @@ const UnlockSchedules = () => {
       <AutoColumn gap="20px">
         <AutoColumn gap="20px">
           {Object.entries(schedulesData).map(([settAddr, data]) => {
-            return <ScheduleInfo key={settAddr} settAddr={settAddr} data={data}></ScheduleInfo>
+            return data
+              .filter((s) => s.endTime * 1000 > Date.now())
+              .map((schedule) => {
+                return <ScheduleInfo key={schedule.startTime} settAddr={settAddr} data={schedule}></ScheduleInfo>
+              })
           })}
         </AutoColumn>
       </AutoColumn>
@@ -81,7 +89,9 @@ const ScheduleInfo = (props: ScheduleProps) => {
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Schedule Progress</TYPE.main>
-              <ProgressBar completed={Number(percent)} bgColor={'green'} />
+              <BarWrapper>
+                <ProgressBar completed={Number(percent)} bgColor={'green'} />
+              </BarWrapper>
             </AutoColumn>
           </AutoColumn>
         </AutoColumn>

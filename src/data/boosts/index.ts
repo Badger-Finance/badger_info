@@ -34,7 +34,7 @@ export async function fetchSchedules() {
     const result = await fetch(`${ANALYTICS_API_URL}/schedules`)
     const json = await result.json()
     Object.entries(json.data.schedules).map(([sett, data]: any) => {
-      json.data.schedules[sett] = data[0]
+      json.data.schedules[sett] = data
     })
     return {
       error: false,
