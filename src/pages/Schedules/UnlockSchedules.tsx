@@ -73,9 +73,7 @@ const ScheduleInfo = (props: ScheduleProps) => {
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Inital Tokens Locked</TYPE.main>
-              <TYPE.label fontSize="20px">
-                {data.initialTokensLocked}
-              </TYPE.label>
+              <TYPE.label fontSize="20px">{data.initialTokensLocked}</TYPE.label>
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Start Time</TYPE.main>
