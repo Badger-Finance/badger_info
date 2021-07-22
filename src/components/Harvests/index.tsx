@@ -1,15 +1,17 @@
 import React from 'react'
-import { useDeposits, useWithdrawals } from 'state/setts/hooks'
-import { VaultTransfers } from 'state/setts/reducer'
 import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
+import { HarvestInfo } from 'state/setts/reducer'
+import { useHarvests } from 'state/setts/hooks'
 
-interface TransfersProps {
-  transfers: any
+interface Props {
+  vaultAddress: string
 }
 
-const Transfers = (props: TransfersProps) => {
-  const tableData = props.transfers?.map((w: VaultTransfers, index: number) => {
+const Harvests = (props: Props) => {
+  const harvests = useHarvests(props.vaultAddress)
+  const tableData = harvests?.map((w: HarvestInfo, index: number) => {
+    const txHash = w.transactionHash
     return {
       linkAddress: 'https://etherscan.com/tx/' + w.transactionHash,
       external: true,
@@ -19,15 +21,15 @@ const Transfers = (props: TransfersProps) => {
           width: '5%',
         },
         {
-          label: w.address,
+          label: txHash.substring(0, 10) + '...' + txHash.slice(txHash.length - 10),
           width: '70%',
         },
         {
-          label: formatBalanceAmount(w.amount),
+          label: formatBalanceAmount(w.earnings),
           width: '30%',
         },
         {
-          label: formatDollarAmount(w.value),
+          label: w.blockNumber,
           width: '30%',
         },
       ],
@@ -47,22 +49,11 @@ const Transfers = (props: TransfersProps) => {
       width: '30%',
     },
     value: {
-      label: 'Value',
+      label: 'Block Number',
       width: '30%',
     },
   }
   return <VaultTable headers={Object.values(headers)} data={tableData} />
 }
 
-interface Props {
-  vaultAddress: string
-}
-export const Deposits = (props: Props) => {
-  const deposits = useDeposits(props.vaultAddress)
-  return <Transfers transfers={deposits} />
-}
-
-export const Withdrawals = (props: Props) => {
-  const withdrawals = useWithdrawals(props.vaultAddress)
-  return <Transfers transfers={withdrawals} />
-}
+export default Harvests

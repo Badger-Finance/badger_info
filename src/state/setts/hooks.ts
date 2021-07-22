@@ -31,6 +31,9 @@ export const useDeposits = (address: string) => {
 export const useWithdrawals = (address: string) => {
   return useSelector((state: AppState) => state.setts.vaults[address]?.withdrawals)
 }
+export const useHarvests = (address: string) => {
+  return useSelector((state: AppState) => state.setts.vaults[address]?.harvests)
+}
 
 const useVault = (address: string) => {
   return useSelector((state: AppState) => state.setts.vaults[address])

@@ -7,6 +7,7 @@ import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { formatDollarAmount } from 'utils/numbers'
 import Whales from 'components/Whales'
+import Harvests from 'components/Harvests'
 import { Deposits, Withdrawals } from 'components/Transfers'
 interface RouteParams {
   vaultAddress: string
@@ -105,6 +106,10 @@ const Vault = () => {
             </AutoColumn>
           </DarkGreyCard>
         </CardRow>
+        <DarkGreyCard style={{ margin: '5px' }}>
+          <TYPE.mediumHeader>Harvests</TYPE.mediumHeader>
+          <Harvests vaultAddress={vaultAddress} />
+        </DarkGreyCard>
         <DarkGreyCard style={{ margin: '5px' }}>
           <TYPE.mediumHeader>Whales</TYPE.mediumHeader>
           <Whales vaultAddress={vaultAddress} />

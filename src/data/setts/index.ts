@@ -127,7 +127,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
     const harvests: Array<HarvestInfo> = data.vault.harvests.map((h: any) => {
       return {
         transactionHash: h.transaction.id,
-        earnings: h.earnings,
+        earnings: Number(h.earnings),
         blockNumber: h.transaction.blockNumber,
       }
     })
