@@ -8,7 +8,7 @@ const tokens: Tokens = {
   '0x20c36f062a31865bED8a5B1e512D9a1A20AA333A': 'DFD',
   '0x2B5455aac8d64C14786c3a29858E43b5945819C0': 'bCvxCrv',
   '0x53C8E199eb2Cb7c01543C137078a038937a68E40': 'bCvx',
-  '0x8798249c2e607446efb7ad49ec89dd1865ff4272': 'xSushi',
+  '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272': 'xSushi',
 }
 
 export default tokens

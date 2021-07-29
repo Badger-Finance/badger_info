@@ -98,6 +98,7 @@ const CycleAnalytics = () => {
                 <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>
                 {totalRewards.length > 0 &&
                   totalRewards.map((element) => {
+                    console.log(element)
                     return (
                       <AutoColumn key={tokens[element.token]} gap="7.5px">
                         <TYPE.main fontWeight={400}>{tokens[element.token]} Rewards</TYPE.main>
