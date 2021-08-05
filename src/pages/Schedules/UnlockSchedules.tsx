@@ -58,43 +58,48 @@ const ScheduleInfo = (props: ScheduleProps) => {
   const { settAddr, data } = props
   const sett = useSettByAddress(settAddr)
   const percent = (percentInRange(data.startTime, data.endTime) * 100).toFixed(1)
+  const inRange = Number(percent) > 0 && Number(percent) < 100
   return (
     <>
-      <LinkWrapper to={`/vaults/${settAddr}`}>
-        <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
-      </LinkWrapper>
-      <DarkGreyCard key={settAddr}>
-        <AutoColumn gap="20px">
-          <AutoColumn gap="lg">
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>Token</TYPE.main>
-              <TYPE.label fontSize="20px">{tokens[data.token]}</TYPE.label>
+      {inRange && (
+        <>
+          <LinkWrapper to={`/vaults/${settAddr}`}>
+            <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
+          </LinkWrapper>
+          <DarkGreyCard key={settAddr}>
+            <AutoColumn gap="20px">
+              <AutoColumn gap="lg">
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>Token</TYPE.main>
+                  <TYPE.label fontSize="20px">{tokens[data.token]}</TYPE.label>
+                </AutoColumn>
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>Inital Tokens Locked</TYPE.main>
+                  <TYPE.label fontSize="20px">{data.initialTokensLocked}</TYPE.label>
+                </AutoColumn>
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>Start Time</TYPE.main>
+                  <TYPE.label fontSize="20px">{unixToDateString(data.startTime)}</TYPE.label>
+                </AutoColumn>
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>End Time</TYPE.main>
+                  <TYPE.label fontSize="20px">{unixToDateString(data.endTime)}</TYPE.label>
+                </AutoColumn>
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>Duration </TYPE.main>
+                  <TYPE.label fontSize="20px">{msToTime(data.duration * 1000)}</TYPE.label>
+                </AutoColumn>
+                <AutoColumn gap="4px">
+                  <TYPE.main fontWeight={400}>Schedule Progress</TYPE.main>
+                  <BarWrapper>
+                    <ProgressBar completed={Number(percent)} bgColor={'green'} />
+                  </BarWrapper>
+                </AutoColumn>
+              </AutoColumn>
             </AutoColumn>
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>Inital Tokens Locked</TYPE.main>
-              <TYPE.label fontSize="20px">{data.initialTokensLocked}</TYPE.label>
-            </AutoColumn>
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>Start Time</TYPE.main>
-              <TYPE.label fontSize="20px">{unixToDateString(data.startTime)}</TYPE.label>
-            </AutoColumn>
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>End Time</TYPE.main>
-              <TYPE.label fontSize="20px">{unixToDateString(data.endTime)}</TYPE.label>
-            </AutoColumn>
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>Duration </TYPE.main>
-              <TYPE.label fontSize="20px">{msToTime(data.duration * 1000)}</TYPE.label>
-            </AutoColumn>
-            <AutoColumn gap="4px">
-              <TYPE.main fontWeight={400}>Schedule Progress</TYPE.main>
-              <BarWrapper>
-                <ProgressBar completed={Number(percent)} bgColor={'green'} />
-              </BarWrapper>
-            </AutoColumn>
-          </AutoColumn>
-        </AutoColumn>
-      </DarkGreyCard>
+          </DarkGreyCard>
+        </>
+      )}
     </>
   )
 }
