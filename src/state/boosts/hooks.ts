@@ -13,6 +13,13 @@ export function useUpdateBoostData() {
 export function useBoostData(): Array<BoostData> {
   return useSelector((state: AppState) => state.boosts.boosts)
 }
+export function useUserBoostData(addr: string) {
+  return useSelector((state: AppState) => {
+    return state.boosts.boosts.find((boostData) => {
+      return boostData.address.toLowerCase() == addr.toLowerCase()
+    })
+  })
+}
 
 function useSchedules(): UnlockSchedules {
   return useSelector((state: AppState) => state.boosts.unlockSchedules)

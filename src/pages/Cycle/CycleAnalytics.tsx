@@ -99,8 +99,8 @@ const CycleAnalytics = () => {
                 {totalRewards.length > 0 &&
                   totalRewards.map((element) => {
                     console.log(element)
-                    if (tokens[element.token] == "Badger") {
-                      element.amount = element.amount/10
+                    if (tokens[element.token] == 'Badger') {
+                      element.amount = element.amount / 10
                     }
                     return (
                       <AutoColumn key={tokens[element.token]} gap="7.5px">

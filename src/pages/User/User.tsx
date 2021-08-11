@@ -12,6 +12,7 @@ import { usePrices } from 'hooks/usePricing'
 import ScoreTable from 'components/Score'
 import NftTable from 'components/NftTable'
 import { useNftScoresData } from 'state/accounts/hooks'
+import { useUserBoostData } from 'state/boosts/hooks'
 
 interface RouteParams {
   address: string
@@ -72,6 +73,8 @@ const User = () => {
   const nftScores = useNftScoresData(address)
   const nfts = nftScores?.nfts || []
   const { score = 0, multiplier = 1 } = nftScores || {}
+  const boostData = useUserBoostData(address)
+  console.log(boostData)
   useEffect(() => {
     const fetch = async () => {
       if (!accountData) {
@@ -116,12 +119,12 @@ const User = () => {
                           <TYPE.label fontSize="20px">{boostRank}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
-                          <TYPE.main>NFT Multiplier</TYPE.main>
-                          <TYPE.label fontSize="20px">{multiplier.toFixed(4)}</TYPE.label>
+                          <TYPE.main>Native Balance</TYPE.main>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nativeBalance)}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
-                          <TYPE.main>NFT Score</TYPE.main>
-                          <TYPE.label fontSize="20px">{score.toFixed(3)}</TYPE.label>
+                          <TYPE.main>Non Native Balance</TYPE.main>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nonNativeBalance)}</TYPE.label>
                         </AutoColumn>
                       </AutoColumn>
                     </AutoColumn>
