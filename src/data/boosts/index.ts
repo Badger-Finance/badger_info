@@ -36,6 +36,7 @@ export async function fetchSchedules() {
     Object.entries(json.data.schedules).map(([sett, data]: any) => {
       json.data.schedules[sett] = data
     })
+    console.log(json)
     return {
       error: false,
       data: json.data.schedules,

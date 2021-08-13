@@ -32,17 +32,17 @@ const BarWrapper = styled.div`
 `
 const UnlockSchedules = () => {
   const schedulesData = useSchedulesData()
-
   return (
     <PageWrapper>
       <AutoColumn gap="20px">
         <AutoColumn gap="20px">
           {Object.entries(schedulesData).map(([settAddr, data]) => {
-            return data
-              .filter((s) => s.endTime * 1000 > Date.now())
-              .map((schedule) => {
-                return <ScheduleInfo key={schedule.startTime} settAddr={settAddr} data={schedule}></ScheduleInfo>
-              })
+            if (data.length > 0) {
+              const schedule = data[0]
+              return <ScheduleInfo key={schedule.startTime} settAddr={settAddr} data={schedule}></ScheduleInfo>
+            } else {
+              return <></>
+            }
           })}
         </AutoColumn>
       </AutoColumn>
