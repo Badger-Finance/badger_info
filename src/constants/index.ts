@@ -13,6 +13,8 @@ export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 export const MAX_UINT128 = BigNumber.from(2).pow(128).sub(1)
 
+export const BLOCK_TIME = 13310
+
 // a list of tokens by chain
 type ChainTokenList = {
   readonly [chainId in ChainId]: Token[]

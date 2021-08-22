@@ -4,7 +4,8 @@ import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-
+import { BLOCK_TIME } from 'constants/index'
+import { msToTime } from 'utils/time'
 const LinkWrapper = styled(Link)`
   :hover {
     cursor: pointer;
@@ -49,6 +50,10 @@ const Cycle = (props: any) => {
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>End Block</TYPE.main>
               <TYPE.label fontSize="20px">{props.endBlock}</TYPE.label>
+            </AutoColumn>
+            <AutoColumn gap="4px">
+              <TYPE.main fontWeight={400}>Cycle Length</TYPE.main>
+              <TYPE.label fontSize="20px">{msToTime((props.endBlock - props.startBlock) * BLOCK_TIME)}</TYPE.label>
             </AutoColumn>
           </AutoColumn>
         </DarkGreyCard>
