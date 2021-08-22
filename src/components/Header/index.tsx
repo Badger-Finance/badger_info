@@ -85,7 +85,8 @@ const HeaderElementWrap = styled.div`
 
 const HeaderRow = styled(RowFixed)`
   ${({ theme }) => theme.mediaWidth.upToMedium`
-   width: 100%;
+  box-sizing: border-box;
+
   `};
 `
 
@@ -93,6 +94,8 @@ const HeaderLinks = styled(Row)`
   justify-content: center;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem 0 1rem 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
 `};
 `
 

@@ -66,7 +66,7 @@ const ScheduleInfo = (props: ScheduleProps) => {
           <LinkWrapper to={`/vaults/${settAddr}`}>
             <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
           </LinkWrapper>
-          <DarkGreyCard key={settAddr}>
+          <DarkGreyCard key={settAddr} style={{ width: '90%', margin: '0 auto' }}>
             <AutoColumn gap="20px">
               <AutoColumn gap="lg">
                 <AutoColumn gap="4px">
