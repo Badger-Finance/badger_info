@@ -247,6 +247,7 @@ export default function Header() {
           <StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
             Cycles
           </StyledNavLink>
+
           <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
             Schedules
           </StyledNavLink>
@@ -256,6 +257,9 @@ export default function Header() {
 
           <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
             Boosts
+          </StyledNavLink>
+          <StyledNavLink id={`pool-nav-link`} to={'/treasury'}>
+            Treasury
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
             Users

@@ -115,8 +115,12 @@ const User = () => {
                           <TYPE.label fontSize="20px">{boost.toFixed(4)}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
-                          <TYPE.main>Boost Rank</TYPE.main>
-                          <TYPE.label fontSize="20px">{boostRank}</TYPE.label>
+                          <TYPE.main>Stake Ratio</TYPE.main>
+                          <TYPE.label fontSize="20px">
+                            {boostData?.nonNativeBalance
+                              ? (boostData.nativeBalance / boostData.nonNativeBalance).toFixed(3)
+                              : '0'}
+                          </TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
                           <TYPE.main>Native Balance</TYPE.main>
