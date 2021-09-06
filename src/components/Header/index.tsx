@@ -244,9 +244,9 @@ export default function Header() {
           </BadgerIcon>
         </Title>
         <HeaderLinks>
-          <StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
+          {/*<StyledNavLink id={`pool-nav-link`} to={'/cycle'}>
             Cycles
-          </StyledNavLink>
+  </StyledNavLink>*/}
 
           <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
             Schedules
@@ -258,7 +258,7 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
             Boosts
           </StyledNavLink>
-          <StyledNavLink id={`pool-nav-link`} to={'/aprs'}>
+          <StyledNavLink id={`pool-nav-link`} to={'/apys'}>
             Aprs
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
