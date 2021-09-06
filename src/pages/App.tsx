@@ -19,7 +19,7 @@ import Asset from 'pages/Assets/AssetInfo'
 import Vaults from 'pages/Vaults'
 import Vault from 'pages/Vault'
 import AccountInputPage from 'pages/AccountInput/AccountInputPage'
-import Treasury from 'pages/Treasury'
+import Apys from 'pages/Apys'
 import UnlockSchedules from './Schedules/UnlockSchedules'
 
 const AppWrapper = styled.div`
@@ -119,7 +119,7 @@ export default function App() {
               <Route exact strict path="/vaults" component={Vaults}></Route>
               <Route exact strict path="/vaults/:vaultAddress" component={Vault} />
               <Route exact strict path="/schedules" component={UnlockSchedules} />
-              <Route exact strict path="/treasury" component={Treasury} />
+              <Route exact strict path="/apys" component={Apys} />
             </Switch>
             <Marginer />
           </BodyWrapper>
