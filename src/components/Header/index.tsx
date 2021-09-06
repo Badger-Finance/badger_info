@@ -258,7 +258,7 @@ export default function Header() {
           <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
             Boosts
           </StyledNavLink>
-          <StyledNavLink id={`pool-nav-link`} to={'/apys'}>
+          <StyledNavLink id={`pool-nav-link`} to={'/aprs'}>
             Aprs
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
