@@ -119,7 +119,7 @@ export default function App() {
               <Route exact strict path="/vaults" component={Vaults}></Route>
               <Route exact strict path="/vaults/:vaultAddress" component={Vault} />
               <Route exact strict path="/schedules" component={UnlockSchedules} />
-              <Route exact strict path="/apys" component={Apys} />
+              <Route exact strict path="/aprs" component={Apys} />
             </Switch>
             <Marginer />
           </BodyWrapper>
