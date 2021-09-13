@@ -101,9 +101,7 @@ function APYs() {
                   newApy += source.minApr
                 }
               })
-              console.log(newApy)
 
-              //const newTotalRewards =
               return (
                 <DarkGreyCard key={v.name} style={{ width: '300px', minWidth: '180px', margin: '10px' }}>
                   <AutoColumn gap="10px">
