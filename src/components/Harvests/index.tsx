@@ -13,7 +13,7 @@ const Harvests = (props: Props) => {
   const tableData = harvests?.map((w: HarvestInfo, index: number) => {
     const txHash = w.transactionHash
     return {
-      linkAddress: 'https://etherscan.com/tx/' + w.transactionHash,
+      linkAddress: EXPLORER_TX_URL + w.transactionHash,
       external: true,
       labels: [
         {
