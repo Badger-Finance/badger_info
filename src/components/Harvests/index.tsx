@@ -3,7 +3,7 @@ import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
 import { HarvestInfo } from 'state/setts/reducer'
 import { useHarvests } from 'state/setts/hooks'
-
+import { EXPLORER_TX_URL } from 'data/urls'
 interface Props {
   vaultAddress: string
 }
