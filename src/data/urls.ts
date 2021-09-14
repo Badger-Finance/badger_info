@@ -1,3 +1,4 @@
-export const ANALYTICS_API_URL = 'https://badger-analytics.herokuapp.com'
+export const ANALYTICS_API_URL = 'http://api.badger.science'
 export const BADGER_API_URL = 'https://api.badger.finance/v2'
-export const ETHERSCAN_BLOCK_URL = 'https://api.etherscan.io/api?module=block&action=getblockreward&blockno='
+export const EXPLORER_BLOCK_URL = 'https://api.arbiscan.io/api?module=block&action=getblockreward&blockno='
+export const EXPLORER_TX_URL = 'https://arbiscan.io/tx/'

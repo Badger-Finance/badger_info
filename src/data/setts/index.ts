@@ -1,11 +1,12 @@
 import { StrategyInfo, VaultTransfers, HarvestInfo, WhaleInfo, VaultInfo } from './../../state/setts/reducer'
 import { BADGER_API_URL } from './../urls'
+import { CHAIN } from 'constants/index'
 import gql from 'graphql-tag'
 import { settsClient } from 'apollo/client'
 import { formatBalanceAmount } from 'utils/numbers'
 export async function fetchSetts() {
   try {
-    const result = await fetch(`${BADGER_API_URL}/setts`)
+    const result = await fetch(`${BADGER_API_URL}/setts?chain=${CHAIN}`)
     const json = await result.json()
     return {
       error: false,
@@ -40,7 +41,7 @@ export async function fetchSetts() {
 }
 export async function fetchPrices() {
   try {
-    const result = await fetch(`${BADGER_API_URL}/prices`)
+    const result = await fetch(`${BADGER_API_URL}/prices?chain=${CHAIN}`)
     const json = await result.json()
     return {
       data: json,
