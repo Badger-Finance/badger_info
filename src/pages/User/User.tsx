@@ -13,7 +13,7 @@ import ScoreTable from 'components/Score'
 import NftTable from 'components/NftTable'
 import { useNftScoresData } from 'state/accounts/hooks'
 import { useUserBoostData } from 'state/boosts/hooks'
-import { EXPLORER_TX_URL } from 'data/urls'
+import { EXPLORER_URL } from 'data/urls'
 
 interface RouteParams {
   address: string
@@ -99,7 +99,7 @@ const User = () => {
             <TYPE.largeHeader>
               <TitleWrapper>
                 {'User Analytics for '}
-                <EtherscanLink href={`${EXPLORER_TX_URL}${address}`} target="_blank">
+                <EtherscanLink href={`${EXPLORER_URL}address/${address}`} target="_blank">
                   {address}
                 </EtherscanLink>
               </TitleWrapper>
