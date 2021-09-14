@@ -3,7 +3,7 @@ import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
 import { HarvestInfo } from 'state/setts/reducer'
 import { useHarvests } from 'state/setts/hooks'
-import { EXPLORER_TX_URL } from 'data/urls'
+import { EXPLORER_URL } from 'data/urls'
 
 interface Props {
   vaultAddress: string
@@ -14,7 +14,7 @@ const Harvests = (props: Props) => {
   const tableData = harvests?.map((w: HarvestInfo, index: number) => {
     const txHash = w.transactionHash
     return {
-      linkAddress: EXPLORER_TX_URL + w.transactionHash,
+      linkAddress: EXPLORER_URL + 'tx/' + w.transactionHash,
       external: true,
       labels: [
         {
