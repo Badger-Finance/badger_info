@@ -2,7 +2,7 @@ import { ANALYTICS_API_URL, ETHERSCAN_BLOCK_URL } from 'data/urls'
 
 export async function fetchCycles(page: number) {
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/cycles?chain=eth&limit=5&offsett=${page * 5}`)
+    const result = await fetch(`${ANALYTICS_API_URL}/cycles?chain=eth&limit=5&offset=${page * 5}`)
     const json = await result.json()
     return {
       error: false,
