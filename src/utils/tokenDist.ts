@@ -1,3 +1,4 @@
+import { SettInfo } from 'state/setts/reducer'
 import { TokenDist } from 'state/cycle/reducer'
 import tokens from 'constants/tokens'
 interface ChartElement {
@@ -31,7 +32,7 @@ export function sumTokenDist(totalTokenDist: TokenDist) {
     }
   })
 }
-export function tokenDistToChart(totalTokenDist: TokenDist) {
+export function tokenDistToChart(totalTokenDist: TokenDist, settNames: any) {
   const chartData: ChartData = {}
   if (totalTokenDist) {
     Object.entries(totalTokenDist).forEach((td) => {
@@ -47,7 +48,7 @@ export function tokenDistToChart(totalTokenDist: TokenDist) {
           chartData[tokens[token]] = []
         }
         chartData[tokens[token]].push({
-          sett: sett.split('.')[1],
+          sett: settNames[sett],
           amount,
         })
       })

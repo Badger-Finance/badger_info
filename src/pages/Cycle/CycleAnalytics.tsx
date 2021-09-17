@@ -13,6 +13,7 @@ import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
 import { formatBalanceAmount } from 'utils/numbers'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
+import { useSetts } from 'state/setts/hooks'
 interface RouteParams {
   cycleNumber: string
 }
@@ -57,13 +58,20 @@ const CycleAnalytics = () => {
   const [endDate, setEndDate] = useState(new Date())
   const cycleData = useCycleData(cycleNumber)
   const cycleError = useCycleError(cycleNumber)
+
+  const setts = useSetts()
+
+  const settNames: any = {}
+  setts.forEach((sett) => {
+    settNames[sett.vaultToken] = sett.name
+  })
   const totalRewards = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
     return sumTokenDist(totalTokenDist) as Array<SumRewards>
   }, [cycleData])
   const chartData = useMemo(() => {
     const { totalTokenDist } = cycleData || {}
-    return tokenDistToChart(totalTokenDist) as ChartData
+    return tokenDistToChart(totalTokenDist, settNames) as ChartData
   }, [cycleData])
   useEffect(() => {
     async function fetch() {
@@ -98,11 +106,6 @@ const CycleAnalytics = () => {
                 <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>
                 {totalRewards.length > 0 &&
                   totalRewards.map((element) => {
-                    console.log(element)
-                    if (tokens[element.token] == 'Badger') {
-                      element.amount = element.amount / 10
-                      console.log(element.amount)
-                    }
                     return (
                       <AutoColumn key={tokens[element.token]} gap="7.5px">
                         <TYPE.main fontWeight={400}>{tokens[element.token]} Rewards</TYPE.main>
