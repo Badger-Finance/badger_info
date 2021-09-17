@@ -1,3 +1,4 @@
+import { CHAIN } from './../../constants/index'
 import { BoostData } from 'state/boosts/reducer'
 import { ANALYTICS_API_URL } from 'data/urls'
 export async function fetchBoosts() {
@@ -31,7 +32,7 @@ export async function fetchBoosts() {
 }
 export async function fetchSchedules() {
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/schedules`)
+    const result = await fetch(`${ANALYTICS_API_URL}/schedules?chain=${CHAIN}`)
     const json = await result.json()
     Object.entries(json.data.schedules).map(([sett, data]: any) => {
       json.data.schedules[sett] = data
