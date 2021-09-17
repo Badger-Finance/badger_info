@@ -48,7 +48,7 @@ export function tokenDistToChart(totalTokenDist: TokenDist, settNames: any) {
           chartData[tokens[token]] = []
         }
         chartData[tokens[token]].push({
-          sett: settNames[sett],
+          sett: settNames[sett].substr(settNames[sett].indexOf(' ') + 1),
           amount,
         })
       })
