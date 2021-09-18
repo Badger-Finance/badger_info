@@ -149,7 +149,7 @@ const BoostsInfo = () => {
         }
       })
       .slice(0, maxAmount)
-  }, [sortDirection, sortField])
+  }, [sortDirection, sortField, boosts])
 
   const arrow = useCallback(
     (field: string) => {
@@ -162,6 +162,7 @@ const BoostsInfo = () => {
       <AutoColumn gap="20px">
         <TYPE.largeHeader>Boost Analytics</TYPE.largeHeader>
         <TYPE.mediumHeader>Only {maxAmount} records shown for performance reasons</TYPE.mediumHeader>
+        {sortedBoosts.length == 0 && <TYPE.mediumHeader>Loading Boosts....</TYPE.mediumHeader>}
         <ButtonWrapper>
           <CSVLink style={{ color: 'white' }} filename={'badger-boosts.csv'} data={csvData}>
             <ButtonPrimary style={{ backgroundColor: 'grey' }}>Export To Csv</ButtonPrimary>
