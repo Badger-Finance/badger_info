@@ -7,7 +7,25 @@ export interface CycleData {
   startBlock: number
   endBlock: number
   totalTokenDist: TokenDist
+  treeDistributions: TreeDistributions
 }
+
+interface TreeDistributions {
+  [sett: string]: Array<TreeDistribution>
+}
+interface TreeDistribution {
+  amount: number
+  blockNumber: number
+  token: Token
+  id: string
+  timestamp: number
+}
+
+interface Token {
+  address: string
+  symbol: string
+}
+
 export interface TokenDist {
   [sett: string]: {
     [token: string]: number

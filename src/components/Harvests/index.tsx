@@ -4,7 +4,6 @@ import VaultTable from 'components/VaultTable'
 import { HarvestInfo } from 'state/setts/reducer'
 import { useHarvests } from 'state/setts/hooks'
 import { EXPLORER_URL } from 'data/urls'
-
 interface Props {
   vaultAddress: string
 }

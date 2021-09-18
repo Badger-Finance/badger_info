@@ -53,7 +53,7 @@ const Cycle = (props: any) => {
             </AutoColumn>
             <AutoColumn gap="4px">
               <TYPE.main fontWeight={400}>Cycle Length</TYPE.main>
-              <TYPE.label fontSize="20px">{msToTime((props.endBlock - props.startBlock) * BLOCK_TIME)}</TYPE.label>
+              <TYPE.label fontSize="20px">{`${props.endBlock - props.startBlock} Blocks`}</TYPE.label>
             </AutoColumn>
           </AutoColumn>
         </DarkGreyCard>
