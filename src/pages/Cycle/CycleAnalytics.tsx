@@ -20,6 +20,7 @@ interface RouteParams {
 
 const ContentLayout = styled.div`
   margin-top: 16px;
+  margin-bottom: 16px;
   display: grid;
   grid-template-columns: 300px 1fr;
   grid-gap: 1em;
@@ -29,9 +30,13 @@ const ContentLayout = styled.div`
     grid-template-rows: 1fr 1fr;
   }
 `
-
+const TreeDistributions = styled.div`
+  margin-top: 16px;
+`
 const PageWrapper = styled.div`
   width: 90%;
+  display: flex;
+  flex-direction: column;
 `
 
 const CenteredHeader = styled.div`
@@ -90,7 +95,6 @@ const CycleAnalytics = () => {
       fetch()
     }
   }, [cycleData])
-
   return (
     <>
       {cycleError === true ? (
@@ -150,6 +154,14 @@ const CycleAnalytics = () => {
               </ChartWrapper>
             </DarkGreyCard>
           </ContentLayout>
+          <CenteredHeader>
+            <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
+          </CenteredHeader>
+          <TreeDistributions>
+            <DarkGreyCard>
+              <p>{window.JSON.stringify(cycleData.treeDistributions, null, 4)}</p>
+            </DarkGreyCard>
+          </TreeDistributions>
         </PageWrapper>
       )}
     </>

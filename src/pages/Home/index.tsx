@@ -6,8 +6,6 @@ import { PageWrapper, ThemedBackgroundGlobal } from 'pages/styled'
 
 import Cycle from 'components/Cycle'
 import { useAddCyclePage, useCyclePage, useCyclePageData, useCyclePages } from 'state/cycle/hooks'
-import { fetchCycles } from 'data/cycles'
-import { CycleData } from 'state/cycle/reducer'
 export default function Home() {
   useEffect(() => {
     window.scrollTo(0, 0)
