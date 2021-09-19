@@ -1,3 +1,4 @@
+import { fetchAccountData } from 'data/accounts/index'
 import { updateAccountData, updateScoreData, updateNftData } from './actions'
 import { AccountData } from './reducer'
 import { AppState, AppDispatch } from '../index'
@@ -9,8 +10,30 @@ export function useUpdateAccountData(address: string) {
   const dispatch = useDispatch<AppDispatch>()
   return useCallback((accountData: AccountData) => dispatch(updateAccountData({ address, accountData })), [dispatch])
 }
-export function useAccountData(address: string) {
+export function useAccount(address: string) {
   return useSelector((state: AppState) => state.accounts.accounts[address])
+}
+
+export function useAccountData(address: string): AccountData {
+  const dispatch = useDispatch<AppDispatch>()
+  const account = useAccount(address)
+  useEffect(() => {
+    async function fetch() {
+      const { error, data } = await fetchAccountData(address)
+      if (!error) {
+        dispatch(
+          updateAccountData({
+            address,
+            accountData: data,
+          })
+        )
+      }
+    }
+    if (!account) {
+      fetch()
+    }
+  }, [address])
+  return account
 }
 
 function useScores(address: string) {

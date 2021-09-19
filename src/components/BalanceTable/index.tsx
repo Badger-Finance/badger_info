@@ -62,12 +62,8 @@ const LoaderWrapper = styled.div`
   margin: 0;
 `
 
-export const LoadingRows = () => {
-  return (
-    <LoaderWrapper>
-      <LocalLoader fill={false} />
-    </LoaderWrapper>
-  )
+export const LoadingRows = (props: any) => {
+  return <LoaderWrapper>{!props.isLoaded && <LocalLoader fill={false} />}</LoaderWrapper>
 }
 const DataRow = (props: { index: number; balanceData: Balance }) => {
   const { index, balanceData } = props
@@ -130,7 +126,6 @@ const BalanceTable = (props: any) => {
         <ClickableText color={theme.text2} onClick={() => handleSort(SORT_FIELD.assetName)}>
           Asset
         </ClickableText>
-
         <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.multiplier)}>
           Final Multiplier {arrow(SORT_FIELD.multiplier)}
         </ClickableText>
@@ -152,7 +147,7 @@ const BalanceTable = (props: any) => {
           )
         })
       ) : (
-        <LoadingRows />
+        <LoadingRows isLoaded={props.isLoaded} />
       )}
     </AutoColumn>
   )

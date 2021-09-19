@@ -75,20 +75,8 @@ const User = () => {
   const nfts = nftScores?.nfts || []
   const { score = 0, multiplier = 1 } = nftScores || {}
   const boostData = useUserBoostData(address)
-  console.log(boostData)
-  useEffect(() => {
-    const fetch = async () => {
-      if (!accountData) {
-        const { error, data } = await fetchAccountData(address)
-        if (!error && data) {
-          updateAccountData(data)
-        } else {
-          setAccountError(error)
-        }
-      }
-    }
-    fetch()
-  }, [address])
+
+  console.log(accountData)
   return (
     <>
       {accountError == true ? (
@@ -159,7 +147,7 @@ const User = () => {
               </DataWrapper>
 
               <DarkGreyCard>
-                <BalanceTable balanceData={balances} />
+                <BalanceTable balanceData={balances} isLoaded={netWorth > 0} />
               </DarkGreyCard>
             </ContentLayout>
             <ScoreWrapper>
