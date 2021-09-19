@@ -2,13 +2,22 @@ import { BADGER_API_URL, ANALYTICS_API_URL } from './../urls'
 import { CHAIN } from 'constants/index'
 import { AccountData, Balance, ScoreData } from 'state/accounts/reducer'
 export async function fetchAccountData(address: string) {
-  const url = `${BADGER_API_URL}/accounts/${address}?chain=matic`
+  const url = `${BADGER_API_URL}/accounts/${address}?chain=${CHAIN}`
+  const noData = {
+    balances: {},
+    boost: 0,
+    boostRank: 0,
+    netWorth: 0,
+  } as AccountData
   try {
     const result = await fetch(url)
     const json = await result.json()
+    console.log(json)
+
     if (json?.status == 500) {
       return {
         error: true,
+        data: noData,
       }
     }
     const balances = json.balances.map((b: any) => {
@@ -31,12 +40,14 @@ export async function fetchAccountData(address: string) {
         boost: json.boost,
         boostRank: json.boostRank,
         netWorth: json.value,
+        claimableBalances: json.claimableBalancesMap,
       } as AccountData,
     }
   } catch (error) {
     console.log(error)
     return {
       error: true,
+      data: noData,
     }
   }
 }
@@ -75,7 +86,6 @@ export async function fetchNftScore(address: string) {
   try {
     const result = await fetch(`${ANALYTICS_API_URL}/nft_score/${address}`)
     const json = await result.json()
-    console.log(json)
     if (!json.success) {
       return {
         error: true,

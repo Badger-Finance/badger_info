@@ -65,7 +65,6 @@ function APYs() {
         <Select
           styles={customStyles}
           onChange={(v: any) => {
-            console.log(v)
             setBoost(v)
           }}
           defaultValue={{ value: 0, label: 0 }}
