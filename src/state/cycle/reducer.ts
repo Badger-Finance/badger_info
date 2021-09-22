@@ -10,10 +10,10 @@ export interface CycleData {
   treeDistributions: TreeDistributions
 }
 
-interface TreeDistributions {
+export interface TreeDistributions {
   [sett: string]: Array<TreeDistribution>
 }
-interface TreeDistribution {
+export interface TreeDistribution {
   amount: number
   blockNumber: number
   token: Token

@@ -14,6 +14,7 @@ import { ChartData } from 'utils/tokenDist'
 import { formatBalanceAmount } from 'utils/numbers'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
 import { useSetts } from 'state/setts/hooks'
+import TreeDistributionsChart from 'components/TreeDistributions'
 interface RouteParams {
   cycleNumber: string
 }
@@ -32,6 +33,9 @@ const ContentLayout = styled.div`
 `
 const TreeDistributions = styled.div`
   margin-top: 16px;
+  height: 400px;
+  margin-right: 10px;
+  padding-bottom: 100px;
 `
 const PageWrapper = styled.div`
   width: 90%;
@@ -158,8 +162,8 @@ const CycleAnalytics = () => {
             <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
           </CenteredHeader>
           <TreeDistributions>
-            <DarkGreyCard>
-              <p>{window.JSON.stringify(cycleData.treeDistributions, null, 4)}</p>
+            <DarkGreyCard style={{ height: '400px' }}>
+              {cycleData && <TreeDistributionsChart dists={cycleData.treeDistributions} settNames={settNames} />}
             </DarkGreyCard>
           </TreeDistributions>
         </PageWrapper>
