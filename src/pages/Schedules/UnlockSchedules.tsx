@@ -32,14 +32,16 @@ const BarWrapper = styled.div`
 `
 const UnlockSchedules = () => {
   const schedulesData = useSchedulesData()
+  console.log(schedulesData)
   return (
     <PageWrapper>
       <AutoColumn gap="20px">
         <AutoColumn gap="20px">
-          {Object.entries(schedulesData).map(([settAddr, data]) => {
+          {Object.entries(schedulesData).map(([settAddr, data], index) => {
             if (data.length > 0) {
               const schedule = data[0]
-              return <ScheduleInfo key={schedule.startTime} settAddr={settAddr} data={schedule}></ScheduleInfo>
+              console.log(schedule)
+              return <ScheduleInfo key={index} settAddr={settAddr} data={schedule}></ScheduleInfo>
             } else {
               return <></>
             }
@@ -58,7 +60,7 @@ const ScheduleInfo = (props: ScheduleProps) => {
   const { settAddr, data } = props
   const sett = useSettByAddress(settAddr)
   const percent = (percentInRange(data.startTime, data.endTime) * 100).toFixed(1)
-  const inRange = Number(percent) > 0 && Number(percent) < 100
+  const inRange = true
   return (
     <>
       {inRange && (

@@ -13,13 +13,15 @@ import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
 import { formatBalanceAmount } from 'utils/numbers'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
-import { useSetts } from '../../state/setts/hooks'
+import { useSetts } from 'state/setts/hooks'
+import TreeDistributionsChart from 'components/TreeDistributions'
 interface RouteParams {
   cycleNumber: string
 }
 
 const ContentLayout = styled.div`
   margin-top: 16px;
+  margin-bottom: 16px;
   display: grid;
   grid-template-columns: 300px 1fr;
   grid-gap: 1em;
@@ -29,9 +31,16 @@ const ContentLayout = styled.div`
     grid-template-rows: 1fr 1fr;
   }
 `
-
+const TreeDistributions = styled.div`
+  margin-top: 16px;
+  height: 400px;
+  margin-right: 10px;
+  padding-bottom: 100px;
+`
 const PageWrapper = styled.div`
   width: 90%;
+  display: flex;
+  flex-direction: column;
 `
 
 const CenteredHeader = styled.div`
@@ -58,7 +67,9 @@ const CycleAnalytics = () => {
   const [endDate, setEndDate] = useState(new Date())
   const cycleData = useCycleData(cycleNumber)
   const cycleError = useCycleError(cycleNumber)
+
   const setts = useSetts()
+  const renderTreeDists = Object.keys(cycleData?.treeDistributions || []).length > 0
   const settNames: any = {}
   setts.forEach((sett) => {
     settNames[sett.vaultToken] = sett.name
@@ -89,7 +100,6 @@ const CycleAnalytics = () => {
       fetch()
     }
   }, [cycleData])
-
   return (
     <>
       {cycleError === true ? (
@@ -149,6 +159,18 @@ const CycleAnalytics = () => {
               </ChartWrapper>
             </DarkGreyCard>
           </ContentLayout>
+          {renderTreeDists && (
+            <CenteredHeader>
+              <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
+            </CenteredHeader>
+          )}
+          {renderTreeDists && (
+            <TreeDistributions>
+              <DarkGreyCard style={{ height: '400px' }}>
+                {cycleData && <TreeDistributionsChart dists={cycleData.treeDistributions} settNames={settNames} />}
+              </DarkGreyCard>
+            </TreeDistributions>
+          )}
         </PageWrapper>
       )}
     </>

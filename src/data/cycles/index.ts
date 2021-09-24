@@ -1,4 +1,5 @@
-import { ANALYTICS_API_URL, ETHERSCAN_BLOCK_URL } from 'data/urls'
+import { CHAIN } from './../../constants/index'
+import { ANALYTICS_API_URL, EXPLORER_BLOCK_URL } from 'data/urls'
 
 export async function fetchCycles(page: number) {
   try {
@@ -17,8 +18,9 @@ export async function fetchCycles(page: number) {
 }
 export async function fetchCycle(cycleNumber: number) {
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/cycle/${cycleNumber}`)
+    const result = await fetch(`${ANALYTICS_API_URL}/cycle/${cycleNumber}/?chain=${CHAIN}`)
     const json = await result.json()
+    console.log(json)
     return {
       error: false,
       data: json,
@@ -33,7 +35,7 @@ export async function fetchCycle(cycleNumber: number) {
 
 export async function getTimestampOfBlock(blockNumber: number) {
   try {
-    const result = await fetch(`${ETHERSCAN_BLOCK_URL}${blockNumber}&apikey=B3M5SZUJQ6SFHI3KBFWSW6QITTH2PFZRTQ`)
+    const result = await fetch(`${EXPLORER_BLOCK_URL}${blockNumber}&apikey=B3M5SZUJQ6SFHI3KBFWSW6QITTH2PFZRTQ`)
     const json = await result.json()
     return {
       error: false,

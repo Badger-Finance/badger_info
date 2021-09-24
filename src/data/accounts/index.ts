@@ -1,4 +1,5 @@
 import { BADGER_API_URL, ANALYTICS_API_URL } from './../urls'
+import { CHAIN } from 'constants/index'
 import { AccountData, Balance, ScoreData } from 'state/accounts/reducer'
 export async function fetchAccountData(address: string) {
   const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`

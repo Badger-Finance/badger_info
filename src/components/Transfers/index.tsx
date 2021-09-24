@@ -3,6 +3,7 @@ import { useDeposits, useWithdrawals } from 'state/setts/hooks'
 import { VaultTransfers } from 'state/setts/reducer'
 import { formatBalanceAmount, formatDollarAmount } from 'utils/numbers'
 import VaultTable from 'components/VaultTable'
+import { EXPLORER_URL } from 'data/urls'
 
 interface TransfersProps {
   transfers: any
@@ -11,7 +12,7 @@ interface TransfersProps {
 const Transfers = (props: TransfersProps) => {
   const tableData = props.transfers?.map((w: VaultTransfers, index: number) => {
     return {
-      linkAddress: 'https://etherscan.com/tx/' + w.transactionHash,
+      linkAddress: EXPLORER_URL + 'tx/' + w.transactionHash,
       external: true,
       labels: [
         {

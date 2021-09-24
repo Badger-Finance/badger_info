@@ -16,7 +16,7 @@ const RewardsBarChart = (props: any) => {
         }}
       >
         <CartesianGrid strokeDasharray="4 4" />
-        <XAxis dy={70} dataKey="sett" height={140} angle={-70} interval={0} />
+        <XAxis dx={-10} dy={50} dataKey="sett" height={200} angle={-30} interval={0} />
         <YAxis />
         <Tooltip />
         <Bar dataKey="amount" fill="#8884d8" />
