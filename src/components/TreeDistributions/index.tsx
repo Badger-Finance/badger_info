@@ -64,7 +64,14 @@ export default function TreeDistributionsChart(props: Props) {
             </Label>
           </YAxis>
           <XAxis
-            tickFormatter={(ut) => new Date(ut * 1000).toISOString().substr(11, 8)}
+            tickFormatter={(ut) => {
+              console.log(ut)
+              if (typeof ut == 'string') {
+                return ''
+              } else {
+                return new Date(ut * 1000).toISOString().substr(11, 8)
+              }
+            }}
             dataKey="timestamp"
             name="timestamp"
             unit=""
@@ -77,9 +84,10 @@ export default function TreeDistributionsChart(props: Props) {
           <ZAxis type="category" dataKey={'name'} range={[300, 300]} />
           <Legend />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-          {Object.entries(dists).map((d: any, index: number) => {
-            return <Scatter key={d[0]} name={d[0]} data={d[1]} fill={colors[index]} shape="square" />
-          })}
+          {Object.keys(dists).length > 0 &&
+            Object.entries(dists).map((d: any, index: number) => {
+              return <Scatter key={d[0]} name={d[0]} data={d[1]} fill={colors[index]} shape="square" />
+            })}
         </ScatterChart>
       </ResponsiveContainer>
     </>
