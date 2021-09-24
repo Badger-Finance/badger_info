@@ -69,7 +69,7 @@ const CycleAnalytics = () => {
   const cycleError = useCycleError(cycleNumber)
 
   const setts = useSetts()
-
+  const renderTreeDists = Object.keys(cycleData.treeDistributions).length > 0
   const settNames: any = {}
   setts.forEach((sett) => {
     settNames[sett.vaultToken] = sett.name
@@ -158,14 +158,18 @@ const CycleAnalytics = () => {
               </ChartWrapper>
             </DarkGreyCard>
           </ContentLayout>
-          <CenteredHeader>
-            <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
-          </CenteredHeader>
-          <TreeDistributions>
-            <DarkGreyCard style={{ height: '400px' }}>
-              {cycleData && <TreeDistributionsChart dists={cycleData.treeDistributions} settNames={settNames} />}
-            </DarkGreyCard>
-          </TreeDistributions>
+          {renderTreeDists && (
+            <CenteredHeader>
+              <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
+            </CenteredHeader>
+          )}
+          {renderTreeDists && (
+            <TreeDistributions>
+              <DarkGreyCard style={{ height: '400px' }}>
+                {cycleData && <TreeDistributionsChart dists={cycleData.treeDistributions} settNames={settNames} />}
+              </DarkGreyCard>
+            </TreeDistributions>
+          )}
         </PageWrapper>
       )}
     </>
