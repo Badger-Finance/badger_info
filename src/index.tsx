@@ -4,7 +4,7 @@ import { isMobile } from 'react-device-detect'
 import ReactDOM from 'react-dom'
 import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
-import { HashRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import './i18n'
 import App from './pages/App'
 import store from './state'
@@ -54,9 +54,9 @@ ReactDOM.render(
         <Updaters />
         <ThemeProvider>
           <ThemedGlobalStyle />
-          <HashRouter>
+          <BrowserRouter>
             <App />
-          </HashRouter>
+          </BrowserRouter>
         </ThemeProvider>
       </Provider>
     </ApolloProvider>
