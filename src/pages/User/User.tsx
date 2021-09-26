@@ -6,11 +6,10 @@ import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import BalanceTable from 'components/BalanceTable'
 import { formatDollarAmount } from 'utils/numbers'
-import { useAccountData, useUpdateAccountData } from 'state/accounts/hooks'
-import { fetchAccountData } from 'data/accounts/index'
+import { useAccountData } from 'state/accounts/hooks'
 import { usePrices } from 'hooks/usePricing'
-import ScoreTable from 'components/Score'
 import NftTable from 'components/NftTable'
+import ClaimableTable from 'components/ClaimableTable'
 import { useNftScoresData } from 'state/accounts/hooks'
 import { useUserBoostData } from 'state/boosts/hooks'
 import { EXPLORER_URL } from 'data/urls'
@@ -66,20 +65,19 @@ const ScoreWrapper = styled.div`
 
 const User = () => {
   const { address } = useParams<RouteParams>()
-  const updateAccountData = useUpdateAccountData(address)
-  const [accountError, setAccountError] = useState(false)
   const accountData = useAccountData(address)
   const prices = usePrices()
   const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
   const nftScores = useNftScoresData(address)
   const nfts = nftScores?.nfts || []
-  const { score = 0, multiplier = 1 } = nftScores || {}
   const boostData = useUserBoostData(address)
-
   console.log(accountData)
+
+  const isAccountData = Object.keys(accountData?.balances || { a: 'a' }).length > 0
+
   return (
     <>
-      {accountError == true ? (
+      {!isAccountData ? (
         <div> No account data for {address}</div>
       ) : (
         <PageWrapper>
@@ -151,8 +149,8 @@ const User = () => {
               </DarkGreyCard>
             </ContentLayout>
             <ScoreWrapper>
-              <ScoreTable address={address} />
-              <NftTable nfts={nfts} />
+              <ClaimableTable address={address} claimable={accountData?.claimableBalances} />
+              <NftTable address={address} nfts={nfts} />
             </ScoreWrapper>
           </AutoColumn>
         </PageWrapper>
