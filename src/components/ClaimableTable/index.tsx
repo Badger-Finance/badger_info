@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
-import { AutoColumn } from 'components/Column'
 import { PageButtons, Arrow, Break } from 'components/shared'
-import NFTS from 'constants/nfts'
+import tokens from 'constants/tokens'
 import useTheme from 'hooks/useTheme'
+import { EXPLORER_URL } from 'data/urls'
 
 const TableWrapper = styled.div`
-  display: flex;
-  flex-direction: row
-  margin-top: 10px;
-  flex: 1;
+display: flex;
+flex-direction: row
+width: 500px;
+@media screen and (max-width: 800px) {
+  width: 100%
+}
+margin-top: 10px;
+margin-right: 20px;
 `
 
 const Row = styled.div`
@@ -22,43 +26,44 @@ const Row = styled.div`
 `
 
 const DataRow = (props: any) => {
-  const [addr, id] = props.first.split('-')
-
   return (
     <>
       <Row>
         <TYPE.label style={{ width: '10%' }}>{props.number}</TYPE.label>
         <a
           style={{ width: '60%', wordBreak: 'break-word' }}
-          href={`https://opensea.io/assets/${addr}/${id}`}
+          href={`${EXPLORER_URL}/address/${props.first}`}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <TYPE.label>{NFTS[props.first]}</TYPE.label>
+          <TYPE.label>{tokens[props.first]}</TYPE.label>
         </a>
-        <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
+        <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{(props.second / 1e18).toFixed(3)}</TYPE.label>
       </Row>
       <Break />
     </>
   )
 }
 
-export default function NftTable(props: any) {
+const ClaimableTable = (props: any) => {
   const theme = useTheme()
+  console.log(props.claimable)
+
   return (
     <TableWrapper>
       <DarkGreyCard>
         <>
           <Row>
             <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
-            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'NFT'}</TYPE.label>
-            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Fulfilled'}</TYPE.label>
+            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'Token Claimable'}</TYPE.label>
+            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Amount'}</TYPE.label>
           </Row>
           <Break />
         </>
-        {props.nfts ? (
-          props.nfts.map((nft: any, index: number) => {
-            return <DataRow key={index} number={index + 1} first={nft.token} second={nft.amount > 0 ? '✅' : '❌'} />
+        {props.claimable ? (
+          Object.entries(props.claimable).map((cb: any, index: number) => {
+            const [token, claimable] = cb
+            return <DataRow key={index} number={index + 1} first={token} second={claimable} />
           })
         ) : (
           <div>loading</div>
@@ -67,3 +72,4 @@ export default function NftTable(props: any) {
     </TableWrapper>
   )
 }
+export default ClaimableTable
