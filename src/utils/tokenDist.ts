@@ -31,6 +31,7 @@ export function sumTokenDist(totalTokenDist: TokenDist) {
   })
 }
 export function tokenDistToChart(totalTokenDist: TokenDist, settNames: any) {
+  console.log(settNames)
   const chartData: ChartData = {}
   if (totalTokenDist) {
     Object.entries(totalTokenDist).forEach((td) => {
@@ -43,8 +44,9 @@ export function tokenDistToChart(totalTokenDist: TokenDist, settNames: any) {
         if (!(tokens[token] in chartData)) {
           chartData[tokens[token]] = []
         }
+        const settName = settNames[sett]
         chartData[tokens[token]].push({
-          sett: settNames[sett].substr(settNames[sett].indexOf(' ') + 1),
+          sett: settName ? settName.substr(settNames[sett].indexOf(' ') + 1) : '',
           amount,
         })
       })
