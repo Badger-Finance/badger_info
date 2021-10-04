@@ -69,7 +69,7 @@ const CycleAnalytics = () => {
   const cycleError = useCycleError(cycleNumber)
 
   const setts = useSetts()
-  const renderTreeDists = Object.keys(cycleData.treeDistributions).length > 0
+  const renderTreeDists = Object.keys(cycleData?.treeDistributions || {}).length > 0
   const settNames: any = {}
   setts.forEach((sett) => {
     settNames[sett.vaultToken] = sett.name
