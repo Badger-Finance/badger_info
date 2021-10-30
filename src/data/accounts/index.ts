@@ -20,14 +20,15 @@ export async function fetchAccountData(address: string) {
         data: noData,
       }
     }
-    const balances = json.balances.map((b: any) => {
-      let multiplier = json.multipliers[b.id]
+    const balances = Object.keys(json.data).map((sett: any) => {
+      const b = json.data[sett]
+      let multiplier = json.multipliers[sett]
       if (!multiplier) {
         multiplier = 1
       }
       return {
         assetName: b.name,
-        vaultAddress: b.id,
+        vaultAddress: sett,
         value: b.value,
         balance: b.balance,
         multiplier: multiplier,
@@ -36,7 +37,7 @@ export async function fetchAccountData(address: string) {
     return {
       error: false,
       data: {
-        balances,
+        balances: balances,
         boost: json.boost,
         boostRank: json.boostRank,
         netWorth: json.value,
