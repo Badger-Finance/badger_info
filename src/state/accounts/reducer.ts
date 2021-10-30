@@ -2,7 +2,7 @@ import { updateAccountData, updateScoreData, updateNftData } from './actions'
 import { createReducer } from '@reduxjs/toolkit'
 
 export interface AccountData {
-  balances?: Balance
+  balances?: Balance[]
   netWorth?: number
   boost?: number
   boostRank?: number
