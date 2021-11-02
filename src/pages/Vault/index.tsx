@@ -84,7 +84,7 @@ const Vault = () => {
               </AutoColumn>
               <AutoColumn gap="5px">
                 <TYPE.main>Price Per Full Share</TYPE.main>
-                <TYPE.label>{sett && sett?.ppfs.toFixed(3)}</TYPE.label>
+                <TYPE.label>{sett && sett?.ppfs?.toFixed(3)}</TYPE.label>
               </AutoColumn>
             </AutoColumn>
           </DarkGreyCard>
