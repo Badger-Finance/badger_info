@@ -4,7 +4,7 @@ import { ANALYTICS_API_URL } from 'data/urls'
 export async function fetchBoosts() {
   const boostArray: Array<BoostData> = []
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/boosts`)
+    const result = await fetch(`${ANALYTICS_API_URL}/boosts?chain=${CHAIN}`)
     let json = await result.json()
     json = json.data
     for (const item of Object.entries(json['boosts']['userData'])) {
