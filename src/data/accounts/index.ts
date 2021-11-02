@@ -41,7 +41,7 @@ export async function fetchAccountData(address: string) {
         boost: json.boost,
         boostRank: json.boostRank,
         netWorth: json.value,
-        claimableBalances: json.claimableBalancesMap,
+        claimableBalances: json.claimableBalances,
       } as AccountData,
     }
   } catch (error) {
