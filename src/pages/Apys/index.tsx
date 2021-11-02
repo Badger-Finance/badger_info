@@ -104,7 +104,7 @@ function APYs() {
               return (
                 <DarkGreyCard key={v.name} style={{ width: '300px', minWidth: '180px', margin: '10px' }}>
                   <AutoColumn gap="10px">
-                    <LinkWrapper to={`/vaults/${v.id}`}>
+                    <LinkWrapper to={`/vaults/${v.vaultToken}`}>
                       <TYPE.largeHeader>{v.name}</TYPE.largeHeader>
                     </LinkWrapper>
                     <AutoColumn gap="lg">
