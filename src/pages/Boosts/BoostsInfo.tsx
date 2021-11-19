@@ -84,16 +84,16 @@ const DataRow = ({ boostData, index }: { boostData: BoostData; index: number }) 
         <Label>{index + 1}</Label>
         <AddressLabel>{boostData.address}</AddressLabel>
         <Label end={1} fontWeight={400}>
-          {boostData.boost.toFixed(6)}
+          {Number(boostData.boost).toFixed(6)}
         </Label>
         <Label end={1} fontWeight={400}>
-          {boostData.stakeRatio.toFixed(2)}
+          {Number(boostData.stakeRatio).toFixed(2)}
         </Label>
         <Label end={1} fontWeight={400}>
-          {formatDollarAmount(boostData.nonNativeBalance)}
+          {formatDollarAmount(Number(boostData.nonNativeBalance))}
         </Label>
         <Label end={1} fontWeight={400}>
-          {formatDollarAmount(boostData.nativeBalance)}
+          {formatDollarAmount(Number(boostData.nativeBalance))}
         </Label>
       </ResponsiveGrid>
     </LinkWrapper>
