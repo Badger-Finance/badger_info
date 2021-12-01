@@ -244,10 +244,6 @@ export default function Header() {
           </BadgerIcon>
         </Title>
         <HeaderLinks>
-          <StyledNavLink id={`pool-nav-link`} to={'/cycles'}>
-            Cycles
-          </StyledNavLink>
-
           <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
             Schedules
           </StyledNavLink>
