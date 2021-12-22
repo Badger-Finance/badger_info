@@ -12,11 +12,11 @@ export async function fetchBoosts() {
       const data: any = item[1]
       boostArray.push({
         address: address,
-        boost: data.boost || 0,
-        stakeRatio: data.stakeRatio || 0,
-        nftMultiplier: data.nftMultiplier || 0,
-        nativeBalance: data.nativeBalance || 0,
-        nonNativeBalance: data.nonNativeBalance || 0,
+        boost: Number(data.boost) || 0,
+        stakeRatio: Number(data.stakeRatio) || 0,
+        nftMultiplier: Number(data.nftMultiplier) || 0,
+        nativeBalance: Number(data.nativeBalance) || 0,
+        nonNativeBalance: Number(data.nonNativeBalance) || 0,
       })
     }
     return {
