@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { TYPE } from 'theme'
 import { DarkGreyCard } from 'components/Card'
 import { PageButtons, Arrow, Break } from 'components/shared'
-import tokens from 'constants/tokens'
+import tokens, { getTokenName } from 'constants/tokens'
 import useTheme from 'hooks/useTheme'
 import { EXPLORER_URL } from 'data/urls'
 
@@ -36,7 +36,7 @@ const DataRow = (props: any) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <TYPE.label>{tokens[props.first]}</TYPE.label>
+          <TYPE.label>{getTokenName(props.first)}</TYPE.label>
         </a>
         <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{(props.second / 1e18).toFixed(3)}</TYPE.label>
       </Row>
@@ -55,7 +55,7 @@ const ClaimableTable = (props: any) => {
         <>
           <Row>
             <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
-            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'Token Claimable'}</TYPE.label>
+            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'Tokens Claimed'}</TYPE.label>
             <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Amount'}</TYPE.label>
           </Row>
           <Break />

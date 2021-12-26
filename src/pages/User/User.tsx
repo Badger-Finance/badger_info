@@ -71,7 +71,6 @@ const User = () => {
   const nftScores = useNftScoresData(address)
   const nfts = nftScores?.nfts || []
   const boostData = useUserBoostData(address)
-  console.log(accountData)
 
   const isAccountData = Object.keys(accountData?.balances || { a: 'a' }).length > 0
 
@@ -149,7 +148,7 @@ const User = () => {
               </DarkGreyCard>
             </ContentLayout>
             <ScoreWrapper>
-              <ClaimableTable address={address} claimable={accountData?.claimableBalances} />
+              <ClaimableTable address={address} claimable={accountData?.claimedBalances} />
               <NftTable address={address} nfts={nfts} />
             </ScoreWrapper>
           </AutoColumn>

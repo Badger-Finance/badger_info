@@ -6,9 +6,19 @@ export interface AccountData {
   netWorth?: number
   boost?: number
   boostRank?: number
-  claimableBalances?: {
+  claimedBalances?: {
     [token: string]: number
   }
+  recentClaims?: Array<Claim>
+}
+
+export interface Claim {
+  tx: string
+  amount: number
+  tokenAddr: string
+  tokenSymbol: string
+  cycle: number
+  blockNumber: number
 }
 
 export interface Balance {

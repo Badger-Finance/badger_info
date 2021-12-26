@@ -5,7 +5,7 @@ import { TYPE } from 'theme'
 import { useSchedulesData } from 'state/boosts/hooks'
 import { DarkGreyCard } from 'components/Card'
 import { msToTime } from 'utils/time'
-import tokens from 'constants/tokens'
+import tokens, { getTokenName } from 'constants/tokens'
 import { useSettByAddress } from 'state/setts/hooks'
 import { Schedule } from 'state/boosts/reducer'
 import { Link } from 'react-router-dom'
@@ -73,7 +73,7 @@ const ScheduleInfo = (props: ScheduleProps) => {
               <AutoColumn gap="lg">
                 <AutoColumn gap="4px">
                   <TYPE.main fontWeight={400}>Token</TYPE.main>
-                  <TYPE.label fontSize="20px">{tokens[data.token]}</TYPE.label>
+                  <TYPE.label fontSize="20px">{getTokenName(data.token)}</TYPE.label>
                 </AutoColumn>
                 <AutoColumn gap="4px">
                   <TYPE.main fontWeight={400}>Inital Tokens Locked</TYPE.main>

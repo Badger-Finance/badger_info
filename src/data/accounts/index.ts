@@ -1,6 +1,51 @@
+import gql from 'graphql-tag'
+import { treeClient } from './../../apollo/client'
 import { BADGER_API_URL, ANALYTICS_API_URL } from './../urls'
 import { CHAIN } from 'constants/index'
 import { AccountData, Balance, ScoreData } from 'state/accounts/reducer'
+
+export async function fetchClaimedBalances(address: string) {
+  const FETCH_CLAIMED_BALANCES = gql`
+    query($addr: ID!) {
+      user(id: $addr) {
+        id
+        balances(first: 50) {
+          token {
+            symbol
+            id
+          }
+          amount
+        }
+      }
+    }
+  `
+  try {
+    const { data, errors, loading } = await treeClient.query({
+      query: FETCH_CLAIMED_BALANCES,
+      variables: {
+        addr: address.toLowerCase(),
+      },
+    })
+    console.log(data)
+    const claimedBalancesMap: any = {}
+    if (data.user) {
+      data.user.balances.forEach((element: any) => {
+        claimedBalancesMap[element.token.id] = element.amount
+      })
+    }
+
+    return {
+      error: false,
+      data: claimedBalancesMap,
+    }
+  } catch (error) {
+    return {
+      error: true,
+      data: error,
+    }
+  }
+}
+
 export async function fetchAccountData(address: string) {
   const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`
   const noData = {
@@ -9,12 +54,12 @@ export async function fetchAccountData(address: string) {
     boostRank: 0,
     netWorth: 0,
   } as AccountData
+
   try {
     const result = await fetch(url)
     const json = await result.json()
-    console.log(json)
-
-    if (json?.status == 500) {
+    const { error, data } = await fetchClaimedBalances(address)
+    if (json?.status == 500 || error) {
       return {
         error: true,
         data: noData,
@@ -41,11 +86,10 @@ export async function fetchAccountData(address: string) {
         boost: json.boost,
         boostRank: json.boostRank,
         netWorth: json.value,
-        claimableBalances: json.claimableBalances,
+        claimedBalances: data,
       } as AccountData,
     }
   } catch (error) {
-    console.log(error)
     return {
       error: true,
       data: noData,
