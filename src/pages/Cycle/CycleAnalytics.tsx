@@ -69,19 +69,10 @@ const CycleAnalytics = () => {
   const cycleError = useCycleError(cycleNumber)
 
   const setts = useSetts()
-  const renderTreeDists = Object.keys(cycleData?.treeDistributions || []).length > 0
   const settNames: any = {}
   setts.forEach((sett) => {
     settNames[sett.vaultToken] = sett.name
   })
-  const totalRewards = useMemo(() => {
-    const { totalTokenDist } = cycleData || {}
-    return sumTokenDist(totalTokenDist) as Array<SumRewards>
-  }, [cycleData])
-  const chartData = useMemo(() => {
-    const { totalTokenDist } = cycleData || {}
-    return tokenDistToChart(totalTokenDist, settNames) as ChartData
-  }, [cycleData])
 
   useEffect(() => {
     async function fetch() {
@@ -113,15 +104,7 @@ const CycleAnalytics = () => {
             <DarkGreyCard>
               <AutoColumn gap="17.5px">
                 <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>
-                {totalRewards.length > 0 &&
-                  totalRewards.map((element) => {
-                    return (
-                      <AutoColumn key={tokens[element.token]} gap="7.5px">
-                        <TYPE.main fontWeight={400}>{tokens[element.token]} Rewards</TYPE.main>
-                        <TYPE.label>{formatBalanceAmount(element.amount)}</TYPE.label>
-                      </AutoColumn>
-                    )
-                  })}
+
                 <TYPE.mediumHeader>Cycle Info</TYPE.mediumHeader>
                 <AutoColumn gap="10px">
                   <TYPE.main>Start Block</TYPE.main>
@@ -139,38 +122,10 @@ const CycleAnalytics = () => {
             <DarkGreyCard>
               <AutoColumn gap="10px">
                 <TYPE.mediumHeader> Rewards per Sett</TYPE.mediumHeader>
-                <AutoRow gap="10px">
-                  {totalRewards.map((element) => {
-                    return (
-                      <SmallButton key={tokens[element.token]}>
-                        <ButtonPrimary
-                          onClick={() => setSelected(tokens[element.token])}
-                          bgColor={tokens[element.token] == selected ? 'blue' : 'grey'}
-                        >
-                          {tokens[element.token]}
-                        </ButtonPrimary>
-                      </SmallButton>
-                    )
-                  })}
-                </AutoRow>
+                <AutoRow gap="10px"></AutoRow>
               </AutoColumn>
-              <ChartWrapper>
-                <RewardsBarChart data={chartData[selected]} />
-              </ChartWrapper>
             </DarkGreyCard>
           </ContentLayout>
-          {renderTreeDists && (
-            <CenteredHeader>
-              <TYPE.largeHeader> Tree Distributions </TYPE.largeHeader>
-            </CenteredHeader>
-          )}
-          {renderTreeDists && (
-            <TreeDistributions>
-              <DarkGreyCard style={{ height: '400px' }}>
-                {cycleData && <TreeDistributionsChart dists={cycleData.treeDistributions} settNames={settNames} />}
-              </DarkGreyCard>
-            </TreeDistributions>
-          )}
         </PageWrapper>
       )}
     </>

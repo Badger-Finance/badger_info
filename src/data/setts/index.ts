@@ -11,7 +11,6 @@ export async function fetchSetts() {
     return {
       error: false,
       data: json.map((sett: any) => {
-        console.log(sett)
         return {
           name: sett.name,
           vaultToken: sett.settToken,

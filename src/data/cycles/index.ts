@@ -1,13 +1,42 @@
+import { treeClient } from './../../apollo/client'
+import gql from 'graphql-tag'
 import { CHAIN } from './../../constants/index'
 import { ANALYTICS_API_URL, EXPLORER_BLOCK_URL } from 'data/urls'
 
 export async function fetchCycles(page: number) {
+  const FETCH_CYCLES_DATA = gql`
+    query($skipAmount: Int) {
+      cycles(first: 5, skip: $skipAmount, orderBy: endBlock, orderDirection: desc) {
+        id
+        startBlock
+        endBlock
+        root
+        contentHash
+      }
+    }
+  `
+
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/cycles?chain=${CHAIN}&limit=5&offset=${page * 5}`)
-    const json = await result.json()
+    const { data, errors, loading } = await treeClient.query({
+      query: FETCH_CYCLES_DATA,
+      variables: {
+        skipAmount: page * 5,
+      },
+    })
+
+    console.log(data)
+
     return {
       error: false,
-      data: json,
+      data: data.cycles.map((c: any) => {
+        return {
+          cycle: Number(c.id),
+          merkleRoot: c.root,
+          contentHash: c.contentHash,
+          startBlock: c.startBlock,
+          endBlock: c.endBlock,
+        }
+      }),
     }
   } catch (error) {
     return {

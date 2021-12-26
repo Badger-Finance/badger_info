@@ -14,6 +14,21 @@ export const client = new ApolloClient({
     },
   },
 })
+
+export const treeClient = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/darruma/badger-tree-data',
+  cache: new InMemoryCache(),
+  queryDeduplication: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
+})
 export const settsClient = new ApolloClient({
   uri: 'https://api.thegraph.com/subgraphs/name/darruma/badger-setts',
   cache: new InMemoryCache(),

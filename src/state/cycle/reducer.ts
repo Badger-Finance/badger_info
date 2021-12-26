@@ -6,19 +6,6 @@ export interface CycleData {
   contentHash: string
   startBlock: number
   endBlock: number
-  totalTokenDist: TokenDist
-  treeDistributions: TreeDistributions
-}
-
-export interface TreeDistributions {
-  [sett: string]: Array<TreeDistribution>
-}
-export interface TreeDistribution {
-  amount: number
-  blockNumber: number
-  token: Token
-  id: string
-  timestamp: number
 }
 
 interface Token {

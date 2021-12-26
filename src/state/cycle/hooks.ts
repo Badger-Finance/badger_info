@@ -67,7 +67,8 @@ export function useCyclePageData(pageNumber: number) {
     async function fetch() {
       const { error, data } = await fetchCycles(pageNumber)
       if (!error) {
-        dispatch(addCyclePage({ cycles: data.data, page: pageNumber }))
+        console.log(data)
+        dispatch(addCyclePage({ cycles: data, page: pageNumber }))
       }
     }
     if (!page) {
