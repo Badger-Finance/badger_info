@@ -47,8 +47,6 @@ const DataRow = (props: any) => {
 
 const ClaimableTable = (props: any) => {
   const theme = useTheme()
-  console.log(props.claimable)
-
   return (
     <TableWrapper>
       <DarkGreyCard>

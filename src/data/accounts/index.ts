@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { treeClient } from './../../apollo/client'
+import { nftClient, treeClient } from './../../apollo/client'
 import { BADGER_API_URL, ANALYTICS_API_URL } from './../urls'
 import { CHAIN } from 'constants/index'
 import { AccountData, Balance, ScoreData } from 'state/accounts/reducer'
@@ -26,7 +26,6 @@ export async function fetchClaimedBalances(address: string) {
         addr: address.toLowerCase(),
       },
     })
-    console.log(data)
     const claimedBalancesMap: any = {}
     if (data.user) {
       data.user.balances.forEach((element: any) => {
@@ -128,10 +127,26 @@ export async function fetchScores(address: string) {
 }
 
 export async function fetchNftScore(address: string) {
+  const NFT_QUERY = gql`
+    query($userId: ID!) {
+      user(id: $userId) {
+        id
+        nfts(first: 100) {
+          id
+          amount
+        }
+      }
+    }
+  `
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/nft_score/${address}`)
-    const json = await result.json()
-    if (!json.success) {
+    const { data, error, loading } = await nftClient.query({
+      query: NFT_QUERY,
+      variables: {
+        userId: address.toLowerCase(),
+      },
+    })
+    console.log(data, error)
+    if (error) {
       return {
         error: true,
         data: {},
@@ -139,18 +154,17 @@ export async function fetchNftScore(address: string) {
     } else {
       return {
         error: false,
-        data: {
-          ...json.data,
-          nfts: json.data.nfts.map((n: any) => {
-            return {
-              amount: n.amount,
-              token: n.token.id,
-            }
-          }),
-        },
+        data: data.user.nfts.map((n: any) => {
+          const [token, id, user] = n.id.split('-')
+          return {
+            amount: n.amount,
+            token: `${token}-${id}`,
+          }
+        }),
       }
     }
   } catch (error) {
+    console.log(error)
     return {
       error: true,
       data: {},

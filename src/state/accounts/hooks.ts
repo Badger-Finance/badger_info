@@ -70,15 +70,7 @@ export function useNftScoresData(address: string) {
   useEffect(() => {
     async function fetch() {
       const { error, data } = await fetchNftScore(address)
-      console.log(error, data)
       if (!error) {
-        dispatch(
-          updateNftData({
-            address,
-            nftData: data,
-          })
-        )
-      } else {
         dispatch(
           updateNftData({
             address,

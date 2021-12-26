@@ -32,12 +32,7 @@ export interface Balance {
 export interface ScoreData {
   [cond: string]: number
 }
-export interface NftData {
-  score: number
-  multiplier: number
-  nfts: Array<Nft>
-}
-interface Nft {
+export interface Nft {
   amount: number
   token: string
 }
@@ -49,7 +44,7 @@ interface AccountsState {
     [address: string]: Array<ScoreData>
   }
   nftScores: {
-    [address: string]: NftData
+    [address: string]: Array<Nft>
   }
 }
 
