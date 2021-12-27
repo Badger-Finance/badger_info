@@ -145,29 +145,36 @@ export async function fetchNftScore(address: string) {
         userId: address.toLowerCase(),
       },
     })
-    console.log(data, error)
     if (error) {
       return {
         error: true,
-        data: {},
+        data: [],
       }
     } else {
-      return {
-        error: false,
-        data: data.user.nfts.map((n: any) => {
-          const [token, id, user] = n.id.split('-')
-          return {
-            amount: n.amount,
-            token: `${token}-${id}`,
-          }
-        }),
+      if (data.user) {
+        return {
+          error: false,
+          data: data.user.nfts.map((n: any) => {
+            const [token, id, user] = n.id.split('-')
+            return {
+              amount: n.amount,
+              token: `${token}-${id}`,
+            }
+          }),
+        }
+      }
+      {
+        return {
+          error: true,
+          data: [],
+        }
       }
     }
   } catch (error) {
     console.log(error)
     return {
       error: true,
-      data: {},
+      data: [],
     }
   }
 }

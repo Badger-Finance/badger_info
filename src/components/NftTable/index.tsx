@@ -56,13 +56,10 @@ export default function NftTable(props: any) {
           </Row>
           <Break />
         </>
-        {props.nfts ? (
+        {props.nfts &&
           props.nfts.map((nft: any, index: number) => {
             return <DataRow key={index} number={index + 1} first={nft.token} second={nft.amount > 0 ? '✅' : '❌'} />
-          })
-        ) : (
-          <div>loading</div>
-        )}
+          })}
       </DarkGreyCard>
     </TableWrapper>
   )

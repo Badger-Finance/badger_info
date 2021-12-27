@@ -69,7 +69,6 @@ const User = () => {
   const prices = usePrices()
   const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
   const nfts = useNftScoresData(address)
-  console.log(nfts)
   const boostData = useUserBoostData(address)
 
   const isAccountData = Object.keys(accountData?.balances || { a: 'a' }).length > 0
