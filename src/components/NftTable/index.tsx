@@ -34,7 +34,7 @@ const DataRow = (props: any) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <TYPE.label>{NFTS[props.first]}</TYPE.label>
+          <TYPE.label>{NFTS[props.first].name}</TYPE.label>
         </a>
         <TYPE.label style={{ width: '30%', textAlign: 'center' }}>{props.second}</TYPE.label>
       </Row>
@@ -52,13 +52,14 @@ export default function NftTable(props: any) {
           <Row>
             <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
             <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'NFT'}</TYPE.label>
-            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Fulfilled'}</TYPE.label>
+            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Badger Amount'}</TYPE.label>
           </Row>
           <Break />
         </>
         {props.nfts &&
           props.nfts.map((nft: any, index: number) => {
-            return <DataRow key={index} number={index + 1} first={nft.token} second={nft.amount > 0 ? '✅' : '❌'} />
+            console.log(nft)
+            return <DataRow key={index} number={index + 1} first={nft.token} second={NFTS[nft.token].value} />
           })}
       </DarkGreyCard>
     </TableWrapper>
