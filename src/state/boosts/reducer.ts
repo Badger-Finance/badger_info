@@ -8,6 +8,7 @@ export interface BoostData {
   nftMultiplier: number
   nativeBalance: number
   nonNativeBalance: number
+  nftBalance: number
 }
 
 export interface BoostsState {

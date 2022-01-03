@@ -17,6 +17,7 @@ export async function fetchBoosts() {
         nftMultiplier: Number(data.nftMultiplier) || 0,
         nativeBalance: Number(data.nativeBalance) || 0,
         nonNativeBalance: Number(data.nonNativeBalance) || 0,
+        nftBalance: Number(data.nftBalance) || 0,
       })
     }
     return {

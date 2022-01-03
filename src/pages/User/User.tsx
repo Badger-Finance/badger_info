@@ -115,6 +115,10 @@ const User = () => {
                           <TYPE.main>Non Native Balance</TYPE.main>
                           <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nonNativeBalance)}</TYPE.label>
                         </AutoColumn>
+                        <AutoColumn gap="5px">
+                          <TYPE.main>Nft Balance</TYPE.main>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nftBalance)}</TYPE.label>
+                        </AutoColumn>
                       </AutoColumn>
                     </AutoColumn>
                   </DarkGreyCard>
