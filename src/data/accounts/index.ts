@@ -154,13 +154,17 @@ export async function fetchNftScore(address: string) {
       if (data.user) {
         return {
           error: false,
-          data: data.user.nfts.map((n: any) => {
-            const [token, id, user] = n.id.split('-')
-            return {
-              amount: n.amount,
-              token: `${token}-${id}`,
-            }
-          }),
+          data: data.user.nfts
+            .map((n: any) => {
+              const [token, id, user] = n.id.split('-')
+              return {
+                amount: n.amount,
+                token: `${token}-${id}`,
+              }
+            })
+            .filter((n: any) => {
+              return Number(n.amount) > 0
+            }),
         }
       }
       {
