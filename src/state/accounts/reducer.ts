@@ -5,6 +5,10 @@ export interface AccountData {
   balances?: Balance[]
   netWorth?: number
   boost?: number
+  nativeBalance?: number
+  nonNativeBalance?: number
+  nftBalance?: number
+  stakeRatio?: number
   boostRank?: number
   claimedBalances?: {
     [token: string]: number

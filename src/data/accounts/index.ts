@@ -85,6 +85,10 @@ export async function fetchAccountData(address: string) {
         boost: json.boost,
         boostRank: json.boostRank,
         netWorth: json.value,
+        nativeBalance: json.nativeBalance,
+        nonNativeBalance: json.nonNativeBalance,
+        nftBalance: json.nftBalance,
+        stakeRatio: json.stakeRatio,
         claimedBalances: data,
       } as AccountData,
     }

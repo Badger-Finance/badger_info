@@ -44,9 +44,7 @@ const DataWrapper = styled.div`
   grid-gap: 1em;
 `
 
-const BoostWrapper = styled.div`
-  height: 56%;
-`
+const BoostWrapper = styled.div``
 const AssetWrapper = styled.div`
   height: 44%;
 `
@@ -67,7 +65,16 @@ const User = () => {
   const { address } = useParams<RouteParams>()
   const accountData = useAccountData(address)
   const prices = usePrices()
-  const { boost = 0, boostRank = 0, netWorth = 0, balances = [] } = accountData || {}
+  const {
+    boost = 0,
+    boostRank = 0,
+    netWorth = 0,
+    balances = [],
+    nativeBalance = 0,
+    nonNativeBalance = 0,
+    nftBalance = 0,
+    stakeRatio = 0,
+  } = accountData || {}
   const nfts = useNftScoresData(address)
   const boostData = useUserBoostData(address)
 
@@ -101,23 +108,19 @@ const User = () => {
                         </AutoColumn>
                         <AutoColumn gap="5px">
                           <TYPE.main>Stake Ratio</TYPE.main>
-                          <TYPE.label fontSize="20px">
-                            {boostData?.nonNativeBalance
-                              ? (boostData.nativeBalance / boostData.nonNativeBalance).toFixed(3)
-                              : '0'}
-                          </TYPE.label>
+                          <TYPE.label fontSize="20px">{nonNativeBalance ? stakeRatio.toFixed(3) : '0'}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
                           <TYPE.main>Native Balance</TYPE.main>
-                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nativeBalance)}</TYPE.label>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(nativeBalance)}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
                           <TYPE.main>Non Native Balance</TYPE.main>
-                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nonNativeBalance)}</TYPE.label>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(nonNativeBalance)}</TYPE.label>
                         </AutoColumn>
                         <AutoColumn gap="5px">
                           <TYPE.main>Nft Balance</TYPE.main>
-                          <TYPE.label fontSize="20px">{formatDollarAmount(boostData?.nftBalance)}</TYPE.label>
+                          <TYPE.label fontSize="20px">{formatDollarAmount(nftBalance)}</TYPE.label>
                         </AutoColumn>
                       </AutoColumn>
                     </AutoColumn>
