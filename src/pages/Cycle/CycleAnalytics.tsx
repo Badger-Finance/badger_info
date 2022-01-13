@@ -15,6 +15,7 @@ import { formatBalanceAmount } from 'utils/numbers'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
 import { useSetts } from 'state/setts/hooks'
 import TreeDistributionsChart from 'components/TreeDistributions'
+import { fetchHarvests } from 'data/cycles'
 interface RouteParams {
   cycleNumber: string
 }
@@ -64,6 +65,7 @@ const CycleAnalytics = () => {
   const [selected, setSelected] = useState('Badger')
   const [timeBetweenBlocks, setTimeBetweenBlocks] = useState('0')
   const [startDate, setStartDate] = useState(new Date())
+  const [harvests, setHarvests] = useState([])
   const [endDate, setEndDate] = useState(new Date())
   const cycleData = useCycleData(cycleNumber)
   const cycleError = useCycleError(cycleNumber)
@@ -75,7 +77,7 @@ const CycleAnalytics = () => {
   })
 
   useEffect(() => {
-    async function fetch() {
+    async function fetchTimes() {
       const { error, data } = await calcTimeBetweenBlocks(cycleData.startBlock, cycleData.endBlock)
       if (data.diff) {
         setTimeBetweenBlocks(data?.diff)
@@ -87,8 +89,15 @@ const CycleAnalytics = () => {
         setEndDate(data.endDate)
       }
     }
+    async function fetchHarvestData() {
+      const { error, data } = await fetchHarvests(cycleData.startBlock, cycleData.endBlock)
+      if (!error) {
+        setHarvests(data)
+      }
+    }
     if (cycleData) {
-      fetch()
+      fetchTimes()
+      fetchHarvestData()
     }
   }, [cycleData])
   return (
@@ -121,7 +130,8 @@ const CycleAnalytics = () => {
             </DarkGreyCard>
             <DarkGreyCard>
               <AutoColumn gap="10px">
-                <TYPE.mediumHeader> Rewards per Sett</TYPE.mediumHeader>
+                <TYPE.mediumHeader>Harvests</TYPE.mediumHeader>
+                <TreeDistributionsChart dists={harvests}></TreeDistributionsChart>
                 <AutoRow gap="10px"></AutoRow>
               </AutoColumn>
             </DarkGreyCard>

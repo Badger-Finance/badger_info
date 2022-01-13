@@ -1,8 +1,7 @@
-import { treeClient } from './../../apollo/client'
+import { treeClient, settsClient } from './../../apollo/client'
 import gql from 'graphql-tag'
 import { CHAIN } from './../../constants/index'
 import { ANALYTICS_API_URL, EXPLORER_BLOCK_URL } from 'data/urls'
-
 export async function fetchCycles(page: number) {
   const FETCH_CYCLES_DATA = gql`
     query($skipAmount: Int) {
@@ -23,8 +22,6 @@ export async function fetchCycles(page: number) {
         skipAmount: page * 5,
       },
     })
-
-    console.log(data)
 
     return {
       error: false,
@@ -49,7 +46,6 @@ export async function fetchCycle(cycleNumber: number) {
   try {
     const result = await fetch(`${ANALYTICS_API_URL}/cycle/${cycleNumber}/?chain=${CHAIN}`)
     const json = await result.json()
-    console.log(json)
     return {
       error: false,
       data: json,
@@ -74,6 +70,48 @@ export async function getTimestampOfBlock(blockNumber: number) {
     return {
       error: true,
       data: 0,
+    }
+  }
+}
+
+export async function fetchHarvests(start: number, end: number) {
+  const FETCH_HARVESTS_DATA = gql`
+    query($blockRange: BadgerTreeDistribution_filter) {
+      badgerTreeDistributions(first: 1000, where: $blockRange) {
+        id
+        token {
+          symbol
+          id
+        }
+        sett {
+          name
+          id
+        }
+        amount
+        timestamp
+      }
+    }
+  `
+  try {
+    const { data, errors, loading } = await settsClient.query({
+      query: FETCH_HARVESTS_DATA,
+      variables: {
+        blockRange: {
+          blockNumber_gt: start.toString(),
+          blockNumber_lt: end.toString(),
+        },
+      },
+    })
+    console.log(data)
+    return {
+      error: false,
+      data: data.badgerTreeDistributions,
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      error: true,
+      data: [],
     }
   }
 }

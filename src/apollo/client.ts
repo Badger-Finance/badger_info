@@ -45,7 +45,7 @@ export const nftClient = new ApolloClient({
   },
 })
 export const settsClient = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/darruma/badger-setts',
+  uri: 'https://api.thegraph.com/subgraphs/name/axejintao/badger-dao',
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {

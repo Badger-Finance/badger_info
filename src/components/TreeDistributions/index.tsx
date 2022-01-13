@@ -14,36 +14,28 @@ import {
 
 interface Props {
   dists: any
-  settNames: any
 }
 
-function distsByToken(treeDists: any, settNames: any) {
-  const distsByToken: any = {}
-  Object.keys(treeDists).map((sett) => {
-    const name = settNames[sett]
-    const dists = treeDists[sett]
-    dists.forEach((dist: any) => {
-      const { token, amount, timestamp, id } = dist
-      if (!(token.symbol in distsByToken)) {
-        distsByToken[token.symbol] = []
-      }
-      distsByToken[token.symbol].push({
-        amount: amount / 1e18,
-        timestamp,
-        name,
-        id,
-      })
-    })
-  })
-  return distsByToken
-}
 export default function TreeDistributionsChart(props: Props) {
   const dists = useMemo(() => {
-    return distsByToken(props.dists, props.settNames)
+    const distsByToken: any = {}
+    props.dists.forEach((d: any) => {
+      if (!(d.token.name in distsByToken)) {
+        distsByToken[d.token.name] = []
+      }
+      distsByToken[d.token.name].push({
+        amount: d.amount,
+        timestamp: d.timestamp,
+        id: d.id,
+        blockNumber: d.blockNumber,
+      })
+    })
+
+    console.log(distsByToken)
+    return distsByToken
   }, [])
   const colors = ['green', 'blue', 'orange', 'purple', 'pink']
 
-  console.log(dists)
   return (
     <>
       <ResponsiveContainer>
