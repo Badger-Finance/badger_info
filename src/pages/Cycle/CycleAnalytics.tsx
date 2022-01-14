@@ -16,6 +16,7 @@ import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
 import { useSetts } from 'state/setts/hooks'
 import TreeDistributionsChart from 'components/TreeDistributions'
 import { fetchHarvests } from 'data/cycles'
+import { Type } from 'react-feather'
 interface RouteParams {
   cycleNumber: string
 }
@@ -58,6 +59,29 @@ const ChartWrapper = styled.div`
 interface SumRewards {
   token: string
   amount: number
+}
+
+const HarvestData = (props: any) => {
+  return (
+    <AutoColumn gap="20px">
+      {props.harvests.map((h: any) => {
+        return (
+          <DarkGreyCard key={h.id}>
+            <AutoColumn gap="5px">
+              <TYPE.main>Amount</TYPE.main>
+              <TYPE.label>{(h.amount / 1e18).toFixed(3)}</TYPE.label>
+              <TYPE.main>Token</TYPE.main>
+              <TYPE.label>{h.token.symbol}</TYPE.label>
+              <TYPE.main>Sett</TYPE.main>
+              <TYPE.label>{h.sett.name}</TYPE.label>
+              <TYPE.main>Block</TYPE.main>
+              <TYPE.label>{h.blockNumber}</TYPE.label>
+            </AutoColumn>
+          </DarkGreyCard>
+        )
+      })}
+    </AutoColumn>
+  )
 }
 
 const CycleAnalytics = () => {
@@ -131,7 +155,8 @@ const CycleAnalytics = () => {
             <DarkGreyCard>
               <AutoColumn gap="10px">
                 <TYPE.mediumHeader>Harvests</TYPE.mediumHeader>
-                <TreeDistributionsChart dists={harvests}></TreeDistributionsChart>
+                <HarvestData harvests={harvests}></HarvestData>
+
                 <AutoRow gap="10px"></AutoRow>
               </AutoColumn>
             </DarkGreyCard>

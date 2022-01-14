@@ -20,20 +20,22 @@ export default function TreeDistributionsChart(props: Props) {
   const dists = useMemo(() => {
     const distsByToken: any = {}
     props.dists.forEach((d: any) => {
-      if (!(d.token.name in distsByToken)) {
-        distsByToken[d.token.name] = []
+      const name = d.sett.name
+      if (name in distsByToken) {
+        distsByToken[name].push({
+          amount: d.amount,
+          timestamp: d.timestamp,
+          id: d.id,
+          blockNumber: d.blockNumber,
+        })
+      } else {
+        distsByToken[name] = []
       }
-      distsByToken[d.token.name].push({
-        amount: d.amount,
-        timestamp: d.timestamp,
-        id: d.id,
-        blockNumber: d.blockNumber,
-      })
     })
 
     console.log(distsByToken)
     return distsByToken
-  }, [])
+  }, [props.dists])
   const colors = ['green', 'blue', 'orange', 'purple', 'pink']
 
   return (

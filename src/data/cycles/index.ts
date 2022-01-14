@@ -89,6 +89,7 @@ export async function fetchHarvests(start: number, end: number) {
         }
         amount
         timestamp
+        blockNumber
       }
     }
   `
