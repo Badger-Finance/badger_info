@@ -13,7 +13,7 @@ export async function fetchSetts() {
       data: json.map((sett: any) => {
         return {
           name: sett.name,
-          vaultToken: sett.settToken,
+          vaultToken: sett.vaultToken,
           tvl: sett.value,
           ppfs: sett.ppfs,
           minMultiplier: sett.minApr ? sett.minApr / sett.apr : 1,

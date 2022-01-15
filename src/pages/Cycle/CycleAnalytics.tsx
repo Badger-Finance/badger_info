@@ -5,9 +5,9 @@ import { AutoRow } from 'components/Row'
 import styled from 'styled-components'
 import { TYPE } from 'theme'
 import { ButtonPrimary } from 'components/Button'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import RewardsBarChart from 'components/RewardsBarChart'
-import { useCycleData, useCycleError } from 'state/cycle/hooks'
+import { useCycleData, useCycleError, useHarvestData } from 'state/cycle/hooks'
 import tokens from 'constants/tokens'
 import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
 import { ChartData } from 'utils/tokenDist'
@@ -17,6 +17,8 @@ import { useSetts } from 'state/setts/hooks'
 import TreeDistributionsChart from 'components/TreeDistributions'
 import { fetchHarvests } from 'data/cycles'
 import { Type } from 'react-feather'
+import { EXPLORER_URL } from 'data/urls'
+import { isAddress } from 'utils'
 interface RouteParams {
   cycleNumber: string
 }
@@ -48,23 +50,18 @@ const PageWrapper = styled.div`
 const CenteredHeader = styled.div`
   text-align: center;
 `
-const SmallButton = styled.div`
-  width: 100px;
-  whitespace: normal;
+const LinkWrapper = styled(Link)`
+  color: white;
+  :hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
 `
-
-const ChartWrapper = styled.div`
-  height: 400px;
-`
-interface SumRewards {
-  token: string
-  amount: number
-}
-
-const HarvestData = (props: any) => {
+export const HarvestData = (props: any) => {
   return (
-    <AutoColumn gap="20px">
+    <AutoColumn gap="20px" style={{ width: '50%', margin: '0 auto' }}>
       {props.harvests.map((h: any) => {
+        const id = h.id.split('-')[0]
         return (
           <DarkGreyCard key={h.id}>
             <AutoColumn gap="5px">
@@ -73,9 +70,17 @@ const HarvestData = (props: any) => {
               <TYPE.main>Token</TYPE.main>
               <TYPE.label>{h.token.symbol}</TYPE.label>
               <TYPE.main>Sett</TYPE.main>
-              <TYPE.label>{h.sett.name}</TYPE.label>
+              <TYPE.label>
+                <LinkWrapper to={`/vaults/${isAddress(h.sett.id)}`}>{h.sett.name}</LinkWrapper>
+              </TYPE.label>
               <TYPE.main>Block</TYPE.main>
               <TYPE.label>{h.blockNumber}</TYPE.label>
+              <TYPE.main>TX</TYPE.main>
+              <TYPE.label>
+                <a target="_blank" rel="noreferrer" href={`${EXPLORER_URL}/tx/${id}`}>
+                  {id}
+                </a>
+              </TYPE.label>
             </AutoColumn>
           </DarkGreyCard>
         )
@@ -89,11 +94,13 @@ const CycleAnalytics = () => {
   const [selected, setSelected] = useState('Badger')
   const [timeBetweenBlocks, setTimeBetweenBlocks] = useState('0')
   const [startDate, setStartDate] = useState(new Date())
-  const [harvests, setHarvests] = useState([])
   const [endDate, setEndDate] = useState(new Date())
   const cycleData = useCycleData(cycleNumber)
   const cycleError = useCycleError(cycleNumber)
-
+  const allHarvests = useHarvestData()
+  const harvests = allHarvests.filter(
+    (h: any) => h.blockNumber < cycleData.endBlock && h.blockNumber > cycleData.startBlock
+  )
   const setts = useSetts()
   const settNames: any = {}
   setts.forEach((sett) => {
@@ -113,15 +120,9 @@ const CycleAnalytics = () => {
         setEndDate(data.endDate)
       }
     }
-    async function fetchHarvestData() {
-      const { error, data } = await fetchHarvests(cycleData.startBlock, cycleData.endBlock)
-      if (!error) {
-        setHarvests(data)
-      }
-    }
+
     if (cycleData) {
       fetchTimes()
-      fetchHarvestData()
     }
   }, [cycleData])
   return (

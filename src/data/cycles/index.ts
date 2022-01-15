@@ -77,7 +77,7 @@ export async function getTimestampOfBlock(blockNumber: number) {
 export async function fetchHarvests(start: number, end: number) {
   const FETCH_HARVESTS_DATA = gql`
     query($blockRange: BadgerTreeDistribution_filter) {
-      badgerTreeDistributions(first: 1000, where: $blockRange) {
+      badgerTreeDistributions(first: 500, where: $blockRange, orderBy: blockNumber, orderDirection: desc) {
         id
         token {
           symbol

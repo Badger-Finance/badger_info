@@ -5,3 +5,4 @@ export const addCycle = createAction<{ cycle: CycleData }>('cycle/addCycle')
 export const addCycleError = createAction<{ cycleNumber: number; errorStatus: boolean; error?: string }>(
   'cycle/addCycleError'
 )
+export const addHarvestData = createAction<{ harvests: any }>('cycle/addHarvestData')

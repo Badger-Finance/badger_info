@@ -21,6 +21,7 @@ import Vault from 'pages/Vault'
 import AccountInputPage from 'pages/AccountInput/AccountInputPage'
 import Apys from 'pages/Apys'
 import UnlockSchedules from './Schedules/UnlockSchedules'
+import Harvests from 'pages/Harvests/Harvest'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -111,6 +112,8 @@ export default function App() {
                 <Redirect to="/boosts" />
               </Route>
               <Route exact strict path="/cycles" component={Home} />
+              <Route exact strict path="/harvests" component={Harvests} />
+
               <Route exact strict path="/cycle/:cycleNumber" component={CycleAnalytics} />
               <Route exact strict path="/boosts" component={BoostsInfo} />
               <Route exact strict path="/user" component={AccountInputPage} />

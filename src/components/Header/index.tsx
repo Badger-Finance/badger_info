@@ -247,6 +247,9 @@ export default function Header() {
           <StyledNavLink id={`pool-nav-link`} to={'/cycles'}>
             Cycles
           </StyledNavLink>
+          <StyledNavLink id={`pool-nav-link`} to={'/harvests'}>
+            Harvests
+          </StyledNavLink>
 
           <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
             Schedules
