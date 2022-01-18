@@ -1,5 +1,8 @@
+import { getAddress } from '@ethersproject/address'
 import { CHAIN } from './../../constants/index'
 import { BoostData } from 'state/boosts/reducer'
+import gql from 'graphql-tag'
+import { treeClient } from './../../apollo/client'
 import { ANALYTICS_API_URL } from 'data/urls'
 export async function fetchBoosts() {
   const boostArray: Array<BoostData> = []
@@ -32,20 +35,59 @@ export async function fetchBoosts() {
   }
 }
 export async function fetchSchedules() {
+  const currentTime = Math.floor(Date.now() / 1000)
+  console.log(currentTime)
+  const FETCH_SCHEDULES = gql`
+    query($endBlock: UnlockSchedule_filter) {
+      unlockSchedules(first: 1000, where: $endBlock, orderBy: timestamp, orderDirection: desc) {
+        id
+        amount
+        start
+        end
+        duration
+        token {
+          id
+          symbol
+        }
+        vault
+      }
+    }
+  `
   try {
-    const result = await fetch(`${ANALYTICS_API_URL}/schedules?chain=${CHAIN}`)
-    const json = await result.json()
-    Object.entries(json.data.schedules).map(([sett, data]: any) => {
-      json.data.schedules[sett] = data
+    const scheduleData: any = {}
+    const { data, errors, loading } = await treeClient.query({
+      query: FETCH_SCHEDULES,
+      variables: {
+        endBlock: {
+          end_gt: currentTime,
+          start_lt: currentTime,
+        },
+      },
+    })
+    data.unlockSchedules.forEach((s: any) => {
+      const addr = getAddress(s.vault)
+      const schedule = {
+        sett: addr,
+        token: s.token.id,
+        initialTokensLocked: s.amount,
+        startTime: s.start,
+        endTime: s.end,
+        duration: s.duration,
+      }
+      if (addr in scheduleData) {
+        scheduleData[addr].push(schedule)
+      } else {
+        scheduleData[addr] = [schedule]
+      }
     })
     return {
       error: false,
-      data: json.data.schedules,
+      data: scheduleData,
     }
   } catch (error) {
     return {
-      error: false,
-      data: {},
+      error: true,
+      data: [],
     }
   }
 }

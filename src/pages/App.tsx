@@ -109,7 +109,7 @@ export default function App() {
             <Popups />
             <Switch>
               <Route exact path="/">
-                <Redirect to="/boosts" />
+                <Redirect to="/cycles" />
               </Route>
               <Route exact strict path="/cycles" component={Home} />
               <Route exact strict path="/harvests" component={Harvests} />

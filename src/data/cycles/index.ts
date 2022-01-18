@@ -1,7 +1,8 @@
 import { treeClient, settsClient } from './../../apollo/client'
-import gql from 'graphql-tag'
 import { CHAIN } from './../../constants/index'
 import { ANALYTICS_API_URL, EXPLORER_BLOCK_URL } from 'data/urls'
+import gql from 'graphql-tag'
+
 export async function fetchCycles(page: number) {
   const FETCH_CYCLES_DATA = gql`
     query($skipAmount: Int) {

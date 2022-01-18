@@ -37,11 +37,11 @@ const UnlockSchedules = () => {
     <PageWrapper>
       <AutoColumn gap="20px">
         <AutoColumn gap="20px">
-          {Object.entries(schedulesData).map(([settAddr, data], index) => {
+          {Object.entries(schedulesData).map(([settAddr, data]) => {
             if (data.length > 0) {
-              const schedule = data[0]
-              console.log(schedule)
-              return <ScheduleInfo key={index} settAddr={settAddr} data={schedule}></ScheduleInfo>
+              return data.map((schedule: any, index: number) => {
+                return <ScheduleInfo key={index} settAddr={settAddr} data={schedule}></ScheduleInfo>
+              })
             } else {
               return <></>
             }
