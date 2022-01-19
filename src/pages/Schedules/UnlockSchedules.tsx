@@ -6,7 +6,7 @@ import { useSchedulesData } from 'state/boosts/hooks'
 import { DarkGreyCard } from 'components/Card'
 import { msToTime } from 'utils/time'
 import tokens, { getTokenName } from 'constants/tokens'
-import { useSettByAddress } from 'state/setts/hooks'
+import { useSettByAddress, useSetts } from 'state/setts/hooks'
 import { Schedule } from 'state/boosts/reducer'
 import { Link } from 'react-router-dom'
 import { unixToDateString, percentInRange } from 'utils/time'
@@ -38,13 +38,7 @@ const UnlockSchedules = () => {
       <AutoColumn gap="20px">
         <AutoColumn gap="20px">
           {Object.entries(schedulesData).map(([settAddr, data]) => {
-            if (data.length > 0) {
-              return data.map((schedule: any, index: number) => {
-                return <ScheduleInfo key={index} settAddr={settAddr} data={schedule}></ScheduleInfo>
-              })
-            } else {
-              return <></>
-            }
+            return <SchedulesBySett settAddr={settAddr} key={settAddr} data={data}></SchedulesBySett>
           })}
         </AutoColumn>
       </AutoColumn>
@@ -52,23 +46,35 @@ const UnlockSchedules = () => {
   )
 }
 
+const SchedulesBySett = (props: any) => {
+  const sett = useSettByAddress(props.settAddr)
+  return (
+    <AutoColumn gap="20px" key={props.settAddr}>
+      <LinkWrapper to={`/vaults/${props.settAddr}`}>
+        <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
+      </LinkWrapper>
+
+      <AutoColumn gap="15px">
+        {props.data.map((schedule: any, index: number) => {
+          return <ScheduleInfo key={index} data={schedule}></ScheduleInfo>
+        })}
+      </AutoColumn>
+    </AutoColumn>
+  )
+}
+
 interface ScheduleProps {
-  settAddr: string
   data: Schedule
 }
 const ScheduleInfo = (props: ScheduleProps) => {
-  const { settAddr, data } = props
-  const sett = useSettByAddress(settAddr)
+  const { data } = props
   const percent = (percentInRange(data.startTime, data.endTime) * 100).toFixed(1)
   const inRange = true
   return (
     <>
       {inRange && (
         <>
-          <LinkWrapper to={`/vaults/${settAddr}`}>
-            <TYPE.largeHeader style={{ textAlign: 'center' }}>{sett?.name}</TYPE.largeHeader>
-          </LinkWrapper>
-          <DarkGreyCard key={settAddr} style={{ width: '90%', margin: '0 auto' }}>
+          <DarkGreyCard key={data.startTime} style={{ width: '70%', margin: '0 auto' }}>
             <AutoColumn gap="20px">
               <AutoColumn gap="lg">
                 <AutoColumn gap="4px">

@@ -36,7 +36,6 @@ export async function fetchBoosts() {
 }
 export async function fetchSchedules() {
   const currentTime = Math.floor(Date.now() / 1000)
-  console.log(currentTime)
   const FETCH_SCHEDULES = gql`
     query($endBlock: UnlockSchedule_filter) {
       unlockSchedules(first: 1000, where: $endBlock, orderBy: timestamp, orderDirection: desc) {
