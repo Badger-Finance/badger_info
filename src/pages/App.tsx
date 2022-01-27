@@ -22,6 +22,7 @@ import AccountInputPage from 'pages/AccountInput/AccountInputPage'
 import Apys from 'pages/Apys'
 import UnlockSchedules from './Schedules/UnlockSchedules'
 import Harvests from 'pages/Harvests/Harvest'
+import Earnings from 'pages/Earnings/Earnings'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -120,6 +121,7 @@ export default function App() {
               <Route exact strict path="/user/:address" component={User}></Route>
               <Route exact strict path="/asset/:asset" component={Asset}></Route>
               <Route exact strict path="/vaults" component={Vaults}></Route>
+              <Route exact strict path="/earnings" component={Earnings}></Route>
               <Route exact strict path="/vaults/:vaultAddress" component={Vault} />
               <Route exact strict path="/schedules" component={UnlockSchedules} />
               <Route exact strict path="/aprs" component={Apys} />

@@ -45,7 +45,7 @@ const ResponsiveGrid = styled.div`
   }
 `
 
-const LinkWrapper = styled(Link)`
+export const LinkWrapper = styled(Link)`
   text-decoration: none;
   :hover {
     cursor: pointer;
@@ -53,16 +53,16 @@ const LinkWrapper = styled(Link)`
   }
 `
 
-const PageWrapper = styled.div`
+export const PageWrapper = styled.div`
   width: 80%;
 `
 
-const AddressLabel = styled(Label)`
+export const AddressLabel = styled(Label)`
   display: inline-block;
   text-decoration: underline;
 `
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   width: 15%
   text-decoration: underline;
   @media screen and (max-width: 670px) {
