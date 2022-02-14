@@ -4,19 +4,10 @@ import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
 import styled from 'styled-components'
 import { TYPE } from 'theme'
-import { ButtonPrimary } from 'components/Button'
 import { Link, useParams } from 'react-router-dom'
-import RewardsBarChart from 'components/RewardsBarChart'
 import { useCycleData, useCycleError, useHarvestData } from 'state/cycle/hooks'
-import tokens from 'constants/tokens'
-import { sumTokenDist, tokenDistToChart } from 'utils/tokenDist'
-import { ChartData } from 'utils/tokenDist'
-import { formatBalanceAmount } from 'utils/numbers'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
 import { useSetts } from 'state/setts/hooks'
-import TreeDistributionsChart from 'components/TreeDistributions'
-import { fetchHarvests } from 'data/cycles'
-import { Type } from 'react-feather'
 import { EXPLORER_URL } from 'data/urls'
 import { isAddress } from 'utils'
 interface RouteParams {
@@ -34,12 +25,6 @@ const ContentLayout = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
-`
-const TreeDistributions = styled.div`
-  margin-top: 16px;
-  height: 400px;
-  margin-right: 10px;
-  padding-bottom: 100px;
 `
 const PageWrapper = styled.div`
   width: 90%;
@@ -101,6 +86,21 @@ const CycleAnalytics = () => {
   const harvests = allHarvests.filter(
     (h: any) => h.blockNumber < cycleData.endBlock && h.blockNumber > cycleData.startBlock
   )
+  const totalRewards = useMemo(() => {
+    const total: any = {}
+    harvests.forEach((h) => {
+      console.log(h)
+      if (!(h.token.symbol in total)) {
+        total[h.token.symbol] = Number(h.amount)
+      } else {
+        console.log('adding')
+        total[h.token.symbol] += Number(h.amount)
+      }
+    })
+    console.log(total)
+    return total
+  }, [harvests])
+
   const setts = useSetts()
   const settNames: any = {}
   setts.forEach((sett) => {
@@ -137,7 +137,16 @@ const CycleAnalytics = () => {
           <ContentLayout>
             <DarkGreyCard>
               <AutoColumn gap="17.5px">
-                <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>
+                {Object.keys(totalRewards).length > 0 && <TYPE.mediumHeader>Total Rewards</TYPE.mediumHeader>}
+                {Object.entries(totalRewards).map((el: any) => {
+                  const [token, amount] = el
+                  return (
+                    <AutoColumn gap="10px" key={token}>
+                      <TYPE.main>{token}</TYPE.main>
+                      <TYPE.label>{(amount / 1e18).toFixed(3)}</TYPE.label>
+                    </AutoColumn>
+                  )
+                })}
 
                 <TYPE.mediumHeader>Cycle Info</TYPE.mediumHeader>
                 <AutoColumn gap="10px">
@@ -153,14 +162,16 @@ const CycleAnalytics = () => {
                 </AutoColumn>
               </AutoColumn>
             </DarkGreyCard>
-            <DarkGreyCard>
-              <AutoColumn gap="10px">
-                <TYPE.mediumHeader>Harvests</TYPE.mediumHeader>
-                <HarvestData harvests={harvests}></HarvestData>
+            {harvests.length > 0 && (
+              <DarkGreyCard>
+                <AutoColumn gap="10px">
+                  <TYPE.mediumHeader>Harvests</TYPE.mediumHeader>
+                  <HarvestData harvests={harvests}></HarvestData>
 
-                <AutoRow gap="10px"></AutoRow>
-              </AutoColumn>
-            </DarkGreyCard>
+                  <AutoRow gap="10px"></AutoRow>
+                </AutoColumn>
+              </DarkGreyCard>
+            )}
           </ContentLayout>
         </PageWrapper>
       )}

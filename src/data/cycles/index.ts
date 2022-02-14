@@ -104,7 +104,6 @@ export async function fetchHarvests(start: number, end: number) {
         },
       },
     })
-    console.log(data)
     return {
       error: false,
       data: data.badgerTreeDistributions,

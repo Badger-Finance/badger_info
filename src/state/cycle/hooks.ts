@@ -53,7 +53,6 @@ export function useHarvestData() {
     async function fetch() {
       console.log('fetching')
       const { error, data } = await fetchHarvests(0, 100000000)
-      console.log(data)
       if (!error) {
         dispatch(addHarvestData({ harvests: data }))
       }
@@ -95,7 +94,6 @@ export function useCyclePageData(pageNumber: number) {
     async function fetch() {
       const { error, data } = await fetchCycles(pageNumber)
       if (!error) {
-        console.log(data)
         dispatch(addCyclePage({ cycles: data, page: pageNumber }))
       }
     }
