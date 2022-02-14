@@ -9,9 +9,12 @@ import useTheme from 'hooks/useTheme'
 
 const TableWrapper = styled.div`
   display: flex;
+  width: 50%
+  @media screen and (max-width: 800px) {
+    width: 100%
+  }
   flex-direction: row
   margin-top: 10px;
-  flex: 1;
 `
 
 const Row = styled.div`
@@ -58,7 +61,6 @@ export default function NftTable(props: any) {
         </>
         {props.nfts &&
           props.nfts.map((nft: any, index: number) => {
-            console.log(nft)
             return <DataRow key={index} number={index + 1} first={nft.token} second={NFTS[nft.token].value} />
           })}
       </DarkGreyCard>

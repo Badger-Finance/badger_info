@@ -13,6 +13,10 @@ export interface AccountData {
   claimedBalances?: {
     [token: string]: number
   }
+  claimableBalances?: {
+    [token: string]: number
+  }
+
   recentClaims?: Array<Claim>
 }
 

@@ -8,14 +8,11 @@ import useTheme from 'hooks/useTheme'
 import { EXPLORER_URL } from 'data/urls'
 
 const TableWrapper = styled.div`
-display: flex;
-flex-direction: row
-width: 500px;
-@media screen and (max-width: 800px) {
-  width: 100%
-}
-margin-top: 10px;
-margin-right: 20px;
+  display: flex;
+  width: 100%;
+  @media screen and (max-width: 800px) {
+    padding: 10px 0px 10px 0px;
+  }
 `
 
 const Row = styled.div`
@@ -45,7 +42,32 @@ const DataRow = (props: any) => {
   )
 }
 
-const ClaimableTable = (props: any) => {
+export const ClaimableTable = (props: any) => {
+  const theme = useTheme()
+  return (
+    <TableWrapper>
+      <DarkGreyCard>
+        <>
+          <Row>
+            <TYPE.label style={{ width: '10%', color: theme.text2 }}>{'#'}</TYPE.label>
+            <TYPE.label style={{ width: '60%', color: theme.text2 }}>{'Tokens Claimable'}</TYPE.label>
+            <TYPE.label style={{ width: '30%', color: theme.text2, textAlign: 'center' }}>{'Amount'}</TYPE.label>
+          </Row>
+          <Break />
+        </>
+        {props.claimable ? (
+          Object.entries(props.claimable).map((cb: any, index: number) => {
+            const [token, claimable] = cb
+            return <DataRow key={index} number={index + 1} first={token} second={claimable} />
+          })
+        ) : (
+          <div>loading</div>
+        )}
+      </DarkGreyCard>
+    </TableWrapper>
+  )
+}
+export const ClaimedTable = (props: any) => {
   const theme = useTheme()
   return (
     <TableWrapper>
@@ -70,4 +92,3 @@ const ClaimableTable = (props: any) => {
     </TableWrapper>
   )
 }
-export default ClaimableTable

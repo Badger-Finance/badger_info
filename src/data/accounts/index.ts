@@ -45,6 +45,28 @@ export async function fetchClaimedBalances(address: string) {
   }
 }
 
+export async function fetchClaimableBalances(address: string) {
+  try {
+    const result = await fetch(`${ANALYTICS_API_URL}/claimable/${address}`)
+    const json = await result.json()
+    const [data] = json
+    const claimableBalancesMap: any = {}
+    if (data.claimableBalances) {
+      data.claimableBalances.forEach((element: any) => {
+        claimableBalancesMap[element.address] = element.balance
+      })
+    }
+    return {
+      error: false,
+      data: claimableBalancesMap,
+    }
+  } catch (error) {
+    return {
+      error: true,
+      data: error,
+    }
+  }
+}
 export async function fetchAccountData(address: string) {
   const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`
   const noData = {
@@ -57,7 +79,10 @@ export async function fetchAccountData(address: string) {
   try {
     const result = await fetch(url)
     const json = await result.json()
+
     const { error, data } = await fetchClaimedBalances(address)
+    const { error: cbError, data: cbData } = await fetchClaimableBalances(address)
+
     if (json?.status == 500 || error) {
       return {
         error: true,
@@ -90,6 +115,7 @@ export async function fetchAccountData(address: string) {
         nftBalance: json.nftBalance,
         stakeRatio: json.stakeRatio,
         claimedBalances: data,
+        claimableBalances: cbData,
       } as AccountData,
     }
   } catch (error) {

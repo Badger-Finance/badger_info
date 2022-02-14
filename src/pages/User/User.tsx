@@ -9,7 +9,7 @@ import { formatDollarAmount } from 'utils/numbers'
 import { useAccountData } from 'state/accounts/hooks'
 import { usePrices } from 'hooks/usePricing'
 import NftTable from 'components/NftTable'
-import ClaimableTable from 'components/ClaimableTable'
+import { ClaimedTable, ClaimableTable } from 'components/ClaimableTable'
 import { useNftScoresData } from 'state/accounts/hooks'
 import { useUserBoostData } from 'state/boosts/hooks'
 import { EXPLORER_URL } from 'data/urls'
@@ -56,6 +56,7 @@ const EtherscanLink = styled.a`
 const ScoreWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 10px;
   @media screen and (max-width: 800px) {
     flex-direction: column;
   }
@@ -154,9 +155,12 @@ const User = () => {
               </DarkGreyCard>
             </ContentLayout>
             <ScoreWrapper>
-              <ClaimableTable address={address} claimable={accountData?.claimedBalances} />
-              <NftTable address={address} nfts={nfts} />
+              <ClaimedTable address={address} claimable={accountData?.claimedBalances} />
+              <ClaimableTable address={address} claimable={accountData?.claimableBalances} />
             </ScoreWrapper>
+            <div>
+              <NftTable address={address} nfts={nfts}></NftTable>
+            </div>
           </AutoColumn>
         </PageWrapper>
       )}
