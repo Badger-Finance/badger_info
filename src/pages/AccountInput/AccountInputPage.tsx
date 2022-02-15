@@ -5,6 +5,7 @@ import Row, { RowFixed } from 'components/Row'
 import { HideSmall, TYPE } from 'theme'
 import { useHistory } from 'react-router-dom'
 import { isAddress } from 'utils'
+import { getAddress } from 'ethers/lib/utils'
 
 const SearchWrapper = styled.div`
   margin: 0 auto;

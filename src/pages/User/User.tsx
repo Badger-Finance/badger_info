@@ -11,6 +11,7 @@ import { usePrices } from 'hooks/usePricing'
 import NftTable from 'components/NftTable'
 import { ClaimedTable, ClaimableTable } from 'components/ClaimableTable'
 import { useNftScoresData } from 'state/accounts/hooks'
+import { useUserBoostData } from 'state/boosts/hooks'
 import { EXPLORER_URL } from 'data/urls'
 
 interface RouteParams {
@@ -55,7 +56,6 @@ const EtherscanLink = styled.a`
 const ScoreWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
   @media screen and (max-width: 800px) {
     flex-direction: column;
   }
@@ -74,9 +74,11 @@ const User = () => {
     nonNativeBalance = 0,
     nftBalance = 0,
     stakeRatio = 0,
-  } = accountData
+  } = accountData || {}
   const nfts = useNftScoresData(address)
-  const isAccountData = netWorth > 0
+  const boostData = useUserBoostData(address)
+
+  const isAccountData = Object.keys(accountData?.balances || { a: 'a' }).length > 0
 
   return (
     <>
