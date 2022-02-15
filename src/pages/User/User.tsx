@@ -56,6 +56,7 @@ const EtherscanLink = styled.a`
 const ScoreWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 10px;
   @media screen and (max-width: 800px) {
     flex-direction: column;
   }
