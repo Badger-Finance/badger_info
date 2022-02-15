@@ -4,6 +4,7 @@ import { AutoColumn } from 'components/Column'
 import Row, { RowFixed } from 'components/Row'
 import { HideSmall, TYPE } from 'theme'
 import { useHistory } from 'react-router-dom'
+import { isAddress } from 'utils'
 
 const SearchWrapper = styled.div`
   margin: 0 auto;
@@ -63,9 +64,10 @@ const AccountInput = ({ ...rest }: React.HTMLAttributes<HTMLDivElement>) => {
           value={value}
           onChange={async (e) => {
             setValue(e.target.value)
-            if (e.target.value.length == 42) {
+            const address = isAddress(e.target.value)
+            if (address) {
               await new Promise((resolve) => setTimeout(resolve, 500)) // 3 sec
-              history.push(`/user/${e.target.value}`)
+              history.push(`/user/${address}`)
             }
           }}
           placeholder="Enter Address"
