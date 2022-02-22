@@ -68,7 +68,7 @@ export async function fetchClaimableBalances(address: string) {
   }
 }
 export async function fetchAccountData(address: string) {
-  const url = `${BADGER_API_URL}/accounts/${address}?chain=eth`
+  const url = `${BADGER_API_URL}/accounts/${address}?chain=ftm`
   const noData = {
     balances: {},
     boost: 0,

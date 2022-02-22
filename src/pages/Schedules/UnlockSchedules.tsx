@@ -32,7 +32,6 @@ const BarWrapper = styled.div`
 `
 const UnlockSchedules = () => {
   const schedulesData = useSchedulesData()
-  console.log(schedulesData)
   return (
     <PageWrapper>
       <AutoColumn gap="20px">

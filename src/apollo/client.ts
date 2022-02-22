@@ -16,7 +16,7 @@ export const client = new ApolloClient({
 })
 
 export const treeClient = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/darruma/badger-tree-data',
+  uri: 'https://api.thegraph.com/subgraphs/name/darruma/badger-tree-data-fantom',
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {
@@ -45,7 +45,7 @@ export const nftClient = new ApolloClient({
   },
 })
 export const settsClient = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/axejintao/badger-dao',
+  uri: 'https://api.thegraph.com/subgraphs/name/axejintao/badger-dao-fantom',
   cache: new InMemoryCache(),
   queryDeduplication: true,
   defaultOptions: {

@@ -158,9 +158,6 @@ const User = () => {
               <ClaimedTable address={address} claimable={accountData?.claimedBalances} />
               <ClaimableTable address={address} claimable={accountData?.claimableBalances} />
             </ScoreWrapper>
-            <div>
-              <NftTable address={address} nfts={nfts}></NftTable>
-            </div>
           </AutoColumn>
         </PageWrapper>
       )}
