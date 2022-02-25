@@ -251,16 +251,10 @@ export default function Header() {
             Harvests
           </StyledNavLink>
 
-          <StyledNavLink id={`pool-nav-link`} to={'/schedules'}>
-            Schedules
-          </StyledNavLink>
           {/* <StyledNavLink id={`swap-nav-link`} to={'/protocol'}>
             Protocol
           </StyledNavLink> */}
 
-          <StyledNavLink id={`stake-nav-link`} to={'/boosts'}>
-            Boosts
-          </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={'/user'}>
             Users
           </StyledNavLink>
