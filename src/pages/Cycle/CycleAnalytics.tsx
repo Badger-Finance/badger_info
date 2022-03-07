@@ -76,7 +76,6 @@ export const HarvestData = (props: any) => {
 
 const CycleAnalytics = () => {
   const cycleNumber = Number(useParams<RouteParams>().cycleNumber)
-  const [selected, setSelected] = useState('Badger')
   const [timeBetweenBlocks, setTimeBetweenBlocks] = useState('0')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
@@ -84,20 +83,17 @@ const CycleAnalytics = () => {
   const cycleError = useCycleError(cycleNumber)
   const allHarvests = useHarvestData()
   const harvests = allHarvests.filter(
-    (h: any) => h.blockNumber < cycleData.endBlock && h.blockNumber > cycleData.startBlock
+    (h: any) => h.blockNumber < cycleData?.endBlock && h.blockNumber > cycleData?.startBlock
   )
   const totalRewards = useMemo(() => {
     const total: any = {}
     harvests.forEach((h) => {
-      console.log(h)
       if (!(h.token.symbol in total)) {
         total[h.token.symbol] = Number(h.amount)
       } else {
-        console.log('adding')
         total[h.token.symbol] += Number(h.amount)
       }
     })
-    console.log(total)
     return total
   }, [harvests])
 
@@ -162,6 +158,15 @@ const CycleAnalytics = () => {
                 </AutoColumn>
               </AutoColumn>
             </DarkGreyCard>
+            {cycleData.rewardsData && (
+              <DarkGreyCard>
+                <AutoColumn gap="10px">
+                  <TYPE.mediumHeader>Sett Rewards</TYPE.mediumHeader>
+
+                  <AutoRow gap="10px"></AutoRow>
+                </AutoColumn>
+              </DarkGreyCard>
+            )}
             {harvests.length > 0 && (
               <DarkGreyCard>
                 <AutoColumn gap="10px">

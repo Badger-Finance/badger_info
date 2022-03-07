@@ -49,9 +49,7 @@ export function useHarvestData() {
   const dispatch = useDispatch<AppDispatch>()
   const harvests = useHarvests()
   useEffect(() => {
-    console.log('effecting')
     async function fetch() {
-      console.log('fetching')
       const { error, data } = await fetchHarvests(0, 100000000)
       if (!error) {
         dispatch(addHarvestData({ harvests: data }))
@@ -73,11 +71,11 @@ export function useCycleData(cycleNumber: number) {
       dispatch(
         addCycleError({
           cycleNumber,
-          errorStatus: !data.success,
+          errorStatus: error,
         })
       )
       if (!error) {
-        dispatch(addCycle({ cycle: data.data }))
+        dispatch(addCycle({ cycle: data }))
       }
     }
     if (!cycle) {
@@ -93,6 +91,7 @@ export function useCyclePageData(pageNumber: number) {
   useEffect(() => {
     async function fetch() {
       const { error, data } = await fetchCycles(pageNumber)
+      console.log(data)
       if (!error) {
         dispatch(addCyclePage({ cycles: data, page: pageNumber }))
       }

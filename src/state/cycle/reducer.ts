@@ -6,11 +6,16 @@ export interface CycleData {
   contentHash: string
   startBlock: number
   endBlock: number
+  rewardsData: RewardsData
 }
 
-interface Token {
-  address: string
-  symbol: string
+interface RewardsData {
+  vault: string
+  boostedRewards: RewardsDistribution
+  flatRewards: RewardsDistribution
+}
+interface RewardsDistribution {
+  [token: string]: number
 }
 
 export interface TokenDist {

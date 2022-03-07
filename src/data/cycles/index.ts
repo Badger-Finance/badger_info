@@ -23,16 +23,20 @@ export async function fetchCycles(page: number) {
         skipAmount: page * 5,
       },
     })
+    const rewardsDataPromises = data.cycles.map((c: any) => fetch(`${ANALYTICS_API_URL}/cycle/${Number(c.id)}`))
+    const rewardsDataResponse = await Promise.all(rewardsDataPromises)
+    const rewardsData = await Promise.all(rewardsDataResponse.map((r: any) => r.json()))
 
     return {
       error: false,
-      data: data.cycles.map((c: any) => {
+      data: data.cycles.map((c: any, index: number) => {
         return {
           cycle: Number(c.id),
           merkleRoot: c.root,
           contentHash: c.contentHash,
           startBlock: c.startBlock,
           endBlock: c.endBlock,
+          rewardsData: rewardsData[index].rewardsData,
         }
       }),
     }
@@ -43,19 +47,37 @@ export async function fetchCycles(page: number) {
     }
   }
 }
-export async function fetchCycle(cycleNumber: number) {
-  try {
-    const result = await fetch(`${ANALYTICS_API_URL}/cycle/${cycleNumber}/?chain=${CHAIN}`)
-    const json = await result.json()
-    return {
-      error: false,
-      data: json,
+export async function fetchCycle(cycle: number) {
+  const FETCH_CYCLES_DATA = gql`
+    query($cycleNumber: Int) {
+      cycle(id: $cycleNumber) {
+        id
+        startBlock
+        endBlock
+        root
+        contentHash
+      }
     }
-  } catch (error) {
-    return {
-      error: true,
-      data: {},
-    }
+  `
+
+  const { data, errors, loading } = await treeClient.query({
+    query: FETCH_CYCLES_DATA,
+    variables: {
+      cycleNumber: cycle,
+    },
+  })
+  const cycleRewardsResponse = await fetch(`${ANALYTICS_API_URL}/cycle/${cycle}`)
+  const cycleData = await cycleRewardsResponse.json()
+  return {
+    error: false,
+    data: {
+      cycle: data.cycle.id,
+      merkleRoot: data.cycle.root,
+      contentHash: data.cycle.contentHash,
+      startBlock: data.cycle.startBlock,
+      endBlock: data.cycle.endBlock,
+      rewardsData: cycleData.rewardsData,
+    },
   }
 }
 
