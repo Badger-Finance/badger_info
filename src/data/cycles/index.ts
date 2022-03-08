@@ -26,7 +26,6 @@ export async function fetchCycles(page: number) {
     const rewardsDataPromises = data.cycles.map((c: any) => fetch(`${ANALYTICS_API_URL}/cycle/${Number(c.id)}`))
     const rewardsDataResponse = await Promise.all(rewardsDataPromises)
     const rewardsData = await Promise.all(rewardsDataResponse.map((r: any) => r.json()))
-
     return {
       error: false,
       data: data.cycles.map((c: any, index: number) => {
@@ -36,7 +35,7 @@ export async function fetchCycles(page: number) {
           contentHash: c.contentHash,
           startBlock: c.startBlock,
           endBlock: c.endBlock,
-          rewardsData: rewardsData[index].rewardsData,
+          rewardsData: simplifyRewardsData(rewardsData[index].rewardsData),
         }
       }),
     }
@@ -46,6 +45,34 @@ export async function fetchCycles(page: number) {
       data: [],
     }
   }
+}
+function isEmpty(obj: any): boolean {
+  return Object.keys(obj).length === 0
+}
+
+function simplifyRewardsData(rewardsData: any) {
+  const rewardsByToken: any = {}
+  for (const sett of Object.keys(rewardsData)) {
+    const rewardsInfo = rewardsData[sett]
+    const boosted = rewardsInfo.boosted_rewards
+    const flat = rewardsInfo.flat_rewards
+    if (isEmpty(boosted) && isEmpty(flat)) {
+      continue
+    }
+    const tokens = [...new Set([...Object.keys(boosted), ...Object.keys(flat)])]
+    for (const token of tokens) {
+      if (!(token in rewardsByToken)) {
+        rewardsByToken[token] = []
+      }
+      rewardsByToken[token].push({
+        flat: token in flat ? Number(flat[token]) : 0,
+        boosted: token in boosted ? Number(boosted[token]) : 0,
+        vault: rewardsInfo.sett_name.split(' ').pop().toLowerCase(),
+        token: token,
+      })
+    }
+  }
+  return rewardsByToken
 }
 export async function fetchCycle(cycle: number) {
   const FETCH_CYCLES_DATA = gql`
@@ -68,6 +95,7 @@ export async function fetchCycle(cycle: number) {
   })
   const cycleRewardsResponse = await fetch(`${ANALYTICS_API_URL}/cycle/${cycle}`)
   const cycleData = await cycleRewardsResponse.json()
+
   return {
     error: false,
     data: {
@@ -76,7 +104,7 @@ export async function fetchCycle(cycle: number) {
       contentHash: data.cycle.contentHash,
       startBlock: data.cycle.startBlock,
       endBlock: data.cycle.endBlock,
-      rewardsData: cycleData.rewardsData,
+      rewardsData: simplifyRewardsData(cycleData.rewardsData),
     },
   }
 }

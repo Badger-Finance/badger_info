@@ -3,7 +3,7 @@ import { DarkGreyCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
 import { AutoRow } from 'components/Row'
 import styled from 'styled-components'
-import { TYPE } from 'theme'
+import { Button, TYPE } from 'theme'
 import { Link, useParams } from 'react-router-dom'
 import { useCycleData, useCycleError, useHarvestData } from 'state/cycle/hooks'
 import { calcTimeBetweenBlocks, dateToString } from 'utils/time'
@@ -13,6 +13,8 @@ import { isAddress } from 'utils'
 interface RouteParams {
   cycleNumber: string
 }
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { getTokenName } from 'constants/tokens'
 
 const ContentLayout = styled.div`
   margin-top: 16px;
@@ -25,6 +27,10 @@ const ContentLayout = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
   }
+`
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 const PageWrapper = styled.div`
   width: 90%;
@@ -71,6 +77,36 @@ export const HarvestData = (props: any) => {
         )
       })}
     </AutoColumn>
+  )
+}
+
+function SettRewardsGraph(props: any) {
+  const [token, setToken] = useState(Object.keys(props.rewardsData)[0])
+  const data = props.rewardsData[token]
+  console.log(data)
+  return (
+    <div style={{ height: '500px' }}>
+      <Buttons>
+        {Object.keys(props.rewardsData).map((token) => {
+          return (
+            <Button style={{ width: '150px' }} onClick={() => setToken(token)} key={token}>
+              {getTokenName(token)}
+            </Button>
+          )
+        })}
+      </Buttons>
+      <ResponsiveContainer height="80%">
+        <BarChart height={400} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis interval="preserveStartEnd" dataKey="vault" angle={-10} textAnchor="end" fontSize={15} />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="boosted" fill="#8884d8" />
+          <Bar dataKey="flat" fill="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
 
@@ -158,11 +194,11 @@ const CycleAnalytics = () => {
                 </AutoColumn>
               </AutoColumn>
             </DarkGreyCard>
-            {cycleData.rewardsData && (
+            {cycleData?.rewardsData && (
               <DarkGreyCard>
                 <AutoColumn gap="10px">
                   <TYPE.mediumHeader>Sett Rewards</TYPE.mediumHeader>
-
+                  <SettRewardsGraph rewardsData={cycleData.rewardsData}></SettRewardsGraph>
                   <AutoRow gap="10px"></AutoRow>
                 </AutoColumn>
               </DarkGreyCard>

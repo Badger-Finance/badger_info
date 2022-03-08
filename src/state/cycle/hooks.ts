@@ -91,7 +91,6 @@ export function useCyclePageData(pageNumber: number) {
   useEffect(() => {
     async function fetch() {
       const { error, data } = await fetchCycles(pageNumber)
-      console.log(data)
       if (!error) {
         dispatch(addCyclePage({ cycles: data, page: pageNumber }))
       }
