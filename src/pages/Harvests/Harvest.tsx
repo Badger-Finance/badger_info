@@ -19,7 +19,7 @@ const Harvests = () => {
   const allHarvests = useHarvestData()
   return (
     <MainWrapper>
-      <TYPE.largeHeader style={{ textAlign: 'center' }}>Harvests</TYPE.largeHeader>
+      <TYPE.largeHeader style={{ textAlign: 'center', paddingBottom: '10px' }}>Harvests</TYPE.largeHeader>
       <HarvestData harvests={allHarvests}></HarvestData>
     </MainWrapper>
   )

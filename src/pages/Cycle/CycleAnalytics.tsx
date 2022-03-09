@@ -56,14 +56,15 @@ export const HarvestData = (props: any) => {
         return (
           <DarkGreyCard key={h.id}>
             <AutoColumn gap="5px">
-              <TYPE.main>Amount</TYPE.main>
-              <TYPE.label>{(h.amount / 1e18).toFixed(3)}</TYPE.label>
-              <TYPE.main>Token</TYPE.main>
-              <TYPE.label>{h.token.symbol}</TYPE.label>
               <TYPE.main>Sett</TYPE.main>
               <TYPE.label>
                 <LinkWrapper to={`/vaults/${isAddress(h.sett.id)}`}>{h.sett.name}</LinkWrapper>
               </TYPE.label>
+              <TYPE.main>Amount</TYPE.main>
+              <TYPE.label>{(h.amount / 1e18).toFixed(3)}</TYPE.label>
+              <TYPE.main>Token</TYPE.main>
+              <TYPE.label>{h.token.symbol}</TYPE.label>
+
               <TYPE.main>Block</TYPE.main>
               <TYPE.label>{h.blockNumber}</TYPE.label>
               <TYPE.main>TX</TYPE.main>
@@ -89,7 +90,7 @@ function SettRewardsGraph(props: any) {
       <Buttons>
         {Object.keys(props.rewardsData).map((token) => {
           return (
-            <Button style={{ width: '150px' }} onClick={() => setToken(token)} key={token}>
+            <Button style={{ width: '150px', fontSize: '16px' }} onClick={() => setToken(token)} key={token}>
               {getTokenName(token)}
             </Button>
           )
@@ -203,6 +204,8 @@ const CycleAnalytics = () => {
                 </AutoColumn>
               </DarkGreyCard>
             )}
+          </ContentLayout>
+          <div>
             {harvests.length > 0 && (
               <DarkGreyCard>
                 <AutoColumn gap="10px">
@@ -213,7 +216,7 @@ const CycleAnalytics = () => {
                 </AutoColumn>
               </DarkGreyCard>
             )}
-          </ContentLayout>
+          </div>
         </PageWrapper>
       )}
     </>
