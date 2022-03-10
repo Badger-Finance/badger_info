@@ -13,6 +13,7 @@ export default function Home() {
 
   const [page, setPage] = useState<number>(0)
   const cyclePageData = useCyclePageData(page) || []
+  console.log(cyclePageData)
   const maxPage = 15
 
   return (

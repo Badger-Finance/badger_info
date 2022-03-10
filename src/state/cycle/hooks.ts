@@ -95,8 +95,11 @@ export function useCyclePageData(pageNumber: number) {
         dispatch(addCyclePage({ cycles: data, page: pageNumber }))
       }
     }
+    console.log('here')
     if (!page) {
+      console.log('here2')
       fetch()
+      console.log('here3')
     }
   }, [pageNumber, page, dispatch])
   return page

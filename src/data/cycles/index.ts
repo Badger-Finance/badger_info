@@ -23,12 +23,15 @@ export async function fetchCycles(page: number) {
         skipAmount: page * 5,
       },
     })
+    console.log(data.cycles)
+
     const rewardsDataPromises = data.cycles.map((c: any) => fetch(`${ANALYTICS_API_URL}/cycle/${Number(c.id)}`))
     const rewardsDataResponse = await Promise.all(rewardsDataPromises)
     const rewardsData = await Promise.all(rewardsDataResponse.map((r: any) => r.json()))
     return {
       error: false,
       data: data.cycles.map((c: any, index: number) => {
+        console.log(rewardsData)
         return {
           cycle: Number(c.id),
           merkleRoot: c.root,
@@ -40,6 +43,7 @@ export async function fetchCycles(page: number) {
       }),
     }
   } catch (error) {
+    console.log(error)
     return {
       error: true,
       data: [],
@@ -52,24 +56,27 @@ function isEmpty(obj: any): boolean {
 
 function simplifyRewardsData(rewardsData: any) {
   const rewardsByToken: any = {}
-  for (const sett of Object.keys(rewardsData)) {
-    const rewardsInfo = rewardsData[sett]
-    const boosted = rewardsInfo.boosted_rewards
-    const flat = rewardsInfo.flat_rewards
-    if (isEmpty(boosted) && isEmpty(flat)) {
-      continue
-    }
-    const tokens = [...new Set([...Object.keys(boosted), ...Object.keys(flat)])]
-    for (const token of tokens) {
-      if (!(token in rewardsByToken)) {
-        rewardsByToken[token] = []
+  const rewardsDataSetts = rewardsData ? Object.keys(rewardsData) : []
+  if (rewardsDataSetts.length > 0) {
+    for (const sett of rewardsDataSetts) {
+      const rewardsInfo = rewardsData[sett]
+      const boosted = rewardsInfo.boosted_rewards
+      const flat = rewardsInfo.flat_rewards
+      if (isEmpty(boosted) && isEmpty(flat)) {
+        continue
       }
-      rewardsByToken[token].push({
-        flat: token in flat ? Number(flat[token]) : 0,
-        boosted: token in boosted ? Number(boosted[token]) : 0,
-        vault: rewardsInfo.sett_name.split(' ').pop().toLowerCase(),
-        token: token,
-      })
+      const tokens = [...new Set([...Object.keys(boosted), ...Object.keys(flat)])]
+      for (const token of tokens) {
+        if (!(token in rewardsByToken)) {
+          rewardsByToken[token] = []
+        }
+        rewardsByToken[token].push({
+          flat: token in flat ? Number(flat[token]) : 0,
+          boosted: token in boosted ? Number(boosted[token]) : 0,
+          vault: rewardsInfo.sett_name.split(' ').pop().toLowerCase(),
+          token: token,
+        })
+      }
     }
   }
   return rewardsByToken

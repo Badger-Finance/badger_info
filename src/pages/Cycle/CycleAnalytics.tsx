@@ -84,7 +84,6 @@ export const HarvestData = (props: any) => {
 function SettRewardsGraph(props: any) {
   const [token, setToken] = useState(Object.keys(props.rewardsData)[0])
   const data = props.rewardsData[token]
-  console.log(data)
   return (
     <div style={{ height: '500px' }}>
       <Buttons>
