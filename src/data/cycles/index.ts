@@ -73,7 +73,7 @@ function simplifyRewardsData(rewardsData: any) {
         rewardsByToken[token].push({
           flat: token in flat ? Number(flat[token]) : 0,
           boosted: token in boosted ? Number(boosted[token]) : 0,
-          vault: rewardsInfo.sett_name.split(' ').pop().toLowerCase(),
+          vault: rewardsInfo.sett_name,
           token: token,
         })
       }
