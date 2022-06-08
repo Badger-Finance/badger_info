@@ -81,9 +81,9 @@ export async function fetchAccountData(address: string) {
     const json = await result.json()
 
     const { error, data } = await fetchClaimedBalances(address)
-    const { error: cbError, data: cbData } = await fetchClaimableBalances(address)
-
+    console.log(json)
     if (json?.status == 500 || error) {
+      console.log(error)
       return {
         error: true,
         data: noData,
@@ -91,18 +91,14 @@ export async function fetchAccountData(address: string) {
     }
     const balances = Object.keys(json.data).map((sett: any) => {
       const b = json.data[sett]
-      let multiplier = json.multipliers[sett]
-      if (!multiplier) {
-        multiplier = 1
-      }
       return {
         assetName: b.name,
         vaultAddress: sett,
         value: b.value,
         balance: b.balance,
-        multiplier: multiplier,
       } as Balance
     })
+    console.log(balances)
     return {
       error: false,
       data: {
@@ -115,10 +111,11 @@ export async function fetchAccountData(address: string) {
         nftBalance: json.nftBalance,
         stakeRatio: json.stakeRatio,
         claimedBalances: data,
-        claimableBalances: cbData,
+        claimableBalances: json.claimableBalances,
       } as AccountData,
     }
   } catch (error) {
+    console.log(error)
     return {
       error: true,
       data: noData,

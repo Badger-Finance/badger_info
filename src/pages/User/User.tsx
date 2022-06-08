@@ -80,7 +80,6 @@ const User = () => {
   const boostData = useUserBoostData(address)
 
   const isAccountData = Object.keys(accountData?.balances || { a: 'a' }).length > 0
-
   return (
     <>
       {!isAccountData ? (

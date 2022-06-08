@@ -34,7 +34,6 @@ export interface Balance {
   vaultAddress: string
   value: number
   balance: number
-  multiplier: number
 }
 
 export interface ScoreData {

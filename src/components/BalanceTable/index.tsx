@@ -14,10 +14,10 @@ const ResponsiveGrid = styled.div`
   grid-gap: 1em;
   align-items: center;
 
-  grid-template-columns: 20px 3fr repeat(3, 1fr);
+  grid-template-columns: 20px 3fr repeat(2, 1fr);
 
   @media screen and (max-width: 900px) {
-    grid-template-columns: 20px 1.5fr repeat(3, 1fr);
+    grid-template-columns: 20px 1.5fr repeat(2, 1fr);
     & :nth-child(4) {
       display: none;
     }
@@ -73,10 +73,6 @@ const DataRow = (props: { index: number; balanceData: Balance }) => {
         <Label>{index + 1}</Label>
         <AddressLabel>{balanceData.assetName}</AddressLabel>
         <Label end={2} fontWeight={400}>
-          {balanceData.multiplier.toFixed(2)}x
-        </Label>
-
-        <Label end={2} fontWeight={400}>
           {formatBalanceAmount(balanceData.balance)}
         </Label>
 
@@ -125,9 +121,6 @@ const BalanceTable = (props: any) => {
         <Label color={theme.text2}>#</Label>
         <ClickableText color={theme.text2} onClick={() => handleSort(SORT_FIELD.assetName)}>
           Asset
-        </ClickableText>
-        <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.multiplier)}>
-          Final Multiplier {arrow(SORT_FIELD.multiplier)}
         </ClickableText>
         <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.balance)}>
           Balance {arrow(SORT_FIELD.balance)}
