@@ -15,7 +15,7 @@ export async function fetchSetts() {
           name: sett.name,
           vaultToken: sett.vaultToken,
           tvl: sett.value,
-          ppfs: sett.ppfs,
+          ppfs: sett.pricePerFullShare,
           minMultiplier: sett.minApr ? sett.minApr / sett.apr : 1,
           maxMultiplier: sett.maxApr ? sett.maxApr / sett.apr : 1,
           minApr: sett.minApr || sett.apr,
@@ -128,7 +128,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
     const harvests: Array<HarvestInfo> = data.sett.harvests.map((h: any) => {
       return {
         transactionHash: h.id.split('-')[0],
-        earnings: Number(h.amount),
+        earnings: Number(h.amount) / 1e18,
         blockNumber: Number(h.blockNumber),
       }
     })

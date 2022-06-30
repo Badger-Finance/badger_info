@@ -29,8 +29,8 @@ const AprWrapper = styled.div``
 // TVL, PPfs, harvests/deposits/withdrawals, whales, num users, current strategy/amount of rewards pending
 const Vault = () => {
   const { vaultAddress } = useParams<RouteParams>()
-  console.log(vaultAddress)
   const sett = useSettByAddress(vaultAddress)
+  console.log(sett)
   const vaultData = useVaultData(vaultAddress)
   const total = sett?.sources.reduce(
     (acc: any, curr: any) => {
