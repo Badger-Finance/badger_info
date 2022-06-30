@@ -50,7 +50,7 @@ const LinkWrapper = styled(Link)`
 `
 export const HarvestData = (props: any) => {
   return (
-    <AutoColumn gap="20px" style={{ width: '50%', margin: '0 auto' }}>
+    <AutoColumn gap="20px" style={{ width: '100%', margin: '0 auto' }}>
       {props.harvests.map((h: any) => {
         const id = h.id.split('-')[0]
         return (

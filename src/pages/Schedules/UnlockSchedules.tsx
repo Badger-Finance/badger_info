@@ -74,7 +74,7 @@ const ScheduleInfo = (props: ScheduleProps) => {
     <>
       {inRange && (
         <>
-          <DarkGreyCard key={data.startTime} style={{ width: '70%', margin: '0 auto' }}>
+          <DarkGreyCard key={data.startTime} style={{ margin: '0 auto' }}>
             <AutoColumn gap="20px">
               <AutoColumn gap="lg">
                 <AutoColumn gap="4px">

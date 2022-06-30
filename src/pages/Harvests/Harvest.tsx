@@ -12,7 +12,6 @@ import { fetchHarvests } from 'data/cycles'
 import { useHarvestData } from 'state/cycle/hooks'
 const MainWrapper = styled.div`
   margin: 0 auto;
-  width: 70%;
 `
 
 const Harvests = () => {
