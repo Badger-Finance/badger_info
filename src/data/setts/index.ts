@@ -56,51 +56,53 @@ export async function fetchPrices() {
 }
 export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
   const FETCH_VAULT_INFO = gql`
-    query($vaultAddr: ID) {
-      vault(id: $vaultAddr) {
+    query($vaultAddr: ID, $zeroAddr: ID) {
+      sett(id: $vaultAddr) {
         id
         pricePerFullShare
-        shareToken {
+        token {
           symbol
           decimals
         }
-        currentStrategy {
+        strategy {
           id
         }
-        totalEarnings
-        totalHarvestCalls
-        balances(first: 10, orderBy: shareBalance, orderDirection: desc) {
-          account {
-            id
-          }
-          shareBalance
-        }
-        deposits(first: 10, orderBy: blockNumber, orderDirection: desc) {
+        harvests(first: 10, orderBy: timestamp, orderDirection: desc) {
+          id
           amount
-          id
-          account {
-            id
-          }
-          transaction {
-            blockNumber
-          }
+          blockNumber
         }
-        withdrawals(first: 10, orderBy: blockNumber, orderDirection: desc) {
-          amount
+      }
+      userSettBalances(first: 10, orderBy: netShareDeposit, orderDirection: desc, where: { sett: $vaultAddr }) {
+        id
+        user {
           id
-          account {
-            id
-          }
-          transaction {
-            blockNumber
-          }
         }
-        harvests(first: 10, orderBy: pricePerFullShareAfter, orderDirection: desc) {
-          earnings
-          transaction {
-            id
-            blockNumber
-          }
+        netShareDeposit
+        netDeposit
+      }
+      deposits: transfers(
+        first: 10
+        orderBy: timestamp
+        orderDirection: desc
+        where: { sett: $vaultAddr, from: $zeroAddr }
+      ) {
+        id
+        amount
+        to {
+          id
+        }
+      }
+      withdrawals: transfers(
+        first: 10
+        orderBy: timestamp
+        orderDirection: desc
+        where: { sett: $vaultAddr, to: $zeroAddr }
+      ) {
+        id
+        amount
+        from {
+          id
         }
       }
     }
@@ -110,43 +112,40 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
       query: FETCH_VAULT_INFO,
       variables: {
         vaultAddr: vaultAddress.toLowerCase(),
+        zeroAddr: '0x0000000000000000000000000000000000000000'.toLowerCase(),
       },
     })
-    let ppfs = data.vault.pricePerFullShare
+    let ppfs = data.sett.pricePerFullShare
     if (ppfs < 1) {
       ppfs *= 1e10
     }
-    const decimals = data.vault.shareToken.decimals
+    const decimals = data.sett.token.decimals
     const strategy: StrategyInfo = {
-      address: data.vault.currentStrategy?.id || 'undefined',
-      numHarvests: Number(data.vault.totalHarvestCalls) || 0,
-      totalEarnings: Number(data.vault.totalEarnings) || 0,
+      address: data.sett.strategy?.id || 'undefined',
+      numHarvests: Number(data.sett.totalHarvestCalls) || 0,
+      totalEarnings: Number(data.sett.totalEarnings) || 0,
     }
-    const deposits: Array<VaultTransfers> = data.vault.deposits.map(mapTransfers(decimals, sharePrice, ppfs))
-    const withdrawals: Array<VaultTransfers> = data.vault.withdrawals.map(mapTransfers(decimals, sharePrice, ppfs))
-
-    const harvests: Array<HarvestInfo> = data.vault.harvests.map((h: any) => {
+    const harvests: Array<HarvestInfo> = data.sett.harvests.map((h: any) => {
       return {
-        transactionHash: h.transaction.id,
-        earnings: Number(h.earnings),
-        blockNumber: h.transaction.blockNumber,
+        transactionHash: h.id.split('-')[0],
+        earnings: Number(h.amount),
+        blockNumber: Number(h.blockNumber),
       }
     })
-    const whaleInfo: Array<WhaleInfo> = data.vault.balances.map((b: any) => {
-      if (data.vault.pricePerFullShare < 1) {
-        data.vault.pricePerFullShare *= 1e10
-      }
+    const whaleInfo: Array<WhaleInfo> = data.userSettBalances.map((w: any) => {
       return {
-        address: b.account.id,
-        shareBalance: Number(b.shareBalance),
-        value: (Number(b.shareBalance) * sharePrice) / ppfs,
+        address: w.user.id,
+        shareBalance: Number(w.netShareDeposit) / 1e18,
+        value: (Number(w.netDeposit) / 1e18) * sharePrice,
       }
     })
+    const deposits: Array<VaultTransfers> = data.deposits.map(mapTransfers(decimals, sharePrice, ppfs))
+    const withdrawals: Array<VaultTransfers> = data.withdrawals.map(mapTransfers(decimals, sharePrice, ppfs))
     const vaultInfo: VaultInfo = {
       strategy,
-      deposits,
-      withdrawals,
-      whaleInfo,
+      deposits: deposits,
+      withdrawals: withdrawals,
+      whaleInfo: whaleInfo,
       harvests,
     }
     return {
@@ -154,6 +153,7 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
       error: false,
     }
   } catch (error) {
+    console.log(error)
     return {
       data: {
         strategy: {
@@ -173,10 +173,10 @@ export async function fetchVaultInfo(vaultAddress: string, sharePrice: number) {
 function mapTransfers(decimals: number, sharePrice: number, ppfs: number) {
   return (action: any) => {
     return {
-      address: action.account.id,
-      transactionHash: action.id.split('-')[1],
+      address: action?.from?.id || action?.to?.id,
+      transactionHash: action.id.split('-')[0],
       amount: action.amount / Math.pow(10, decimals),
-      value: ((action.amount / Math.pow(10, decimals)) * sharePrice) / ppfs,
+      value: (action.amount / 1e18) * sharePrice,
     }
   }
 }

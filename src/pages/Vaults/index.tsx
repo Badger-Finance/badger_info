@@ -26,7 +26,6 @@ const Vaults = () => {
               return b.tvl - a.tvl
             })
             .map((v: SettInfo) => {
-              console.log(v)
               return (
                 <DarkGreyCard style={{ margin: '15px', width: '300px', minWidth: '180px' }} key={v.name}>
                   <VaultInfo
