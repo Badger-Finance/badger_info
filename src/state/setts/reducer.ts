@@ -11,6 +11,7 @@ export interface SettInfo {
   minApr: number
   maxApr: number
   sources: Array<RewardsSource>
+  performanceFee: number
 }
 export interface RewardsSource {
   name: string

@@ -20,6 +20,7 @@ export async function fetchSetts() {
           maxMultiplier: sett.maxApr ? sett.maxApr / sett.apr : 1,
           minApr: sett.minApr || sett.apr,
           maxApr: sett.maxApr || sett.apr,
+          performanceFee: sett.strategy.performanceFee,
           sources: sett.sources.map((s: any) => {
             return {
               name: s.name,

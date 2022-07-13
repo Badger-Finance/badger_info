@@ -51,7 +51,7 @@ interface EarningsInfo {
   yield: number
   tvl: number
   yearlyRevenue: number
-  harvestCost: number
+  maintenanceCost: number
   grossProfit: number
 }
 const DataRow = ({ earningsInfo, index }: { earningsInfo: EarningsInfo; index: number }) => {
@@ -74,7 +74,7 @@ const DataRow = ({ earningsInfo, index }: { earningsInfo: EarningsInfo; index: n
           {formatDollarAmount(earningsInfo.yearlyRevenue)}
         </Label>
         <Label end={1} fontWeight={400}>
-          {formatDollarAmount(earningsInfo.harvestCost)}
+          {formatDollarAmount(earningsInfo.maintenanceCost)}
         </Label>
         <Label end={1} fontWeight={400}>
           {`${negativeProfit}${formatDollarAmount(Math.abs(earningsInfo.grossProfit))}`}
@@ -89,7 +89,7 @@ const SORT_FIELD = {
   yield: 'yield',
   tvl: 'tvl',
   yearlyRevenue: 'yearlyRevenue',
-  harvestCost: 'harvestCost',
+  maintenanceCost: 'maintenanceCost',
   grossProfit: 'grossProfit',
 }
 const EarningsInfo = () => {
@@ -144,8 +144,8 @@ const EarningsInfo = () => {
                 <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.yearlyRevenue)}>
                   Yearly Revenue {arrow(SORT_FIELD.yearlyRevenue)}
                 </ClickableText>
-                <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.harvestCost)}>
-                  Harvest Cost {arrow(SORT_FIELD.harvestCost)}
+                <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.maintenanceCost)}>
+                  Maintenance {arrow(SORT_FIELD.maintenanceCost)}
                 </ClickableText>
                 <ClickableText color={theme.text2} end={1} onClick={() => handleSort(SORT_FIELD.grossProfit)}>
                   Gross Profit {arrow(SORT_FIELD.grossProfit)}

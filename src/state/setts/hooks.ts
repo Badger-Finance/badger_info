@@ -105,30 +105,23 @@ export const useSetts = () => {
 export const useEarningsData = () => {
   const setts = useSetts()
   return setts
-    .filter((s) => !NO_EARNINGS.includes(s.name))
+    .filter((s) => s.performanceFee != 0)
     .map((s) => {
       let nonBoostedYield = 0
       s.sources.forEach((source) => {
-        if (!source.boostable) {
+        if (!source.name.includes('Badger')) {
           nonBoostedYield += source.maxApr
         }
       })
-      if (nonBoostedYield < 1) {
-        nonBoostedYield = 0
-      }
-      let perfFee = 0.2
-      if (['bCVX', 'cvxCRV'].includes(s.name)) {
-        perfFee = 0.1
-      }
-      const yearlyRevenue = s.tvl * nonBoostedYield * perfFee * 0.01
-      const harvestCost = 29202
+      const yearlyRevenue = (((s.tvl * s.performanceFee) / 1e4) * nonBoostedYield) / 100
+      const maintenanceCost = 49000
       return {
         vault: s.name,
         yield: nonBoostedYield,
         tvl: s.tvl,
         yearlyRevenue,
-        harvestCost,
-        grossProfit: yearlyRevenue - harvestCost,
+        maintenanceCost,
+        grossProfit: yearlyRevenue - maintenanceCost,
       }
     })
 }
